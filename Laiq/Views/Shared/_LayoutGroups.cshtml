@@ -1,0 +1,160 @@
+﻿@{
+    string direction = Request.Cookies["dir"].Value;
+    string align = Request.Cookies["align"].Value;
+    if (Session["USERID"]==null)
+    {
+        Response.Redirect("/Account/Login");
+    }
+}  
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<style type="text/css">
+    body{
+        background-color:#C9D3DF;
+    }
+</style>
+    <style type="text/css">
+        body {
+            background-color: white;
+        }
+
+        .brdr-red {
+            border: 1px solid red;
+        }
+
+        .divlangbar {
+            background-color: #D9D9D9;
+        }
+
+        .menubar {
+            background-color: #D9D9D9;
+        }
+
+        .footer-adv {
+            background-color: #D9D9D9;
+        }
+
+        .nav-item {
+            padding-left: 25px;
+            color: rgba(0, 0, 0, 0.7) !important;
+        }
+
+        .select2-container{
+        width:100% !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 38px;
+        /*border:1px solid #F09100;*/
+    }
+    </style>
+
+</head>
+
+<body>
+    
+    <div class="container-fluid table-bordered">
+        
+        <div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+            <div class="col-lg-1">&nbsp;</div>
+            <div class="col-lg-2" style="margin-right:10px;">
+                <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+                    <div class="col-lg-5">
+                        <span>Not you?</span>
+                        <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                        <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                        <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="text-center">
+                            <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                        </div>
+                        <div>@Session["Name"]</div>
+                        <div>@Session["Position"]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h6>Da Afghanistan Breshna Sherkat</h6>
+                        <h6>LaiQ</h6>
+                    </div>
+                    <div class="col-lg-3">
+                        <br />
+                        <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1">&nbsp;</div>
+        </div>
+        <div class="row menubar  ">
+            <div class="col-lg-2">&nbsp;</div>
+            <div class="col-lg-8">
+                <nav class="navbar navbar-expand-lg navbar-light  menubar">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item" id="home">
+                                    <a class="nav-link" href="/GroupDis/Groups">Groups<span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item" id="build-profile">
+                                    <a class="nav-link" href="/GroupDis/PendingForGroup">Pending for Group Discussion</a>
+                                </li>
+                                <li class="nav-item" id="build-profile">
+                                    <a class="nav-link" href="/GroupDis/GroupPanel">Group Panel</a>
+                                </li>
+                                <li class="nav-item" id="ceo-msg">
+                                    <a class="nav-link" href="/GroupDis/AssignedInGroups">Assigned in Groups</a>
+                                </li>
+                            }
+                            
+                            <li class="nav-item" id="ceo-msg">
+                                <a class="nav-link" href="/PanelGroupDisc/Index">Group Interview</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item" id="ceo-msg">
+                                    <a class="nav-link" href="/PanelGroupDisc/OfflineInterview">Offline Interview</a>
+                                </li>
+                                <li class="nav-item" id="about-laiq">
+                                    <a class="nav-link" href="/GroupDis/GroupDiscussionResult">Group Discussion Result</a>
+                                </li>
+                                <li class="nav-item" id="about-laiq">
+                                    <a class="nav-link" href="/GroupDis/GroupDiscussionCategory">Group Discussion Category</a>
+                                </li>
+                                <li class="nav-item" id="about-laiq">
+                                    <a class="nav-link" href="/GroupDis/HiredStaff">Recruited Applicants</a>
+                                </li>
+                            }
+                            
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+            <div class="col-lg-2">&nbsp;</div>
+
+        </div>
+        @RenderBody()
+    </div>
+    
+
+
+</body>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</html>

@@ -1,0 +1,363 @@
+﻿
+@{
+    ViewBag.Title = "LaiqStatistics";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+
+}
+<script src="/Scripts/highchart/3D/highcharts.js"></script>
+<script src="/Scripts/highchart/3D/highcharts-3d.js"></script>
+<script src="~/Scripts/pie-chart.js"></script>
+<script src="~/Scripts/JScript.js"></script>
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        drawProvinceChart()
+    });
+    function drawProvinceChart() {
+        var eduJSON = new Array();
+        var eduLabel = new Array();
+        $.getJSON('/Dashboard/GetChartByLocation', function (data) {
+            for (i = 0; i < data.length; i++) {
+
+                eduJSON.push([data[i].Category, data[i].Counts]);
+                eduLabel.push([data[i].Category]);
+
+            }
+            visitorData1("mainContainter", "Chart Based Applicant Location", "Applicants", "Location", eduJSON, eduLabel, -85, '/Dashboard/GetByEFData/')
+        });
+    }
+</script>
+<div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="col-lg-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>Human Resources Directorate</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row" style="background-color:white;">
+        <div class="col-lg-12">
+            <div class="row row-eq-height">
+                <div class="col-lg-3 card">
+                    <div class="card-header">
+                        Total Applicants
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Total:@ViewBag.Total</li>
+                            <li>Male:@ViewBag.Male</li>
+                            <li>Female:@ViewBag.Female</li>
+                            <li>
+                                PhD:@ViewBag.PhD
+                                <ul>
+                                    <li>Male:@ViewBag.PhdMale</li>
+                                    <li>Female:@ViewBag.PhdFemale</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Master:@ViewBag.Masters
+                                <ul>
+                                    <li>Male: @ViewBag.MastersMale</li>
+                                    <li>Female: @ViewBag.MastersFemale</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Bachlors:@ViewBag.Bachlor
+                                <ul>
+                                    <li>Male:@ViewBag.BachlorMale</li>
+                                    <li>Female:@ViewBag.BachlorFemale</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 card">
+                    <div class="card-header">
+                        Experiance
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                More Than 10 Years:@ViewBag.MoreThan10
+                                <ul>
+                                    <li>Male:@ViewBag.MoreThan10Male</li>
+                                    <li>Female:@ViewBag.MoreThan10Female</li>
+                                    <li>Phd:@ViewBag.MoreThan10Phd</li>
+                                    <li>Master:@ViewBag.MoreThan10Master</li>
+                                    <li>Bachelor:@ViewBag.MoreThan10Bachlor</li>
+                                </ul>
+                            </li>
+                            <li>
+                                More Than 5 Years:@ViewBag.MoreThan5
+                                <ul>
+                                    <li>Male:@ViewBag.MoreThan5</li>
+                                    <li>Female:@ViewBag.MoreThan5</li>
+                                    <li>Phd:@ViewBag.MoreThan5</li>
+                                    <li>Master:@ViewBag.MoreThan5</li>
+                                    <li>Bachelor:@ViewBag.MoreThan5</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 card">
+                    <div class="card-header">Phone Interview</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                Phone Interviewed:@ViewBag.PhoneInterview
+                                <ul>
+                                    <li>Pass Group Interview:@ViewBag.PhoneNexGroup</li>
+                                    <li>Fail:@ViewBag.PhoneFail</li>
+                                    <li>Fake:@ViewBag.PhoneFake</li>
+                                    <li>Male:@ViewBag.PhoneMale</li>
+                                    <li>Female:@ViewBag.PhoneFemale</li>
+                                    <li>Phd:@ViewBag.PhonePhd</li>
+                                    <li>Master:@ViewBag.PhoneMaster</li>
+                                    <li>Bachlor:@ViewBag.PhoneBachelor</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 card">
+                    <div class="card-header">Group Discussion</div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Total:@ViewBag.Group</li>
+                            <li>Top  (A):@ViewBag.Top</li>
+                            <li>Deputy (B):@ViewBag.Deputy</li>
+                            <li>Internal:@ViewBag.Internal</li>
+                            <li>GeneralStaff (C):@ViewBag.GeneralStaff</li>
+                            <li>NotQualified (D):@ViewBag.NotQualified</li>
+                            <li>Absent:@ViewBag.Absent</li>
+                            <li>Not Intrested:@ViewBag.NotInterested</li>
+                            <li>Male:@ViewBag.GroupMale</li>
+                            <li>Female:@ViewBag.GroupFemale</li>
+                            <li>Phd:@ViewBag.GroupPhd</li>
+                            <li>Master:@ViewBag.GropuMaster</li>
+                            <li>Bachelor:@ViewBag.GroupBachelor</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="mainContainter"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    function visitorData(varContainer, vartext1, vartext2, vartext3, vardata, varLabelData, varrotation,varURL) {
+        //alert(varLabelData);
+        $('#' + varContainer).highcharts({
+            chart: {
+
+                type: 'column',
+                options3d: {
+                    enabled: true,
+                    alpha: 10,
+                    beta: 25,
+                    depth: 70
+                }
+            },
+            title: {
+                text: vartext1
+            },
+            xAxis: {
+                type: 'category',
+                categories:varLabelData,
+                //labels: {
+                //    rotation: varrotation,
+                //}
+            },
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: vartext2
+                },
+                stackLabels: {
+                    enabled: true,
+                }
+            },
+
+                tooltip: {
+                    headerFormat: '<b>{point.key}</b><br>',
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.COUNT}: {point.y} / {point.stackTotal}',
+            shared: true,
+            useHTML: true
+
+                },
+
+        plotOptions: {
+                //bar: {
+                //    dataLabels: {
+                //            enabled: true
+                //    }
+                //},
+            column: {
+                    //depth: 25,
+                    //pointPadding: 0.2,
+                    //borderWidth: 0
+					//,dataLabels: {
+                    //enabled: true,
+                    //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'red'
+                //}
+                colorByPoint: true,
+                    stacking: 'normal',
+                    depth: 40
+
+            },
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function () {
+                            //alert(this.category);
+                            //openModal(varURL + this.category, vartext3, this.category);
+                            LoadModal(varURL + this.category);
+                            //$("#ReportURL").val("/Areas/HR/Reports/StatisticsReport.aspx?type=" + vartext3 + "&&value=" + this.category);
+                            //alert(this.category);
+                        }
+                    }
+                }
+            }
+        },
+            series: [{
+                name: vartext3,
+                data: vardata,
+            }]
+        });
+    }
+    function visitorData1(varContainer, vartext1, vartext2, vartext3, vardata, varLabelData, varrotation, varURL) {
+        //alert(varLabelData);
+        $('#' + varContainer).highcharts({
+            chart: {
+
+                type: 'column',
+
+            },
+            title: {
+                text: vartext1
+            },
+            xAxis: {
+                type: 'category',
+                categories: varLabelData,
+                //labels: {
+                //    rotation: varrotation,
+                //}
+            },
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: vartext2
+                },
+                stackLabels: {
+                    enabled: true,
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<b>{point.key}</b><br>',
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.COUNT}: {point.y} / {point.stackTotal}',
+                shared: true,
+                useHTML: true
+
+            },
+
+            plotOptions: {
+                //bar: {
+                //    dataLabels: {
+                //            enabled: true
+                //    }
+                //},
+                column: {
+                    //depth: 25,
+                    //pointPadding: 0.2,
+                    //borderWidth: 0
+                    //,dataLabels: {
+                    //enabled: true,
+                    //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'red'
+                    //}
+                    colorByPoint: true,
+                    stacking: 'normal',
+                    depth: 40
+
+                },
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function () {
+                                LoadModal(varURL + this.category);
+                                //openModal(varURL + this.category, vartext3, this.category);
+                                //$("#ReportURL").val("/Areas/HR/Reports/StatisticsReport.aspx?type=" + vartext3 + "&&value=" + this.category);
+                                //alert(this.category);
+                            }
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: vartext3,
+                data: vardata,
+            }]
+        });
+    }
+    function fillGrid(df, varGridName, varURL) {
+        var source =
+    {
+        datatype: "json",
+        datafields: df,
+        cache: false,
+        url: varURL,
+        root: 'Rows'
+    };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#" + varGridName).jqxGrid(
+        {
+            source: dataadapter
+        });
+    }
+</script>
+

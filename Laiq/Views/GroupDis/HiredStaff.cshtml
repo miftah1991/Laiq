@@ -1,0 +1,666 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutGroups.cshtml";
+}
+<script src="~/Scripts/moment-2.2.1.js"></script>
+
+<style type="text/css">
+    body {
+        background-color: white;
+        font-family: unset;
+    }
+
+    table tr td {
+        /*font-size:11px;*/
+        padding: 0px;
+    }
+</style>
+<script src="~/Scripts/JScript.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#LogOut").click(function () {
+            location.href = '/Home/Index'
+        });
+        //GetPackages('PackID');
+        $(".cls").click(function () {
+            $('#myModal').modal('hide');
+            $('#myModalAssignG').modal('hide');
+            $('#myModalPackage').modal('hide');
+
+        })
+        setGrid('ApplicantsGrid');
+        //GetGroups('Groups');
+        //$("#Groups").click(function () {
+        //    var GroupID = $("#Groups").val();
+        //    fillGridApplicants('/GroupDis/GroupResult/', 'ApplicantsGrid')
+        //})
+
+
+
+
+
+
+
+
+        $("#SubmitHired").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    $.ajax(
+                        {
+                            url: '/GroupDis/SaveHiredAppEdit',
+                            type: 'post',
+                            data: $('#frmHired').serialize(),
+                            success: function (result) {
+                                if (result == "true") {
+                                    $('#myModalHired').modal('hide');
+                                    toastr["success"]('Saved');
+                                    $('#ApplicantsGrid').jqxGrid('updatebounddata', 'data');
+                                }
+                                else {
+                                    toastr["error"](result);
+                                }
+                            }
+                        });
+                }
+            }
+            $('#frmHired').jqxValidator('validate', validationResult)
+        });
+        $('#frmHired').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+                { input: '#Organization', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#Organization").val(); if (val == "" || val == 0) { return false; } return true; } },
+                { input: '#Division', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#Division").val(); if (val == "" || val == 0) { return false; } return true; } },
+                { input: '#Salary', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#Salary").val(); if (val == "" || val == 0) { return false; } return true; } },
+                { input: '#JoinDate', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#JoinDate").val(); if (val == "" || val == 0) { return false; } return true; } },
+                { input: '#PositionLevel', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#PositionLevel").val(); if (val == "" || val == 0) { return false; } return true; } },
+                { input: '#Department', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+                { input: '#Position', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+
+        $("#SubmitPackage").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    $.ajax(
+                        {
+                            url: '/Pack/AssignApplicantToPack',
+                            type: 'post',
+                            data: $('#frmAssignPackage').serialize(),
+                            success: function (result) {
+                                if (result == "true") {
+                                    $('#myModalPackage').modal('hide');
+                                    toastr["success"]('Saved');
+                                    $('#ApplicantsGrid').jqxGrid('updatebounddata', 'data');
+                                }
+                                else {
+                                    toastr["error"](result);
+                                }
+                            }
+                        });
+                }
+            }
+            $('#frmAssignPackage').jqxValidator('validate', validationResult)
+        });
+        $('#frmAssignPackage').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+                { input: '#PackID', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#PackID").val(); if (val == "" || val == 0) { return false; } return true; } },
+                //{ input: '#LApplicantID', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+        makeContextMenu('CMenu', 'ApplicantsGrid', 250, 90);
+        $("#CMenu").on('itemclick', function (event) {
+            var args = event.args;
+            var varMenuItem = $.trim($(args).text());
+            var rowindex = $("#ApplicantsGrid").jqxGrid('getselectedrowindex');
+            if (varMenuItem == "View Personal Detail") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                var URL = "/Report/ViewProfile/" + dataRecord.EncodeID;
+                window.open(URL, "_blank");
+                //location.href =
+            } else if (varMenuItem == "Add to Package") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                $("#PackageLApplicantID").val(dataRecord.LApplicantID)
+                $('#myModalPackage').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+            } else if (varMenuItem == "Export to Excel") {
+                $("#ApplicantsGrid").jqxGrid('exportdata', 'xls', 'Position');
+            } else if (varMenuItem == "Add to Recruited List") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                $("#RecLApplicantID").val(dataRecord.LApplicantID)
+                $('#myModalHired').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+            else if (varMenuItem == "Assign to group") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                $("#AppID").text(dataRecord.LApplicantID)
+                $("#AppNameTxt").text(dataRecord.Name)
+                $("#AppQual").text(dataRecord.QualificationNameEn);
+                $("#AppExp").text(dataRecord.ExpYearEn);
+                $("#AssignLApplicantID").val(dataRecord.LApplicantID);
+                $('#myModalAssignG').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            } else if (varMenuItem == "Edit") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                editHiredStaff(dataRecord.ARID);
+            }
+            else if (varMenuItem == "View Phone Interview") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                $("#LApplicantID").val(dataRecord.LApplicantID)
+                $("#txtName").text(dataRecord.Name)
+                $("#txtQual").text(dataRecord.QualificationNameEn);
+                $("#txtApplicantID").text(dataRecord.LApplicantID);
+                $("#PersonalityTypetxt").text(dataRecord.PersonalityType);
+                $("#MgmtStyletxt").text(dataRecord.MgmtStyle);
+                $("#Remarkstxt").text(dataRecord.InterviewRemarks);
+                $("#NextSteptxt").text(dataRecord.NextStep);
+                $("#ExpectedPositiontxt").text(dataRecord.ExpectedPosition);
+
+                $.ajax({
+                    url: '/PhoneInterview/GetApplicantAnswers/' + dataRecord.LApplicantID,
+                    type: 'get',
+                    async: false,
+                    success: function (resultt) {
+                        //alert(resultt[0].PRID)
+                        for (i = 0; i < resultt.length; i++) {
+                            $("#Q" + i + "C1").text(resultt[i].Marks);
+                        }
+                    }
+                });
+
+
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+            else if (varMenuItem == "Phone Interview") {
+                //$(".CHK1").prop("checked", true);
+                $('#frmPhoneInterview').trigger("reset");
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                $("#LApplicantID").val(dataRecord.LApplicantID)
+                $("#txtName").text(dataRecord.Name)
+                $("#txtQual").text(dataRecord.QualificationNameEn);
+                $("#txtApplicantID").text(dataRecord.LApplicantID);
+                $("#Remarks").val('');
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        });
+
+
+    });
+    function editHiredStaff(VARARID) {
+        $.ajax({
+            url: '/GroupDis/GetSingleHired/' + VARARID,
+            type: 'get',
+
+            success: function (result) {
+                $("#ARID").val(result.ARID)
+                $("#Organization").val(result.Organization)
+                $("#Division").val(result.Division)
+                $("#Department").val(result.Department)
+                $("#Position").val(result.Position)
+                $("#Salary").val(result.Salary)
+                $("#JoinDate").val(moment(result.JoinDate).format("YYYY-MM-DD"))
+                $("#PositionLevel").val(result.PositionLevel)
+                $("#RemarksResult").val(result.Remarks)
+                $('#myModalHired').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        });
+    }
+    function LoadModal(varUrl) {
+        fillGridApplicants(varUrl, 'ApplicantsGrid')
+        $("#myModal").modal('show');
+    }
+
+    function setGrid(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: true,
+            pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 15,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                { text: 'ApplicantID', pinned: true, dataField: 'LApplicantID', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Name', pinned: true, dataField: 'Name', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Mobile', pinned: true, dataField: 'Mobile', width: '8%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'WhatsApp', pinned: true, dataField: 'Mobile2', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Organization', dataField: 'Organization', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Division', dataField: 'Division', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Department', dataField: 'Department', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Position', dataField: 'Position', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Salary', dataField: 'Salary', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'JoinDate', dataField: 'JoinDate', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'PositionLevel', dataField: 'PositionLevel', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Qualification', dataField: 'QualificationNameEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Area', dataField: 'QAreaEn', width: '8%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Field of Study', dataField: 'EFNameEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Specialization', dataField: 'EducationField', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'University Country', dataField: 'AddressCountry', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Year', dataField: 'GraduationYear', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'University', dataField: 'University', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Exp Level', dataField: 'ExpLevelEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Staff', dataField: 'ExpStaffEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Exp Years', dataField: 'ExpYearEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Category', dataField: 'CategoryID', filterType: 'list', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Session', dataField: 'GDName', filterType: 'list', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                //{ text: 'Package', dataField: 'PackName', filterType: 'list', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+        fillGridApplicants('/GroupDis/GetHired/', 'ApplicantsGrid')
+    }
+    function fillGridApplicants(varURL, varGrid) {
+        var datafields = [
+            { name: 'LApplicantID' },
+            { name: 'Name', type: 'string' },
+            { name: 'NIDNumber', type: 'string' },
+            { name: 'Gender', type: 'string' },
+            { name: 'Mobile', type: 'string' },
+            { name: 'Mobile2', type: 'string' },
+            { name: 'Email', type: 'string' },
+            { name: 'Age', type: 'number' },
+            { name: 'CountryName', type: 'string' },
+            { name: 'PRNameEn', type: 'string' },
+            { name: 'QualificationNameEn', type: 'string' },
+            { name: 'QAreaEn', type: 'string' },
+            { name: 'EFNameEn', type: 'string' },
+            { name: 'EducationField', type: 'string' },
+            { name: 'AddressCountry', type: 'string' },
+            { name: 'GraduationYear', type: 'number' },
+            { name: 'University', type: 'string' },
+            { name: 'ExpLevelEn', type: 'string' },
+            { name: 'ExpStaffEn', type: 'string' },
+            { name: 'ExpYearEn', type: 'string' },
+            { name: 'Status', type: 'string' },
+            { name: 'EncodeID' },
+            { name: 'CreatedOn' },
+            { name: 'InterviewedBy', type: 'string' },
+            { name: 'MgmtStyle', type: 'string' },
+            { name: 'PersonalityType', type: 'string' },
+            { name: 'NextStep', type: 'string' },
+            { name: 'ExpectedPosition', type: 'string' },
+            { name: 'InterviewRemarks', type: 'string' },
+            { name: 'CategoryID', type: 'string' },
+            { name: 'GDName', type: 'string' },
+            { name: 'PackName', type: 'string' },
+            { name: 'Organization', type: 'string' },
+            { name: 'Division', type: 'string' },
+            { name: 'Department', type: 'string' },
+            { name: 'Position', type: 'string' },
+            { name: 'Salary', type: 'number' },
+            { name: 'JoinDate', type: 'date' },
+            { name: 'PositionLevel', type: 'string' },
+            { name: 'HireRemarks', type: 'string' },
+            { name: 'ARID', type: 'number' },
+
+
+
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+</script>
+<div class="row">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="card col-lg-10">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-3">Assigned in Category</div>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="ApplicantsGrid"></div>
+        </div>
+
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+
+</div>
+
+<div id="CMenu">
+    <ul dir="rtl">
+        @*<li>
+                <img src="~/images/tick1.png" class="pull-right" />
+                <span class="fonclass">Assign to group</span>
+            </li>*@
+        @*<li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">View Personal Detail</span>
+            </li>
+            <li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">Add to Package</span>
+            </li>
+            <li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">Export to Excel</span>
+            </li>
+            <li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">Add to Recruited List</span>
+            </li>*@
+        @*<li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">View Phone Interview</span>
+            </li>*@
+        <li id="Edit">
+            <img src="/images/pencil.png" class="pull-right" />
+            <span class="fonclass">Edit</span>
+        </li>
+    </ul>
+</div>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:black;text-align:left;">Applicant Phone Interview (Applicant ID:<span id="txtApplicantID"></span>)</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmPhoneInterview">
+                    <table class="table" dir="ltr">
+                        <tr>
+                            <td width="10%">Name:</td>
+                            <td width="40"><div id="txtName"></div></td>
+                            <td width="10%">Qualification:</td>
+                            <td width="40%"><div id="txtQual"></div></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <table class="table">
+                                    <tr>
+                                        <td align="center" valign="middle" style="vertical-align:middle;">Questions</td>
+                                        <td colspan="4">Ranking</td>
+                                    </tr>
+
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            What is your native laguage? what other languages do you speak?
+                                            <input type="hidden" id="QuestionID1" name="QuestionID" class="QuestionID" value="1" />
+                                        </td>
+                                        <td><div id="Q0C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Please introduce yoursef.
+                                            <input type="hidden" id="QuestionID2" name="QuestionID" class="QuestionID" value="2" />
+                                        </td>
+                                        <td><div id="Q1C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Please tell me about your previous 5 years.
+                                            <input type="hidden" id="QuestionID3" name="QuestionID" class="QuestionID" value="3" />
+                                        </td>
+                                        <td><div id="Q2C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Please tell me little bit about your family. How many siblings / what do they do
+                                            <input type="hidden" id="QuestionID4" name="QuestionID" class="QuestionID" value="4" />
+                                        </td>
+                                        <td><div id="Q3C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            What level of education do you have and where did you study?
+                                            <input type="hidden" id="QuestionID5" name="QuestionID" class="QuestionID" value="5" />
+                                        </td>
+                                        <td><div id="Q4C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Whats is your professional plan for the upcoming 10 years?
+                                            <input type="hidden" id="QuestionID6" name="QuestionID" class="QuestionID" value="6" />
+                                        </td>
+                                        <td><div id="Q5C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Where do you see yourself personally in the upcoming 10 years?
+                                            <input type="hidden" id="QuestionID7" name="QuestionID" class="QuestionID" value="7" />
+                                        </td>
+                                        <td><div id="Q6C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            If you were to be elected president tomorrow, what  would be the priorities for you to start work on and why? explan shortly?
+                                            <input type="hidden" id="QuestionID8" name="QuestionID" class="QuestionID" value="8" />
+                                        </td>
+                                        <td><div id="Q7C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Why do you think that you should be hired?
+                                            <input type="hidden" id="QuestionID9" name="QuestionID" class="QuestionID" value="9" />
+                                        </td>
+                                        <td><div id="Q8C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Do you currently have a job? if so, what period of notice do you need  to give to
+                                            your employer before resigning?
+                                            <input type="hidden" id="QuestionID10" name="QuestionID" class="QuestionID" value="10" />
+                                        </td>
+                                        <td><div id="Q9C1"></div></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            What do you think is your worth?
+                                            <input type="hidden" id="QuestionID11" name="QuestionID" class="QuestionID" value="11" />
+                                        </td>
+                                        <td><div id="Q10C1"></div></td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Applicant Personality</td>
+                            <td>
+                                <div id="PersonalityTypetxt"></div>
+                            </td>
+                            <td>Management Style</td>
+                            <td>
+                                <div id="MgmtStyletxt"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Next Step</td>
+                            <td>
+                                <div id="NextSteptxt"></div>
+                            </td>
+                            <td>Expected Position</td>
+                            <td>
+                                <div id="ExpectedPositiontxt"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td colspan="3">
+                                <div id="Remarkstxt"></div>
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModalPackage" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:center;">Add Applicant to Package</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAssignPackage">
+                    <table class="table">
+                        <tr>
+                            <td width="25%">Package Name</td>
+                            <td>
+                                <select id="PackID" name="PackID" class="form-control">
+                                    <option value="0">Please Select</option>
+                                </select>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td><input type="text" name="Remarks" id="Remarks" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <br />
+                                <input type="text" name="LApplicantID" id="PackageLApplicantID" />
+                                <button id="SubmitPackage" type="button" class="btn  btn-primary">Save</button>
+                                <button id="Cancel" type="button" class="btn btn-danger cls">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function GetPackages(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Packages))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.PackID,
+                text: data.PackName
+            }));
+        });
+    }
+</script>
+
+
+<div id="myModalHired" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:center;">Add to Recruited List</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmHired">
+                    <table class="table">
+                        <tr>
+                            <td width="25%">Organization</td>
+                            <td>
+                                <select id="Organization" name="Organization" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="DABS-HQ">DABS-HQ</option>
+                                    <option value="DABS-KBD">KBD</option>
+                                </select>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Division</td>
+                            <td>
+                                <select id="Division" name="Division" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="CEO">CEO</option>
+                                    <option value="CFO">CFO</option>
+                                    <option value="COO">COO</option>
+                                    <option value="CAO">CAO</option>
+                                    <option value="CCO">CCO</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Department</td>
+                            <td><input type="text" name="Department" id="Department" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Position</td>
+                            <td><input type="text" name="Position" id="Position" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Salary</td>
+                            <td><input type="number" name="Salary" id="Salary" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Join Date</td>
+                            <td><input type="date" name="JoinDate" id="JoinDate" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Position Level</td>
+                            <td>
+                                <select id="PositionLevel" name="PositionLevel" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="Advisor">Advisor</option>
+                                    <option value="Director">Director</option>
+                                    <option value="General Manager">General Manager</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Officer">Officer</option>
+                                    <option value="Assistant">Assistant</option>
+                                    <option value="Meter Reader">Meter Reader</option>
+                                    <option value="Customer Service">Customer Service</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td><input type="text" name="Remarks" id="RemarksResult" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <br />
+                                <input type="hidden" name="ARID" id="ARID" />
+                                <button id="SubmitHired" type="button" class="btn  btn-primary">Save</button>
+                                <button id="Cancel" type="button" class="btn btn-danger cls">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

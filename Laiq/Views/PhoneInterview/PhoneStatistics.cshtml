@@ -1,0 +1,529 @@
+﻿
+@{
+    ViewBag.Title = "PhoneStatistics";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+<script src="/Scripts/highchart/3D/highcharts.js"></script>
+<script src="/Scripts/highchart/3D/highcharts-3d.js"></script>
+<script src="~/Scripts/pie-chart.js"></script>
+<script src="~/Scripts/JScript.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        makeContextMenu('CMenu', 'ApplicantsGrid', 250, 90);
+        $("#CMenu").on('itemclick', function (event) {
+            var args = event.args;
+            var varMenuItem = $.trim($(args).text());
+            var rowindex = $("#ApplicantsGrid").jqxGrid('getselectedrowindex');
+            if (varMenuItem == "View Detail") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                var URL = "/Report/ViewProfile/" + dataRecord.EncodeID;
+                window.open(URL, "_blank");
+                //location.href = 
+            }
+        });
+
+        $("#LogOut").click(function () {
+            location.href = '/Home/Index'
+        })
+        //setGrid('ApplicantsGrid');
+    });
+
+
+    function drawByTeamPhone() {
+        var eduJSON = new Array();
+        var eduLabel = new Array();
+        $.getJSON('/PhoneInterview/GetPhoneByTeam', function (data) {
+            for (i = 0; i < data.length; i++) {
+
+                eduJSON.push([data[i].Category, data[i].Counts]);
+                eduLabel.push([data[i].Category]);
+
+            }
+            visitorData1("mainContainter", "Chart Based on Teams Phone Interview", "Applicants", "Team Leader", eduJSON, eduLabel, -85, '/Dashboard/GetByTeamDataPhone/')
+        });
+    }
+    function drawByTeamPhoneToday()
+    {
+        var eduJSON = new Array();
+        var eduLabel = new Array();
+        $.getJSON('/PhoneInterview/GetPhoneByteamToday', function (data) {
+            for (i = 0; i < data.length; i++) {
+
+                eduJSON.push([data[i].Category, data[i].Counts]);
+                eduLabel.push([data[i].Category]);
+
+            }
+            visitorData1("mainContainter", "Chart Based on Teams Phone Interview", "Applicants", "Team Leader", eduJSON, eduLabel, -85, '/Dashboard/GetByTeamDataPhone/')
+        });
+    }
+    function drwaByNextProcess() {
+            var eduJSON = new Array();
+            var eduLabel = new Array();
+            $.getJSON('/PhoneInterview/GetPhoneByNextStep', function (data) {
+                for (i = 0; i < data.length; i++) {
+
+                    eduJSON.push([data[i].Category, data[i].Counts]);
+                    eduLabel.push([data[i].Category]);
+
+                }
+                visitorData1("mainContainter", "Chart Based on Teams Phone Interview for Next Process", "Applicants", "Team Leader", eduJSON, eduLabel, -85, '/Dashboard/GetByTeamDataPhone/')
+            });
+    }
+    function drwaByExpectedByPosition()
+    {
+        var eduJSON = new Array();
+        var eduLabel = new Array();
+        $.getJSON('/PhoneInterview/GetByExpectedPosition', function (data) {
+            for (i = 0; i < data.length; i++) {
+
+                eduJSON.push([data[i].Category, data[i].Counts]);
+                eduLabel.push([data[i].Category]);
+
+            }
+            visitorData1("mainContainter", "Chart Based on Teams Phone Interview Expected Position", "Applicants", "Team Leader", eduJSON, eduLabel, -85, '/Dashboard/GetByTeamDataPhone/')
+        });
+    }
+</script>
+<div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="col-lg-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>Human Resources Directorate</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="card col-lg-10">
+        <div class="card-header">
+            <div class="row">
+                Phone Interview Statistics
+            </div>
+            <div class="row">
+                <div class="col-lg-2"><a href="#" onclick="drawByTeamPhone()">Team Statistics</a></div>
+                <div class="col-lg-2"><a href="#" onclick="drawByTeamPhoneToday()">Today Team Statistics</a></div>
+                <div class="col-lg-2"><a href="#" onclick="drwaByNextProcess()">Next Process</a></div>
+                <div class="col-lg-2"><a href="#" onclick="drwaByExpectedByPosition()">Expected Position</a></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="mainContainter"></div>
+        </div>
+
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+
+</div>
+<script type="text/javascript">
+    function DrawChart(varLabel,varValues)
+    {
+        Highcharts.chart('container', {
+            chart: {
+                height: 300,
+                type: 'area'
+            },
+            title: {
+                text: 'Applicants By Provinces'
+            },
+            subtitle: {
+                text: 'Source: Laiq.dabs.af'
+            },
+            xAxis: {
+                categories: varLabel,
+                tickmarkPlacement: 'on',
+                title: {
+                    enabled: false
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Applicants'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value / 1000;
+                    }
+                }
+            },
+            tooltip: {
+                split: true,
+                valueSuffix: ' Applicants'
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    lineColor: '#666666',
+                    lineWidth: 1,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#666666'
+                    }
+                },
+                series: {
+            cursor: 'pointer',
+            point: {
+                events: {
+                        click: function () {
+                            //alert(this.category);
+                            //openModal(varURL + this.category, vartext3, this.category);
+                            LoadModal('/Dashboard/GetByLocationData/' + this.category);
+                            //$("#ReportURL").val("/Areas/HR/Reports/StatisticsReport.aspx?type=" + vartext3 + "&&value=" + this.category);
+                            //alert(this.category);
+                        }
+                }
+            }
+        }
+            },
+            series: [{
+                name: 'Applicants',
+                data: varValues
+            }
+            //{
+            //    name: 'Africa',
+            //    data: [106, 107, 111, 133, 221, 767, 1766]
+            //}, {
+            //    name: 'Europe',
+            //    data: [163, 203, 276, 408, 547, 729, 628]
+            //}, {
+            //    name: 'America',
+            //    data: [18, 31, 54, 156, 339, 818, 1201]
+            //}, {
+            //    name: 'Oceania',
+            //    data: [2, 2, 2, 6, 13, 30, 46]
+            //}
+            ]
+        });
+    }
+
+    function visitorData(varContainer, vartext1, vartext2, vartext3, vardata, varLabelData, varrotation,varURL) {
+        //alert(varLabelData);
+        $('#' + varContainer).highcharts({
+            chart: {
+
+                type: 'column',
+                options3d: {
+                    enabled: true,
+                    alpha: 10,
+                    beta: 25,
+                    depth: 70
+                }
+            },
+            title: {
+                text: vartext1
+            },
+            xAxis: {
+                type: 'category',
+                categories:varLabelData,
+                //labels: {
+                //    rotation: varrotation,
+                //}
+            },
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: vartext2
+                },
+                stackLabels: {
+                    enabled: true,
+                }
+            },
+
+                tooltip: {
+                    headerFormat: '<b>{point.key}</b><br>',
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.COUNT}: {point.y} / {point.stackTotal}',
+            shared: true,
+            useHTML: true
+
+                },
+
+        plotOptions: {
+                //bar: {
+                //    dataLabels: {
+                //            enabled: true
+                //    }
+                //},
+            column: {
+                    //depth: 25,
+                    //pointPadding: 0.2,
+                    //borderWidth: 0
+					//,dataLabels: {
+                    //enabled: true,
+                    //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'red'
+                //}
+                colorByPoint: true,
+                    stacking: 'normal',
+                    depth: 40
+
+            },
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function () {
+                            //alert(this.category);
+                            //openModal(varURL + this.category, vartext3, this.category);
+                            LoadModal(varURL + this.category);
+                            //$("#ReportURL").val("/Areas/HR/Reports/StatisticsReport.aspx?type=" + vartext3 + "&&value=" + this.category);
+                            //alert(this.category);
+                        }
+                    }
+                }
+            }
+        },
+            series: [{
+                name: vartext3,
+                data: vardata,
+            }]
+        });
+    }
+    function visitorData1(varContainer, vartext1, vartext2, vartext3, vardata, varLabelData, varrotation, varURL) {
+        //alert(varLabelData);
+        $('#' + varContainer).highcharts({
+            chart: {
+
+                type: 'column',
+
+            },
+            title: {
+                text: vartext1
+            },
+            xAxis: {
+                type: 'category',
+                categories: varLabelData,
+                //labels: {
+                //    rotation: varrotation,
+                //}
+            },
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: vartext2
+                },
+                stackLabels: {
+                    enabled: true,
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<b>{point.key}</b><br>',
+                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.COUNT}: {point.y} / {point.stackTotal}',
+                shared: true,
+                useHTML: true
+
+            },
+
+            plotOptions: {
+                //bar: {
+                //    dataLabels: {
+                //            enabled: true
+                //    }
+                //},
+                column: {
+                    //depth: 25,
+                    //pointPadding: 0.2,
+                    //borderWidth: 0
+                    //,dataLabels: {
+                    //enabled: true,
+                    //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'red'
+                    //}
+                    colorByPoint: true,
+                    stacking: 'normal',
+                    depth: 40
+
+                },
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function () {
+                                LoadModal(varURL + this.category);
+                                //openModal(varURL + this.category, vartext3, this.category);
+                                //$("#ReportURL").val("/Areas/HR/Reports/StatisticsReport.aspx?type=" + vartext3 + "&&value=" + this.category);
+                                //alert(this.category);
+                            }
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: vartext3,
+                data: vardata,
+            }]
+        });
+    }
+    function fillGrid(df, varGridName, varURL) {
+        var source =
+    {
+        datatype: "json",
+        datafields: df,
+        cache: false,
+        url: varURL,
+        root: 'Rows'
+    };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#" + varGridName).jqxGrid(
+        {
+            source: dataadapter
+        });
+    }
+    function visitorData2(varCategories, varDebtArray, varRecivedAryy, totaldebt, totalrecive) {
+        Highcharts.chart('mainContainter', {
+            title: {
+                text: 'Masters and 10 Years+ Experiance Based on Education Location and Gender'
+            },
+            xAxis: {
+                categories: varCategories
+            },
+            labels: {
+                items: [{
+                    html: 'Total By Gender',
+                    style: {
+                        left: '50px',
+                        top: '18px',
+                        color: ( // theme
+                            Highcharts.defaultOptions.title.style &&
+                            Highcharts.defaultOptions.title.style.color
+                        ) || 'red'
+                    }
+                }]
+            },
+            //tooltip: {
+            //    headerFormat: '<b>{point.key}</b><br>',
+            //    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.COUNT}: {point.y} / {point.stackTotal}',
+            //    shared: true,
+            //    useHTML: true
+
+            //},
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            series: [{
+                type: 'column',
+                name: 'Male',
+                data: varDebtArray,
+                color: Highcharts.getOptions().colors[1]
+
+
+            }, {
+                type: 'column',
+                name: 'Female',
+                data: varRecivedAryy,
+                color: Highcharts.getOptions().colors[0]
+            },
+            //{
+            //    type: 'column',
+            //    name: 'Remain Debt',
+            //    data: varRemainDebtArray,
+            //    color: Highcharts.getOptions().colors[2]
+            //},
+            //{
+            //type: 'spline',
+            //name: 'Average',
+            //data: [3, 2.67, 3, 6.33, 3.33],
+            //marker: {
+            //    lineWidth: 2,
+            //    lineColor: Highcharts.getOptions().colors[3],
+            //    fillColor: 'white'
+            //}
+            //},
+            //totaldebt, totalrecive, totalremainingdebt
+            {
+                type: 'pie',
+                name: 'Total',
+                data: [{
+                    name: 'Total Debt',
+                    y: totaldebt,
+                    color: Highcharts.getOptions().colors[1] // Jane's color
+                }, {
+                    name: 'Total Recived',
+                    y: totalrecive,
+                    color: Highcharts.getOptions().colors[0] // John's color
+                },
+                //{
+                //    name: 'Total Remaining Debt',
+                //    y: totalremainingdebt,
+                //    color: Highcharts.getOptions().colors[2] // Joe's color
+                //}
+                ],
+                center: [120, 80],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            }]
+        });
+    }
+</script>
+<form id="dataForm">
+    <input type="hidden" name="URL" id="ReportURL" width="400" />
+    <input type="hidden" name="Label" id="ReportLabel" width="400" />
+</form>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h4 class="modal-title pull-left">Applicants</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="ApplicantsGrid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CMenu">
+    <ul dir="rtl">
+        <li id="Insert">
+            <img src="/images/folder.png" class="pull-right" />
+            <span class="fonclass">View Detail</span>
+        </li>
+        @*<li id="Edit">
+                <img src="/images/pencil.png" class="pull-right" />
+                <span class="fonclass">Assign  Applicant</span>
+            </li>*@
+    </ul>
+</div>
+

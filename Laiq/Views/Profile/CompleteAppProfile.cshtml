@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "CompleteAppProfile";
+    Layout = "~/Views/Shared/_LayoutPofile.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#submit").click(function () {
+            var RegNo = $("#RegNo").val();
+            location.href = '/Profile/LaiqAppUploadDoc/' + RegNo;
+        });
+    })
+</script>
+<style>
+    .colorwhite {
+        color: white;
+    }
+
+    #comp-prof {
+        background-color: #F09100;
+        border-bottom: 15px solid #F09100;
+        padding-bottom: 0px !important;
+        margin-bottom: -10px;
+        margin-top: -10px;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 38px;
+        /*border:1px solid #F09100;*/
+    }
+
+    .form-control {
+        /*border:1px solid #F09100;*/
+    }
+
+    .btn {
+        background-color: #F09100;
+        border: 1px solid #F09100;
+    }
+
+    .jqx-validator-error-label-classic, .jqx-validator-error-label {
+        width: auto !important;
+    }
+</style>
+<div class="container-fluid" style="padding-top:0px;margin-top:0px;">
+    <div class="row p-2">
+        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    @Laiq.Resource.compprof
+                </div>
+                <div class="card-body">
+                    <div class="row p-2 ">
+                        <div>@Laiq.Resource.enteryourid</div>
+                    </div>
+                    <div class="row p-2">
+                        <input type="text" name="RegistrationNo" class="form-control" id="RegNo" />
+                    </div>
+                    <div class="row p-2">
+                        <input type="submit" id="submit" class="btn btn-primary" value="@Laiq.Resource.Search" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-1">&nbsp;</div>
+    </div>
+</div>
+

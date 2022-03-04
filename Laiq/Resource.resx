@@ -1,0 +1,810 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddEdu" xml:space="preserve">
+    <value>Add Education</value>
+  </data>
+  <data name="AddExp" xml:space="preserve">
+    <value>Add Experience</value>
+  </data>
+  <data name="AddReferences" xml:space="preserve">
+    <value>Add References</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>Change Language</value>
+  </data>
+  <data name="CloseForm" xml:space="preserve">
+    <value>Close Form</value>
+  </data>
+  <data name="ConfirmTitle" xml:space="preserve">
+    <value>For Confirmation Please Enter Your NID Number</value>
+  </data>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value>Current Address</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="DOB" xml:space="preserve">
+    <value>Date of Birth</value>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>Education</value>
+  </data>
+  <data name="EducationField" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date Shamse/Meladi</value>
+  </data>
+  <data name="Experience" xml:space="preserve">
+    <value>Experience</value>
+  </data>
+  <data name="FName" xml:space="preserve">
+    <value>Father Name</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="GFName" xml:space="preserve">
+    <value>Grand Father Name</value>
+  </data>
+  <data name="GraduationYear" xml:space="preserve">
+    <value>Graduation Year</value>
+  </data>
+  <data name="JobDetail" xml:space="preserve">
+    <value>Job Detail</value>
+  </data>
+  <data name="JobList" xml:space="preserve">
+    <value>Job List</value>
+  </data>
+  <data name="Jobtitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language Proficiency</value>
+  </data>
+  <data name="LName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobile Number</value>
+  </data>
+  <data name="Mobile1" xml:space="preserve">
+    <value>WhatsApp Number</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NIDFill" xml:space="preserve">
+    <value>Enter Your NID Number</value>
+  </data>
+  <data name="NIDNotFoundMessage" xml:space="preserve">
+    <value>Record Not Found Please Accuritly enter Your NID Number</value>
+  </data>
+  <data name="NIDNumber" xml:space="preserve">
+    <value>NID Number</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Note1" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="NoteBody" xml:space="preserve">
+    <value>If you have applied previously to a position in DABS through this online job portal, please just enter your NID Number and submit the application otherwise click cancel button and fill the form</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="PermanentAddress" xml:space="preserve">
+    <value>Permanent Address</value>
+  </data>
+  <data name="PhotoText" xml:space="preserve">
+    <value>Select photo not exceeding one MB</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="Qualification" xml:space="preserve">
+    <value>Qualification</value>
+  </data>
+  <data name="Reading" xml:space="preserve">
+    <value>Reading</value>
+  </data>
+  <data name="RegMessage" xml:space="preserve">
+    <value>Minimum 3 References is Required</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>Salary</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectLabel" xml:space="preserve">
+    <value>Please Select</value>
+  </data>
+  <data name="Skills" xml:space="preserve">
+    <value>Skills</value>
+  </data>
+  <data name="Speaking" xml:space="preserve">
+    <value>Speaking</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date Melade/Shamse</value>
+  </data>
+  <data name="SubmitApplicationForm" xml:space="preserve">
+    <value>Submit Form</value>
+  </data>
+  <data name="SubmitConfirm" xml:space="preserve">
+    <value>I hereby certify that the above information is correct and correct to the best of my knowledge; I understand that any willful misstatement described herein may lead to my disqualification or dismissal, if engaged.</value>
+  </data>
+  <data name="SubmitDate" xml:space="preserve">
+    <value>Submit Date</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Your request was successfully executed</value>
+  </data>
+  <data name="SuccessMessage" xml:space="preserve">
+    <value>Thanks for applying for your favorite position in DABS, we hereby inform you that the information you provided in the application form is successfully transferred to the HR Department of DABS. &lt;br&gt;Our team will process your application and will contact you if you shortlisted.&lt;br&gt; For more information you can contact us on (02056565656565) number.</value>
+  </data>
+  <data name="University" xml:space="preserve">
+    <value>University</value>
+  </data>
+  <data name="VacancyNumber" xml:space="preserve">
+    <value>VacancyNumber</value>
+  </data>
+  <data name="Writiting" xml:space="preserve">
+    <value>Writing</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Applicant" xml:space="preserve">
+    <value>Dear Applicant</value>
+  </data>
+  <data name="JOBOrgan" xml:space="preserve">
+    <value>Job Title /Organizaion</value>
+  </data>
+  <data name="Nofile" xml:space="preserve">
+    <value>Please Select Photo</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="RequiredEmail" xml:space="preserve">
+    <value>Email is Required</value>
+  </data>
+  <data name="RequiredFName" xml:space="preserve">
+    <value>Father Name is Required</value>
+  </data>
+  <data name="RequiredGFName" xml:space="preserve">
+    <value>Grand Father Name is Required</value>
+  </data>
+  <data name="RequiredLName" xml:space="preserve">
+    <value>Last Name is Required</value>
+  </data>
+  <data name="RequiredName" xml:space="preserve">
+    <value>Name is Required</value>
+  </data>
+  <data name="RequiredNID" xml:space="preserve">
+    <value>NID No is Required</value>
+  </data>
+  <data name="WrongFormat" xml:space="preserve">
+    <value>Incorrect image format please select correct format</value>
+  </data>
+  <data name="YearReqMessage" xml:space="preserve">
+    <value>Please Select Year</value>
+  </data>
+  <data name="EduRefMessage" xml:space="preserve">
+    <value>Education is Required</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="RefReqMessage" xml:space="preserve">
+    <value>Minimum 3 References is Required</value>
+  </data>
+  <data name="RefSuccessMessage" xml:space="preserve">
+    <value>Successfully Saved, Please insert next or click Cancel</value>
+  </data>
+  <data name="ConfirmationMessage" xml:space="preserve">
+    <value>Please check your email and Verify your email address</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginWelcomeMessage" xml:space="preserve">
+    <value>Welcome to DABS HRIS</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="RegistrationTitle" xml:space="preserve">
+    <value>Registration in DABS HR </value>
+  </data>
+  <data name="RetypeEmail" xml:space="preserve">
+    <value>Please Retyp Email Address</value>
+  </data>
+  <data name="RetypePassword" xml:space="preserve">
+    <value>Please Retype Password</value>
+  </data>
+  <data name="USERName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>General Informaion</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved Sucessfully</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Record" xml:space="preserve">
+    <value>Record</value>
+  </data>
+  <data name="Specilization" xml:space="preserve">
+    <value>Specialization</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="AddSkill" xml:space="preserve">
+    <value>Add Skills</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>Add Language</value>
+  </data>
+  <data name="AboutLaiq" xml:space="preserve">
+    <value>About LaiQ</value>
+  </data>
+  <data name="AboutLaiqText" xml:space="preserve">
+    <value>&lt;br /&gt;
+            &lt;h2 class="font-weight-normal"&gt;LaiQ&lt;/h2&gt;
+            &lt;br /&gt;
+            &lt;h5 class="font-italic font-weight-normal"&gt;'Bring energy to our team'&lt;/h5&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+LaiQ, which stands for ‘Looking for Adept Intelligence Quotient’, is a program initiated by Da Afghanistan Breshna Sherkat (DABS) to encourage and facilitate employment opportunities for cutting-edge talents and well-educated Afghan nationals to join DABS. 
+            &lt;/p&gt;
+            &lt;p&gt;
+Through this program, DABS intends to identify professional talents to provide employment opportunities for thousands of educated and competent youth by joining DABS, and transform this entity into one of the dynamic institutions in Afghanistan
+            &lt;/p&gt;</value>
+  </data>
+  <data name="AppliedJobs" xml:space="preserve">
+    <value>Applied Jobs</value>
+  </data>
+  <data name="Areyoudetermined" xml:space="preserve">
+    <value>Are you &lt;b&gt;determined&lt;/b&gt; to reflect on your competencies?</value>
+  </data>
+  <data name="bringenergy" xml:space="preserve">
+    <value>&lt;span&gt;Apply Now&lt;/span&gt; and add &lt;b&gt;energy&lt;/b&gt; to our team</value>
+  </data>
+  <data name="BuildYourProfile" xml:space="preserve">
+    <value>Build your profile</value>
+  </data>
+  <data name="CEOMSG" xml:space="preserve">
+    <value>CEO's Message</value>
+  </data>
+  <data name="CEOText" xml:space="preserve">
+    <value>&lt;br /&gt;
+            &lt;h2 class="font-weight-normal"&gt;&lt;span style="text-decoration:underline" class="Underline"&gt;CEO'&lt;/span&gt;s Message&lt;/h2&gt;
+            &lt;br /&gt;
+            &lt;h5 class="font-italic font-weight-normal"&gt;'To improve it to chang; to be perfect is to change often'&lt;/h5&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                Considering the above quotes, I am strongly hopeful to make big changes through implementing
+                LAIQ program within DABS.
+            &lt;/p&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                This program will provide job oppertunity for thousands of educated and talented youth that will
+                have positive impact on employment, building a dynamic team, and render DABS Services into role model
+                power utility company.
+            &lt;/p&gt;</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Contactus" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="DABHR" xml:space="preserve">
+    <value>HUMAN RESOUCES DIRECOTRATE</value>
+  </data>
+  <data name="DABS" xml:space="preserve">
+    <value>DA AFGHANISTAN BRESHNA SHERKAT</value>
+  </data>
+  <data name="DABSFacebook" xml:space="preserve">
+    <value>DABS Facebook</value>
+  </data>
+  <data name="DABSTwitter" xml:space="preserve">
+    <value>DABS Twitter</value>
+  </data>
+  <data name="doyouwant" xml:space="preserve">
+    <value>Do you want to &lt;b&gt;serve your country &lt;/b&gt; ?</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="HR" xml:space="preserve">
+    <value>HR</value>
+  </data>
+  <data name="ifyes" xml:space="preserve">
+    <value>if yes, Then register yourself</value>
+  </data>
+  <data name="Itistimetobring" xml:space="preserve">
+    <value>It is time to bring &lt;b&gt;light&lt;/b&gt; to entire homes in Afghanistan</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Jobs</value>
+  </data>
+  <data name="JobSearch" xml:space="preserve">
+    <value>Job Search</value>
+  </data>
+  <data name="LaiQ" xml:space="preserve">
+    <value>LaiQ</value>
+  </data>
+  <data name="lookingfor" xml:space="preserve">
+    <value>Are you looking for a &lt;b&gt;better oppurtunity &lt;/b&gt;  in a dynamic organization ?</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="RightReserved" xml:space="preserve">
+    <value>LaiQ, All rights reserved</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="VOLUNTEERING" xml:space="preserve">
+    <value>VOLUNTEERING</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="QualificationArea" xml:space="preserve">
+    <value>Field of Study</value>
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value>Select Country</value>
+  </data>
+  <data name="SelectDay" xml:space="preserve">
+    <value>Select Day</value>
+  </data>
+  <data name="SelectMonth" xml:space="preserve">
+    <value>Select Month</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>Select Year</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="addmore" xml:space="preserve">
+    <value>Add more</value>
+  </data>
+  <data name="Bachelor" xml:space="preserve">
+    <value>Enter Your Bachelor's Degree Information</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="BuildProfile" xml:space="preserve">
+    <value>Fill out the below form and click on the submit button to register your profile with us!</value>
+  </data>
+  <data name="CompleteDoc" xml:space="preserve">
+    <value>Application with complete documents will be preferred.</value>
+  </data>
+  <data name="computerapplication" xml:space="preserve">
+    <value>Computer Application</value>
+  </data>
+  <data name="computerskilmessage" xml:space="preserve">
+    <value>Please select your computer skills</value>
+  </data>
+  <data name="doyouhaveworkexp" xml:space="preserve">
+    <value>Do you have work experience?</value>
+  </data>
+  <data name="doyouupload" xml:space="preserve">
+    <value>Do you want to upload your documents?</value>
+  </data>
+  <data name="EducationLevel" xml:space="preserve">
+    <value>What's the highest level of your education?</value>
+  </data>
+  <data name="empundersupervision" xml:space="preserve">
+    <value>How many employees are working or worked under your supervision?</value>
+  </data>
+  <data name="expectfromdabs" xml:space="preserve">
+    <value>How much salary in AFN do you expect?</value>
+  </data>
+  <data name="explevel" xml:space="preserve">
+    <value>What is your experience level?</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="howmanyexp" xml:space="preserve">
+    <value>How many years of experience do you have?</value>
+  </data>
+  <data name="ifyoumorelang" xml:space="preserve">
+    <value>If you are acquainted with other languages, click on the add more button</value>
+  </data>
+  <data name="langnote" xml:space="preserve">
+    <value>If you insert wrong information in national or international languages you will be disqualified from the process.</value>
+  </data>
+  <data name="langSkill" xml:space="preserve">
+    <value>Language Skills</value>
+  </data>
+  <data name="lastsalaryinAFN" xml:space="preserve">
+    <value>What was your last salary in AFN?</value>
+  </data>
+  <data name="Master" xml:space="preserve">
+    <value>Enter Your Master's Degree Information</value>
+  </data>
+  <data name="moredegree" xml:space="preserve">
+    <value>If you have more than one degree, click on add more button</value>
+  </data>
+  <data name="moreskill" xml:space="preserve">
+    <value>If you have more skills, click on the add more button</value>
+  </data>
+  <data name="Noo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="PhD" xml:space="preserve">
+    <value>Enter Your PhD Degree Information</value>
+  </data>
+  <data name="PositiveResponse" xml:space="preserve">
+    <value>Application with positive responses will be preferred.</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="RegistraionNo" xml:space="preserve">
+    <value>Your Registration Number is:</value>
+  </data>
+  <data name="saveandcontinue" xml:space="preserve">
+    <value>Save and Continue</value>
+  </data>
+  <data name="softskillmessage" xml:space="preserve">
+    <value>Please select your top skills: two strong and one weak</value>
+  </data>
+  <data name="vgood" xml:space="preserve">
+    <value>Very Good</value>
+  </data>
+  <data name="Wheredoyoulive" xml:space="preserve">
+    <value>Where do you live?</value>
+  </data>
+  <data name="withVideoMessage" xml:space="preserve">
+    <value>Application with video message will be prioritized.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="AgreeSave" xml:space="preserve">
+    <value>I agree to save my application  in DABS database for</value>
+  </data>
+  <data name="BachelorDegree" xml:space="preserve">
+    <value>Bachelor's Degree</value>
+  </data>
+  <data name="CanDABSShare" xml:space="preserve">
+    <value>Can DABS share your application with other government organizations and stated own company?</value>
+  </data>
+  <data name="CanDABSSharePic" xml:space="preserve">
+    <value>Can DABS share your picture on social media?</value>
+  </data>
+  <data name="CanDABSShareVideo" xml:space="preserve">
+    <value>Can DABS share your video message on social media?</value>
+  </data>
+  <data name="cv" xml:space="preserve">
+    <value>CV</value>
+  </data>
+  <data name="docType" xml:space="preserve">
+    <value>Document Type</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Documnet</value>
+  </data>
+  <data name="FileUploaded" xml:space="preserve">
+    <value>File Uploaded Successfully</value>
+  </data>
+  <data name="Forever" xml:space="preserve">
+    <value>Forever</value>
+  </data>
+  <data name="MasterDegree" xml:space="preserve">
+    <value>Master's  Degree</value>
+  </data>
+  <data name="Month1" xml:space="preserve">
+    <value>1 Month</value>
+  </data>
+  <data name="Month6" xml:space="preserve">
+    <value>6 Months</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Questions</value>
+  </data>
+  <data name="uploadDoc" xml:space="preserve">
+    <value>Upload Documents</value>
+  </data>
+  <data name="videomessage" xml:space="preserve">
+    <value>Video Message (One minutes)</value>
+  </data>
+  <data name="Yesrs5" xml:space="preserve">
+    <value>5 Years</value>
+  </data>
+  <data name="CEO1" xml:space="preserve">
+    <value>Dear Compatriots,</value>
+  </data>
+  <data name="CEO2" xml:space="preserve">
+    <value>I am entirely privileged to affirm that Da Afghanistan Breshna Sherkat (DABS) has been tremendously committed to reach the organizational vision, and transform the status quo of DABS to achieve greater success. At DABS, we, as robust teams, are striving persistently to provide rooms for educated and talented Afghan youth through a merit-based program called LaiQ, so they would render services to the country after joining DABS.</value>
+  </data>
+  <data name="CEO3" xml:space="preserve">
+    <value>DABS is expected to take more than 10,000 applications into consideration through this program to facilitate employment opportunities for thousands of educated youth who are equipped with up-to-dated and ground-breaking ideas, knowledge and competencies required for the 21st century to turn DABS into one of the leading and exceptional power-utility corporations in the region aimed at providing safe and reliable power with reasonable rates to people to facilitate national economic growth.</value>
+  </data>
+  <data name="CEO4" xml:space="preserve">
+    <value>Finally, yet importantly, I want to emphasize that we’re strongly hopeful to make big changes through this program within DABS by transforming this entity into one of the dynamic institutions in Afghanistan – fully dedicated to serve the nation and country.</value>
+  </data>
+  <data name="CEO5" xml:space="preserve">
+    <value>Finally, yet importantly, I want to emphasize that we’re strongly hopeful to make big changes through the LaIQ program within DABS, transforming this entity into one of the dynamic institutions in Afghanistan – fully dedicated to serve the nation and country.</value>
+  </data>
+  <data name="CEO6" xml:space="preserve">
+    <value>Sincerly,</value>
+  </data>
+  <data name="CEO7" xml:space="preserve">
+    <value>Ahmad Daud Noorzai</value>
+  </data>
+  <data name="CEO8" xml:space="preserve">
+    <value>Chief Executive Officer</value>
+  </data>
+  <data name="HR1" xml:space="preserve">
+    <value>Dear Applicants,</value>
+  </data>
+  <data name="HR2" xml:space="preserve">
+    <value>LaiQ Program is a talent acquisition initiative to attract, select and orient competent talents to promote organizational efficiency and gain competitive advantage. DABS HR Directorate is committed to filling the in-demand skills gap aimed at fostering the growth and development of DABS by ensuring transparency and equality.</value>
+  </data>
+  <data name="HR3" xml:space="preserve">
+    <value>We welcome and appreciate your innovative and brilliant ideas through any possible platforms.</value>
+  </data>
+  <data name="HR4" xml:space="preserve">
+    <value>Please do not hesitate to contact me through qudrat.k@dabs.af.</value>
+  </data>
+  <data name="HR5" xml:space="preserve">
+    <value>Regards,</value>
+  </data>
+  <data name="HR6" xml:space="preserve">
+    <value>Qudratullah Karimi</value>
+  </data>
+  <data name="HR7" xml:space="preserve">
+    <value>HR Director</value>
+  </data>
+  <data name="Dari" xml:space="preserve">
+    <value>Dari</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
+  <data name="Pashto" xml:space="preserve">
+    <value>Pashto</value>
+  </data>
+  <data name="SuccessNote" xml:space="preserve">
+    <value>Your application is received, DABS will notify you regarding further process. Please keep patience!</value>
+  </data>
+  <data name="Weak" xml:space="preserve">
+    <value>Weak</value>
+  </data>
+  <data name="ApplyNow" xml:space="preserve">
+    <value>Apply Now</value>
+  </data>
+  <data name="UniversityCountry" xml:space="preserve">
+    <value>Country of Study</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>Certifications</value>
+  </data>
+  <data name="Achievement" xml:space="preserve">
+    <value>Achievement</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Additional comments and feedback: (Please add your comments,suggestions and ideas)</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="CompleteProfile" xml:space="preserve">
+    <value>Complete Profile</value>
+  </data>
+  <data name="compprof" xml:space="preserve">
+    <value>Complete your Profile</value>
+  </data>
+  <data name="enteryourid" xml:space="preserve">
+    <value>Please Enter your registration which you have recived in LaiQ confrimation email</value>
+  </data>
+  <data name="notfound" xml:space="preserve">
+    <value>Application not found</value>
+  </data>
+</root>

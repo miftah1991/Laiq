@@ -1,0 +1,27 @@
+﻿@model Laiq.Models.Student
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<form id="__AjaxAntiForgeryForm">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label class="control-label" for="FirstName">First Name</label>
+        <input type="text" name="FirstName" class="form-control" id="fName" placeholder="Enter First Name">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="LastName">Last Name</label>
+        <input type="text" name="LastName" class="form-control" id="lName" placeholder="Enter Last Name">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Email">Email</label>
+        <input type="text" name="Email" class="form-control" id="email" placeholder="Enter Email">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Phone">Phone</label>
+        <input type="text" name="Phone" class="form-control" id="phone" placeholder="Enter Phone">
+    </div>
+    <button type="button" class="btn btn-success ladda-button" data-style="slide-left" onclick="registerStudent()"><span class="ladda-label">Register Student</span></button>
+</form>
+
+<script src="~/Scripts/registerStudent.js"></script>

@@ -1,0 +1,668 @@
+﻿@model Laiq.ViewModel.ApplicantProfileVM
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    string direction = Request.Cookies["dir"].Value;
+    string align = Request.Cookies["align"].Value;
+}
+
+<style>
+        body{
+        background-color:white;
+    }
+    .colorwhite {
+        color: white;
+    }
+
+    
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setGridEdu('AppEdu')
+        fillGridEdu('/Report/GetApplicantEducation/@Model.LApplicantID', 'AppEdu')
+        setGridLang('LangGrid');
+        fillGridLang('/Report/GetAppLang/@Model.LApplicantID', 'LangGrid')
+        setGridSoft('SoftSkillsGrid');
+        fillGridSoft('/Report/GetAppSoftSkill/@Model.LApplicantID', 'SoftSkillsGrid')
+        setGridCompSkills('CompSkillsGrid');
+        fillGridComp('/Report/GetAppCompSkill/@Model.LApplicantID', 'CompSkillsGrid');
+        setGridAppJobDetail('AppJobDetail');
+        fillGridAppJobDetail('/Report/GetApplicantJobDetail/@Model.LApplicantID', 'AppJobDetail');
+        fillDocData();
+    });
+    function setGridEdu(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: false,
+            //pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 18,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Qualification', dataField: 'QualificationNameEn', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Qualification Area', dataField: 'QAreaEn', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Field of Study', dataField: 'EFNameEn', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Specialization', dataField: 'EducationField', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'University', dataField: 'University', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'University Country', dataField: 'CountryNameEn', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Graduation Year', dataField: 'GraduationYear', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+
+    }
+    function setGridAppJobDetail(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: false,
+            //pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 18,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                { text: 'Job Title', dataField: 'JobTitle', width: '30%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Organization', dataField: 'Organization', width: '30%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                { text: 'Duration', dataField: 'DurNameEn', width: '40%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+
+    }
+
+    function setGridLang(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: false,
+            //pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 18,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Language', dataField: 'LangNameEn', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Speaking', dataField: 'Speaking', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Reading', dataField: 'Reading', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Writing', dataField: 'Writing', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+    }
+    function setGridSoft(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: false,
+            //pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 18,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Skills', dataField: 'SkillNameEn', width: '50%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Rating', dataField: 'RatingID', width: '50%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+    }
+    function setGridCompSkills(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: false,
+            //pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 18,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Computer Application', dataField: 'CompSkillEn', width: '50%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Rating', dataField: 'CSValueName', width: '50%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+    }
+    function fillGridEdu(varURL, varGrid) {
+        var datafields = [
+                 { name: 'LApplicantEduID' },
+                 { name: 'LApplicantID' },
+                 { name: 'QualificationID' },
+                 { name: 'GQAIDender' },
+                 { name: 'EFID' },
+                 { name: 'EducationField' },
+                 { name: 'University' },
+                 { name: 'CountryID' },
+                 { name: 'GraduationYear' },
+                 { name: 'QualificationNameEn' },
+                 { name: 'QAreaEn' },
+                 { name: 'EFNameEn' },
+                 { name: 'CountryNameEn' },
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function fillGridLang(varURL, varGrid) {
+        var datafields = [
+                 { name: 'LApplicantLangID' },
+                 { name: 'LangNameEn' },
+                 { name: 'Reading' },
+                 { name: 'Speaking' },
+                 { name: 'Writing' },
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function fillGridSoft(varURL, varGrid) {
+        var datafields = [
+                 { name: 'LApplicantSoftID' },
+                 { name: 'LApplicantID' },
+                 { name: 'SkillsID' },
+                 { name: 'RatingID' },
+                 { name: 'SkillNameEn' },
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function fillGridComp(varURL, varGrid) {
+        var datafields = [
+                 { name: 'LApplicantCompSkID' },
+                 { name: 'LApplicantID' },
+                 { name: 'CSID' },
+                 { name: 'CompSkillEn' },
+                 { name: 'CSValueName' },
+                 { name: 'CSValue' },
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function fillGridAppJobDetail(varURL, varGrid) {
+        var datafields = [
+            { name: 'AJDID' },
+            { name: 'LApplicantID' },
+            { name: 'JobTitle' },
+            { name: 'Organization' },
+            { name: 'DurNameEn' },
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+</script>
+<div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="col-lg-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>Human Resources Directorate</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+</div>
+<div class="container">
+        <div class="row table-bordered">
+           <div class="card-header col-lg-12">General Information (<span style="color:red;">@ViewBag.Assign</span>)</div>
+            <div class="col-lg-12">
+               <div class="row">
+                   <div class="col-lg-9">
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Name</label>
+                           <div class="col-lg-10">
+                               @Model.Name
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.NIDNumber</label>
+                           <div class="col-lg-10">
+                               @Model.NIDNumber
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Gender</label>
+                           <div class="col-lg-10">
+                               @Model.Gender
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Mobile</label>
+                           <div class="col-lg-10">
+                               @Model.Mobile
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">WhatsApp</label>
+                           <div class="col-lg-10">
+                               @Model.Mobile2
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Email</label>
+                           <div class="col-lg-10">
+                               @Model.Email
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="inputPassword" class="col-lg-2 col-form-label">Age</label>
+                           @Model.Age
+                       </div>
+                   </div>
+                    <div class="col-lg-3">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">Photo</div>
+                        <img src="~/Uploads/Laiq/@ViewBag.Photo" width="200" height="250" class="table-bordered" />
+                    </div>
+               </div>
+                
+            </div>
+            <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5 class="pull-@align">Living Country</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        @Model.CountryName
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row" id="Provincerow">
+                    <label class="col-lg-2 col-form-label">@Laiq.Resource.Province</label>
+                    <div class="col-lg-4">
+                        @Model.PRNameEn
+                    </div>
+                    <label class="col-lg-2 col-form-label">@Laiq.Resource.District</label>
+                    <div class="col-lg-4">
+                       @Model.DISName
+                    </div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <label class="col-lg-2 col-form-label">@Laiq.Resource.City</label>
+                    <div class="col-lg-4">
+                        @Model.City
+                    </div>
+                    <label class="col-lg-2 col-form-label">@Laiq.Resource.Street</label>
+                    <div class="col-lg-4">
+                        @Model.Street
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5 class="pull-@align">Highest Level of Education</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        @Model.QualificationNameEn
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <td>
+                    <div id="AppEdu"></div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h5 class="pull-@align">@Laiq.Resource.doyouhaveworkexp</h5>
+                    </div>
+                    <div class="col-lg-4">
+                        @Model.WorkExp
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="ExpBody">
+                <div class="row">
+                    <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.howmanyexp</label>
+                    <div class="col-lg-6">
+                        @Model.ExpYearEn
+                    </div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.explevel</label>
+                    <div class="col-lg-6">
+                        @Model.ExpLevelEn
+                    </div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.empundersupervision</label>
+                    <div class="col-lg-6">
+                        @Model.ExpStaffEn
+                    </div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.lastsalaryinAFN</label>
+                    <div class="col-lg-6">
+                        @Model.HighSalary
+                    </div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.expectfromdabs</label>
+                    <div class="col-lg-6">
+                       @Model.ExpectedSalary
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5>Job Detail</h5>
+                        <div id="AppJobDetail"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="pull-@align">@Laiq.Resource.langSkill</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>
+                                <div id="LangGrid"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="pull-left">Soft Skills</h5>
+            </div>
+            <div class="card-body">
+                <div id="SoftSkillsGrid"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="pull-left">Computer Skills</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="CompSkillsGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="card col-lg-12">
+                <div class="card-header">Certifications:&nbsp;&nbsp;@ViewBag.Certifications</div>
+            </div>
+        </div>
+    </div>
+            <div class="col-lg-12">
+                <div class="card row">
+                    <div class="card-header">
+                        Documents
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>No</td>
+                                <td>Document Type</td>
+                                <td>Document</td>
+                            </tr>
+                            <tbody id="tbl"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>      
+
+        </div>
+</div>
+
+<script type="text/javascript">
+    function GetEdu()
+    {
+        $.ajax({
+            url: '/UserInfo/GetDeptHirarcheyTopByDeptID/' + varDeptID,
+            type: 'get',
+            async: false,
+            success: function (result) {
+                varDeptName = result;
+            }
+        });
+    }
+    function fillDocData() {
+        $("#tbl").empty();
+        var tr;
+        $.ajax({
+            url: '/Profile/GetUploads/' + '@Model.EncodeID',
+            aysnc: false,
+            method: 'get',
+
+            success: function (data) {
+                if (data.length < 1) {
+                    tr += '<tr><td colspan="4">No Record Found </td></tr>';
+                }
+                for (var i = 0; i < data.length; i++) {
+
+                    tr += "<tr><td>" + (Number(i) + 1) + "</td><td>" + data[i].FileTypeID + "</td><td><a href='/Uploads/Laiq/" + data[i].Docs + "'  target='_blank'>" + data[i].Docs + "</a></td></tr>";
+
+                }
+                $("#tbl").append(tr);
+            }
+             , error: function (data) {
+                 console.log(data);
+
+             }
+        });
+
+    }
+    function addRowEdu(i, varQualID, varQual,varQualLabel) {
+
+        var tr = '<tr class="dataCash">' +
+                    '<td>' +
+                    '<div class="card">' +
+                               ' <div class="card-body"><h6>' + varQual + '</h6>' +
+                                '     <div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.QualificationArea</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass QualificationID" name="QualificationID" id="QualificationID' + i + '" style="display:none;" ><Option value="' + varQualID + '">' + varQual + '</option></select>' +
+                               '<select class="form-control fonclass QAID" name="QAID" id="QAID' + i + '"><Option value="">@Laiq.Resource.SelectLabel</option></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.EducationField</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2 EFID" name="EFID" id="EFID' + i + '"  ><option value="">@Laiq.Resource.SelectLabel</option></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+                               '     <div class="form-group row">' +
+                               '         <div class="col-lg-12">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Specilization</label>' +
+                               '                 <div class="col-lg-10">' +
+                               '                     <input type="text" name="EducationField" id="EducationField" class="form-control fonclass EducationField" placeholder="Specilization" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               @*'         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.University</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '                     <input type="text" name="University" id="University" class="form-control fonclass" placeholder="University" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +*@
+
+                                '</div>' +
+
+                               '<div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.University</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '                     <input type="text" name="University" id="University" class="form-control fonclass University" placeholder="University" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.University @Laiq.Resource.Country</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2 CountryID" name="CountryID" id="CountryID' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+
+                               '<div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.GraduationYear</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2 GraduationYear" name="GraduationYear" id="GraduationYear' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+
+                               '@Laiq.Resource.moredegree<br />' +
+                               '<input type="button" class="btn btn-primary pull-right Addmore" onclick=addbtnclick("' + varQualID + '","' + varQualLabel + '") value="@Laiq.Resource.addmore" />' +
+                               ' </div>' +
+                            '</div>'
+        '</td></tr>';
+        $('#tbody').append(tr);
+        //GetQualification("QualificationID" + i);
+        GetEF("EFID" + i);
+        GetCountry("CountryID" + i);
+        GetYear("GraduationYear" + i)
+        GetQualificationArea("QAID" + i)
+        $(".ddselect2").select2();
+    };
+</script>
+<script type="text/javascript">
+    function fillGrid(df, varGridName, varURL) {
+        var source =
+    {
+        datatype: "json",
+        datafields: df,
+        cache: false,
+        url: varURL,
+        root: 'Rows'
+    };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#" + varGridName).jqxGrid(
+        {
+            source: dataadapter
+        });
+    }
+</script>
+

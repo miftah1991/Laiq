@@ -1,0 +1,419 @@
+﻿
+@{
+    ViewBag.Title = "LaiqApplicantUploadDocuments";
+    Layout = "~/Views/Shared/_LayoutPofile.cshtml";
+    string direction = Request.Cookies["dir"].Value;
+    string align = Request.Cookies["align"].Value;
+}
+<style>
+    .colorwhite {
+        color: white;
+    }
+
+    #build-profile {
+        background-color: #F09100;
+        border-bottom: 15px solid #F09100;
+        padding-bottom: 0px !important;
+        margin-bottom: -10px;
+        margin-top: -10px;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 38px;
+        /*border:1px solid #F09100;*/
+    }
+
+    .form-control {
+        /*border:1px solid #F09100;*/
+    }
+
+    .btn {
+        background-color: #F09100;
+        border: 1px solid #F09100;
+    }
+
+    .jqx-validator-error-label-classic, .jqx-validator-error-label {
+        width: auto !important;
+    }
+</style>
+<style>
+    .colorwhite {
+        color: white;
+    }
+    .btn-primary:disabled{
+        background-color: #808080;
+        border-color: #808080;
+        cursor: not-allowed;
+    }
+        .table tr td{
+        text-align:center;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".docs").hide();
+        $("#UploadDocs").change(function () {
+            if ($("#UploadDocs").val() == "Yes") {
+                $(".docs").show();
+                $("#FileUplaod").val("Yes")
+            } else {
+                $(".docs").hide();
+                $("#FileUplaod").val("No")
+            }
+        });
+        $("#SubmiUpload").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    $('#myModalLoader').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    $("#frmLaiqUpload").submit();
+                }
+            }
+            $('#frmLaiqUpload').jqxValidator('validate', validationResult);
+        });
+        $('#frmLaiqUpload').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#FileTypeID', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#FileTypeID").val(); if (val == "" || val == 0) { return false; } return true; } },
+
+    ], theme: 'classic'
+        });
+
+        fillGrid();
+        $("#CompleteCV").prop('disabled', true);
+        $('#Confirm').click(function () {
+            if (!$(this).is(':checked'))
+                $("#CompleteCV").prop('disabled', true);
+            else
+                $("#CompleteCV").prop('disabled', false);
+        });
+        $("#CompleteCV").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    $.ajax(
+                    {
+                        url: '/Profile/CompleteProfile',
+                        type: 'post',
+                        data: $('#frmQuestionary').serialize(),
+                        success: function (result) {
+                            if (result == "true") {
+                                location.href = '/Profile/Succcess/';
+                                //$('#myModal').modal('hide');
+                            }
+                            else {
+                                toastr["error"](result);
+                            }
+                        }
+                    });
+                }
+            }
+            $('#frmQuestionary').jqxValidator('validate', validationResult);
+        });
+
+        $('#frmQuestionary').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#UploadDocs', message: '@Laiq.Resource.Required', action: 'blur select keyup', rule: function (input) { var val = $("#UploadDocs").val(); if (val == "" || val == 0 || val == null) { return false; } return true; } },
+            { input: '#GovShare', message: '@Laiq.Resource.Required', action: 'blur select keyup', rule: function (input) { var val = $("#GovShare").val(); if (val == "" || val == 0 || val == null) { return false; } return true; } },
+            { input: '#PhotoShare', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#PhotoShare").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#VideoShare', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#VideoShare").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#DBCVSave', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DBCVSave").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#Confirm', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#Confirm").val(); if (val == "" || val == 0) { return false; } return true; } },
+            ], theme: 'classic'
+        });
+
+
+
+
+
+
+
+    });
+    function fillGrid() {
+        $("#tbl").empty();
+        var tr;
+        $.ajax({
+            url: '/Profile/GetUploads/' + '@ViewBag.EncodeID',
+            aysnc: false,
+            method: 'get',
+
+            success: function (data) {
+                if (data.length < 1) {
+                    tr += '<tr><td colspan="4">No Record Found </td></tr>';
+                }
+                for (var i = 0; i < data.length; i++) {
+
+                    tr += "<tr><td>" + (Number(i) + 1) + "</td><td>" + data[i].FileTypeID + "</td><td>" + data[i].Docs + "</td><td><a href='#' onclick=deleteDoc('" + data[i].UploadEncodeID + "') class='btn btn-cancel'><span class='fa fa-close'></a></td></tr>";
+
+                }
+                $("#tbl").append(tr);
+            }
+             , error: function (data) {
+                 console.log(data);
+
+             }
+        });
+
+    }
+    function deleteDoc(varID) {
+        var confirmdata = confirm("Are you sure to delete?")
+        if (confirmdata) {
+            $.ajax({
+                url: '/Profile/DeleteApplicantFile/' + varID,
+                aysnc: false,
+                method: 'POST',
+
+                success: function (data) {
+                    toastr["success"](data);
+                    fillGrid();
+                }
+                 , error: function (data) {
+                     console.log(data);
+
+                 }
+            });
+        }
+    }
+</script>
+<div class="container-fluid" style="padding-top:0px;margin-top:0px;">
+    <div class="row p-2">
+        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header" style="text-align:@align">
+                    @Laiq.Resource.RegistraionNo
+                    <span>@ViewBag.EncodeID</span>
+                </div>
+                <div class="card-body">
+                    
+                    <div class="row">
+                        <div class="card col-lg-12">
+                            @*<div class="card-header">@Laiq.Resource.Note</div>*@
+                            <div class="card-body">
+                               
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h6 class="pull-@align">@Laiq.Resource.doyouupload</h6>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="UploadDocs" name="UploadDocs">
+                                            <option value="0">@Laiq.Resource.SelectLabel</option>
+                                            <option value="Yes">@Laiq.Resource.Yes</option>
+                                            <option value="No">@Laiq.Resource.Noo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul>
+                                        <li><p>@Laiq.Resource.CompleteDoc</p></li>
+                                        @* <li><h6>@Laiq.Resource.PositiveResponse</h6></li>*@
+                                        <li><p>@Laiq.Resource.withVideoMessage</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">&nbsp;</div>
+
+                    @using (Ajax.BeginForm("LaiqUpload", "Laiq", new AjaxOptions() { HttpMethod = "POST" }, new { enctype = "multipart/form-data", id = "frmLaiqUpload" }))
+                    {
+                        <div class="row docs">
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.docType:</label>
+                            <div class="col-lg-4">
+                                <select name="FileTypeID" id="FileTypeID" class="form-control">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                                    <option value="Video">@Laiq.Resource.videomessage</option>
+                                    <option value="Photo">@Laiq.Resource.Photo</option>
+                                    <option value="CV">@Laiq.Resource.cv</option>
+                                    <option value="Bachelor">@Laiq.Resource.BachelorDegree</option>
+                                    <option value="Master">@Laiq.Resource.MasterDegree</option>
+                                    <option value="Others">@Laiq.Resource.Other</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="file" id="file" name="file" />
+                            </div>
+                            <div class="col-lg2">
+                               
+                                <input type="hidden" name="EncodeID" id="FileEncodeID" value="@ViewBag.EncodeID" />
+                                <input type="button" class="btn btn-primary" id="SubmiUpload" value="@Laiq.Resource.uploadDoc" />
+                            </div>
+                        </div>
+                    }
+                    <div class="row">&nbsp;</div>
+                    <div class="row docs">
+                        <div class="col-lg-12">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>@Laiq.Resource.No</td>
+                                    <td>@Laiq.Resource.docType</td>
+                                    <td>@Laiq.Resource.Document</td>
+                                    <td>@Laiq.Resource.Action</td>
+                                </tr>
+                                <tbody id="tbl"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <form id="frmQuestionary">
+                        <div class="card">
+                            <div class="card-header">
+                                @Laiq.Resource.Questions:<span style="font-style:italic;">&nbsp;&nbsp; (@Laiq.Resource.PositiveResponse)</span>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p>@Laiq.Resource.CanDABSShare</p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="GovShare" name="GovShare">
+                                            <option value="0">@Laiq.Resource.SelectLabel</option>
+                                            <option value="Yes">@Laiq.Resource.Yes</option>
+                                            <option value="No">@Laiq.Resource.Noo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">&nbsp;</div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p>@Laiq.Resource.CanDABSSharePic</p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="PhotoShare" name="PhotoShare">
+                                            <option value="0">@Laiq.Resource.SelectLabel</option>
+                                            <option value="Yes">@Laiq.Resource.Yes</option>
+                                            <option value="No">@Laiq.Resource.Noo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">&nbsp;</div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p>@Laiq.Resource.CanDABSShareVideo</p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="VideoShare" name="VideoShare">
+                                            <option value="0">@Laiq.Resource.SelectLabel</option>
+                                            <option value="Yes">@Laiq.Resource.Yes</option>
+                                            <option value="No">@Laiq.Resource.Noo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">&nbsp;</div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p>@Laiq.Resource.AgreeSave </p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="DBCVSave" name="DBCVSave">
+                                            <option value="0">@Laiq.Resource.SelectLabel</option>
+                                            <option value="1Month">@Laiq.Resource.Month1</option>
+                                            <option value="6Month">@Laiq.Resource.Month6</option>
+                                            <option value="5Year">@Laiq.Resource.Yesrs5</option>
+                                            <option value="Forever">@Laiq.Resource.Forever</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card col-lg-12">
+                                        @*<div class="card-header">
+                                            Notes:
+                                        </div>*@
+                                        <div class="card-body">
+                                            <table class="table">
+                                                @*<tr>
+                                                    <td colspan="2">
+                                                        <p>
+                                                            Dear Applicants,<br /> Your application is received, DABS will notify you regarding further process. Please keep patience!
+                                                        </p>
+                                                    </td>
+                                                </tr>*@
+                                                <tr>
+                                                    <td><input type="checkbox" class="checkbox" value="1" id="Confirm" name="Confirm" style="outline:3px solid #F09100 !important;" /></td>
+                                                    <td><p> @Laiq.Resource.SubmitConfirm</p></td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <input type="hidden" name="EncodeID" id="EncodeID" value="@ViewBag.EncodeID" />
+                                        <input type="hidden" name="FileUplaod" id="FileUplaod" />
+                                        <input type="button" id="CompleteCV" value="@Laiq.Resource.SubmitApplicationForm" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-1">&nbsp;</div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.form.js"></script>
+<script type="text/javascript">
+    (function () {
+        var bar = $('.progress-bar');
+        var percent = $('.progress-bar');
+        $('#frmLaiqUpload').ajaxForm({
+            beforeSend: function () {
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+            },
+            success: function (d) {
+                if (d == "true")
+                {
+                    toastr["success"]("@Laiq.Resource.FileUploaded");
+                    fillGrid()
+                    $("#myModalLoader").modal('hide');
+                }
+               else if (d == "wrongimageformat")
+                {
+                   toastr["error"]("@Laiq.Resource.WrongFormat");
+                   $("#myModalLoader").modal('hide');
+               } else if (d == "nofile") {
+                   toastr["error"]("@Laiq.Resource.Nofile");
+                   $("#myModalLoader").modal('hide');
+                   return;
+               } else {
+                   toastr["error"](d);
+                   $("#myModalLoader").modal('hide');
+               }
+            },
+            complete: function (xhr) {
+                //$("#myModalLoader").modal('hide');
+                //toastr["error"](xhr.responseText);
+                //status.html(xhr.responseText);
+            }
+        });
+    })();
+
+</script>
+<div id="myModalLoader" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:white;text-align:center">Loading.........</h4>
+            </div>
+            <div class="modal-body" dir="@Request.Cookies["dir"].Value">
+                <div class="loader">
+                    <div class="loader_ajax_small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

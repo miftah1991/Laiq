@@ -1,0 +1,385 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+<style type="text/css">
+    body {
+        background-color: white;
+    }
+
+    .btn {
+            background-color: #F09100;
+            border: 1px solid #F09100;
+        }
+</style>
+<script src="~/Scripts/JScript.js"></script>
+<script src="~/Scripts/moment-2.2.1.js"></script>
+<link href="~/Scripts/datatables/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //GetMyApplicants('LApplicantID');
+        GetGroups('Groups');
+        var datatable = $("#tblApplicants").DataTable();
+        $(".cls").click(function () {
+            $('#myModal').modal('hide');
+        })
+        $("select").select2();
+        $("#AddNew").click(function () {
+            $('#frmGroupInterview').trigger("reset");
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+        $("#Print").click(function () {
+            var GroupID = $("#Groups").val()
+            if (GroupID == "" || GroupID == null) {
+                toastr["error"]("Please Select Group");
+                return
+            }
+            window.open('/PanelGroupDisc/PrintMarkSheet?GDID=' + GroupID + '&&USERID=@Session["USERID"]' + '&&format=excel', "_blank")
+        });
+       
+        $("#Groups").change(function () {
+            var ID = $("#Groups").val();
+            $('#tblApplicants').DataTable().destroy();
+            fillData(ID);
+        });
+        $("#SubmitGroup").click(function () {
+            var ID = $("#Groups").val();
+            if (ID == null || ID == 0 || ID == "") {
+                toastr["error"]("Please Select a Group");
+                return;
+            }
+            var conf = confirm("Are you sure to submit Gropu discussion marking.")
+            if (conf) {
+                $.ajax({
+                    url: '/PanelGroupDisc/SubmitPanelMarks?GroupID='+ID+"&&USERID="+'@Session["USERID"]',
+                    type: 'post',
+                    success: function (result) {
+                        if (result == "true") {
+                            toastr["success"]('Saved Successfully');
+                            //location.reload();
+                        }
+                        else {
+                            toastr["error"](result);
+                        }
+                    }
+                });
+            } 
+        })
+        $("#Submit").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    $.ajax({
+                        url: '/PanelGroupDisc/SavePanelMarks',
+                            type: 'post',
+                            data: $('#frmGroupInterview').serialize(),
+                            success: function (result) {
+                                if (result == "true") {
+                                    $('#myModal').modal('hide');
+                                    toastr["success"]('Saved Successfully');
+                                    var ID = $("#Groups").val();
+                                    $('#tblApplicants').DataTable().destroy();
+                                    fillData(ID);
+                                    //location.reload();
+                                }
+                                else {
+                                    toastr["error"](result);
+                                }
+                                }
+                        });
+                }
+            }
+            $('#frmGroupInterview').jqxValidator('validate', validationResult)
+        });
+        $('#frmGroupInterview').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#LApplicantID', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#LApplicantID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#ExpectedPosition").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+        
+    });
+    function fillData(varID)
+    {
+        $('#tblApplicants').dataTable({
+            responsive: true,
+            destroy: true,
+            "ajax": "/PanelGroupDisc/GetPanlMarksByGroupAndUSERID/" + varID,
+            "columns": [
+                       //{ "data": "" },
+                        //{
+                        //    "data": "id",
+                        //    render: function (data, type, row, meta) {
+                        //        return meta.row + meta.settings._iDisplayStart + 1;
+                        //    }
+                        //},
+                       { "data": "LApplicantID" },
+                       //{ "data": "USERID" },
+                       { "data": "Communication" },
+                       { "data": "Creativity" },
+                       { "data": "Leadership" },
+                       { "data": "English" },
+                       { "data": "Dari" },
+                       { "data": "Pashto" },
+                       { "data": "Remarks" },
+                       {
+                           "mRender": function (data, type, row) {
+
+                               return moment(row.CreatedOn).format("YYYY-MM-DD");
+                           }
+                       },
+                        {
+                            "mRender": function (data, type, row) {
+                                return '<a class="fa fa-pencil"  href="#" onclick="EditPanelMarking(' + row.LApplicantID + ',' + row.Communication + ',' + row.Creativity + ',' + row.Leadership + ',' + row.English + ',' + row.Dari + ',' + row.Pashto + ')"></a>';
+                            }
+                        },
+                       //{
+                       //    "mRender": function (data, type, row) {
+                       //        if (row.UpdatedOn != null) {
+                       //            return moment(row.UpdatedOn).format("YYYY-MM-DD");
+                       //        } else {
+                       //            return '';
+                       //        }
+
+                       //    }
+                       //},
+
+            ],
+            //"language": {
+            //    "search": "جستجو",
+            //    "sLengthMenu": "مشاهده _MENU_ ریکارد",
+            //    "info": "از _START_ تابه _END_ ریکارد _TOTAL_ ریکارد مجموع",
+            //    "oPaginate": {
+            //        "sFirst": "اول", // This is the link to the first page
+            //        "sPrevious": "قبلی", // This is the link to the previous page
+            //        "sNext": "بعدی", // This is the link to the next page
+            //        "sLast": "آخر" // This is the link to the last page
+            //    }
+            //}
+        });
+    }
+    function EditPanelMarking(varAppID,varComm,varCreate,varLeader,varEng,varDar,varPash)
+    {
+        $('#frmGroupInterview').trigger("reset");
+        $("#LApplicantID").val(varAppID);
+        $("input[name=Communication][value=" + varComm + "]").prop('checked', true);
+        $("input[name=Creativity][value=" + varCreate + "]").prop('checked', true);
+        $("input[name=Leadership][value=" + varLeader + "]").prop('checked', true);
+        $("input[name=English][value=" + varEng + "]").prop('checked', true);
+        $("input[name=Dari][value=" + varDar + "]").prop('checked', true);
+        $("input[name=Pashto][value=" + varPash + "]").prop('checked', true);
+        
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+</script>
+<div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-1">&nbsp;</div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xl-5 col-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xl-7 col-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xl-8 col-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-fluid pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-1">&nbsp;</div>
+</div>
+<div class="row">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="card col-lg-10">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-3">Group Discussion Marking</div>
+                <div class="col-lg-6">
+                    <select class="form-control" id="Groups">
+                        <option value="0"> Please Select Group</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <input type="button" class="btn btn-dark pull-right fonclass" id="AddNew" value="Applicant Marking" />
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered" id="tblApplicants">
+                        <thead>
+                            <tr>
+                                <td>ApplicantID</td>
+                                <td>Communication</td>
+                                <td>Creativity</td>
+                                <td>Leadership</td>
+                                <td>English</td>
+                                <td>Dari</td>
+                                <td>Pashto</td>
+                                <td>Remarks</td>
+                                <td>Created On</td>
+                                <td>Edit</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 text-center">
+                    <input type="button" class="btn btn-primary fonclass" id="Print" value="Print MarkSheet" />
+                </div>
+                <div class="col-lg-6 text-center">
+                <input type="button" class="btn btn-primary fonclass" id="SubmitGroup" value="Submit Group Discussion Marking" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+
+</div>
+
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:black;text-align:left;">Group Discussion Marking</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmGroupInterview">
+                    <table class="table" dir="ltr">
+                        <tr>
+                            <td width="10%">ApplicantID:</td>
+                            <td colspan="4">
+                                <input type="text" class="form-control" id="LApplicantID" readonly="readonly" name="LApplicantID" />
+                                @*<select id="LApplicantID" name="LApplicantID" class="form-control">
+                                    <option value="0">Please Select</option>
+                                </select>*@
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Skill</td>
+                            <td>Weak(1)</td>
+                            <td>Fair(2)</td>
+                            <td>Good(3)</td>
+                            <td>Excellent(4)</td>
+                        </tr>
+                        <tr>
+                            <td>Communication Skills</td>
+                            <td><input class="checkbox Marks CHK1" id="Communication" name="Communication" type="radio" value="1" checked="checked" /></td>
+                            <td><input class="checkbox Marks" id="Communication" name="Communication" type="radio" value="2" /></td>
+                            <td><input class="checkbox Marks" id="Communication" name="Communication" type="radio" value="3" /></td>
+                            <td><input class="checkbox Marks" id="Communication" name="Communication" type="radio" value="4" /></td>
+                        </tr>
+                        <tr>
+                            <td>Creativity</td>
+                            <td><input class="checkbox Marks CHK1" id="Creativity" name="Creativity" type="radio" value="1" checked="checked" /></td>
+                            <td><input class="checkbox Marks" id="Creativity" name="Creativity" type="radio" value="2" /></td>
+                            <td><input class="checkbox Marks" id="Creativity" name="Creativity" type="radio" value="3" /></td>
+                            <td><input class="checkbox Marks" id="Creativity" name="Creativity" type="radio" value="4" /></td>
+                        </tr>
+                        <tr>
+                            <td>Leadership Skills</td>
+                            <td><input class="checkbox Marks CHK1" id="Leadership" name="Leadership" type="radio" value="1" checked="checked" /></td>
+                            <td><input class="checkbox Marks" id="Leadership" name="Leadership" type="radio" value="2" /></td>
+                            <td><input class="checkbox Marks" id="Leadership" name="Leadership" type="radio" value="3" /></td>
+                            <td><input class="checkbox Marks" id="Leadership" name="Leadership" type="radio" value="4" /></td>
+                        </tr>
+                        <tr>
+                            <td>English</td>
+                            <td><input class="checkbox Marks CHK1" id="English" name="English" type="radio" value="1" checked="checked" /></td>
+                            <td><input class="checkbox Marks" id="English" name="English" type="radio" value="2" /></td>
+                            <td><input class="checkbox Marks" id="English" name="English" type="radio" value="3" /></td>
+                            <td><input class="checkbox Marks" id="English" name="English" type="radio" value="4" /></td>
+                        </tr>
+                        <tr>
+                            <td>Dari</td>
+                            <td><input class="checkbox Marks CHK1" id="Dari" name="Dari" type="radio" value="1" checked="checked" /></td>
+                            <td><input class="checkbox Marks" id="Dari" name="Dari" type="radio" value="2" /></td>
+                            <td><input class="checkbox Marks" id="Dari" name="Dari" type="radio" value="3" /></td>
+                            <td><input class="checkbox Marks" id="Dari" name="Dari" type="radio" value="4" /></td>
+                        </tr>
+                        <tr>
+                            <td>Pashto</td>
+                            <td><input class="checkbox Marks CHK1" id="Pashto" name="Pashto" type="radio" value="1" checked="checked" /></td>
+                            <td><input class="checkbox Marks" id="Pashto" name="Pashto" type="radio" value="2" /></td>
+                            <td><input class="checkbox Marks" id="Pashto" name="Pashto" type="radio" value="3" /></td>
+                            <td><input class="checkbox Marks" id="Pashto" name="Pashto" type="radio" value="4" /></td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td colspan="4">
+                                <textarea id="Remarks" name="Remarks" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align:center;">
+                                <input type="hidden" name="USERID" id="USERID" value="@Session["USERID"]" />
+                                <input type="button" id="Submit" name="Submit" value="Save" class="btn btn-primary" />
+                                <input type="button" id="Cancel" name="Cancel" value="Cancel" class="btn btn-danger cls" />
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function GetGroups(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Groups))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.GDID,
+                text: data.GDName
+            }));
+        });
+    }
+    @*function GetMyApplicants(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.dataApplicants))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.LApplicantID,
+                text: data.Name
+            }));
+        });
+    }*@
+</script>

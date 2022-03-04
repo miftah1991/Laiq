@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<script src="~/Scripts/JScript.js"></script>
+<script src="~/Scripts/moment-2.2.1.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#LogOut").click(function () {
+            location.href = '/Home/Index'
+        });
+        $(".cls").click(function () {
+            $('#myModalWishList').modal('hide');
+        })
+        $('#AddNew').click(function () {
+            AddBClick();
+        })
+        makeContextMenu('CMenu', 'WishListGrid', 150, 90);
+        setGrid('WishListGrid');
+        $("#CMenu").on('itemclick', function (event) {
+            var args = event.args;
+            var varMenuItem = $.trim($(args).text());
+            var rowindex = $("#WishListGrid").jqxGrid('getselectedrowindex');
+            if (varMenuItem == "View Detail") {
+                var dataRecord = $("#WishListGrid").jqxGrid('getrowdata', rowindex);
+                var URL = "/Report/ViewProfile/" + dataRecord.EncodeID;
+                window.open(URL, "_blank");
+                //location.href = 
+            }
+            else if (varMenuItem == "Edit") {
+                //$(".CHK1").prop("checked", true);
+                $('#frmWish').trigger("reset");
+                var dataRecord = $("#WishListGrid").jqxGrid('getrowdata', rowindex);
+                $("#WLID").val(dataRecord.WLID)
+                $("#LApplicantIDWish").val(dataRecord.LApplicantID);
+                $("#USERID").val(dataRecord.USERID);
+                $("#txtNameWish").text(dataRecord.Name)
+                $("#txtQualWish").text(dataRecord.QualificationNameEn)
+                $('#myModalWishList').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        });
+
+        $("#SubmitWish").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    var varURL = '/WishList/Edit'
+                    $.ajax(
+                       {
+                           url: varURL,
+                           type: 'post',
+                           data: $('#frmWish').serialize(),
+                           success: function (result) {
+                               if (result == "Updated") {
+                                   $('#myModalWishList').modal('hide');
+                                   toastr["success"]('Saved Successfully');
+                                   $('#WishListGrid').jqxGrid('updatebounddata', 'data');
+                                   //location.reload();
+                               }
+                               else {
+                                   toastr["error"](result);
+                               }
+                           }
+                       });
+                }
+            }
+            $('#frmWish').jqxValidator('validate', validationResult)
+        });
+        $('#frmWish').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#LocationWish', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#LocationWish").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#CategoryWish', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#CategoryWish").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#LApplicantID', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+    });
+    function LoadModal(varUrl)
+    {
+        fillGridApplicants(varUrl, 'WishListGrid')
+        $("#myModal").modal('show');
+    }
+
+    function setGrid(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: true,
+            pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 15,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Category', dataField: 'Category', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Location', dataField: 'Location', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Name', dataField: 'Name', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Qualification Name', dataField: 'QualificationNameEn', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Education Field', dataField: 'EFNameEn', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Department', dataField: 'EducationField', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Experiance', dataField: 'ExpYearEn', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Remarks', dataField: 'Remarks', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+        fillGridApplicants('/WishList/GetWishListData', varGridName)
+    }
+    function fillGridApplicants(varURL, varGrid) {
+        var datafields = [
+                 { name: 'WLID' },
+                 { name: 'LApplicantID', type: 'number' },
+                 { name: 'Location', type: 'string' },
+                 { name: 'USERID', type: 'string' },
+                 { name: 'Category', type: 'string' },
+                 { name: 'CreatedOn', type: 'date' },
+                 { name: 'Name', type: 'string' },
+                 { name: 'QualificationNameEn', type: 'string' },
+                 { name: 'EFNameEn', type: 'string' },
+                 { name: 'EducationField', type: 'string' },
+                 { name: 'ExpYearEn', type: 'string' },
+                { name: 'EncodeID', type: 'string' },
+                { name: 'Remarks', type: 'string' },
+
+
+
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function AddBClick() {
+        $('#frmGroup').trigger("reset");
+        clearInputs(["GDID", "GDName", "GDDate", "Remarks"]);
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+</script>
+<div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="col-lg-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>Human Resources Directorate</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+</div>
+<div class="row" style="background-color:white;" >
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10 card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6">Wish List</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="WishListGrid"></div>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+
+</div>
+<div id="CMenu">
+    <ul dir="rtl">
+        <li id="Insert">
+            <img src="/images/folder.png" class="pull-right" />
+            <span class="fonclass">View Detail</span>
+        </li>
+        <li id="Insert">
+            <img src="~/images/pencil.png" class="pull-right" />
+            <span>Edit</span>
+        </li>
+        @*<li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">View Phone Interview</span>
+            </li>*@
+        @*<li id="Edit">
+                <img src="/images/pencil.png" class="pull-right" />
+                <span class="fonclass">Phone Interview</span>
+            </li>*@
+    </ul>
+</div>
+<div id="myModalWishList" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:center;">Add WishList</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmWish">
+                    <table class="table">
+                        <tr>
+                            <td width="10%">Name:</td>
+                            <td width="40"><div id="txtNameWish"></div></td>
+                        </tr>
+                        <tr>
+                            <td width="10%">Qualification:</td>
+                            <td width="40%"><div id="txtQualWish"></div></td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Location</td>
+                            <td>
+                                <select class="form-control" id="LocationWish" name="Location">
+                                    <option value="0">Please Select</option>
+                                    <option value="HQ">HQ</option>
+                                    <option value="Province">Province</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>
+                                <select class="form-control" id="CategoryWish" name="Category">
+                                    <option value="0">Please Select</option>
+                                    <option value="Top">Top</option>
+                                    <option value="Deputy">Deputy</option>
+                                    <option value="GeneralStaff">GeneralStaff</option>
+                                    <option value="Internal">Internal</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td><input type="text" name="Remarks" id="RemarksWish" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <br />
+                                <input type="hidden" name="WLID" id="WLID" />
+                                <input type="hidden" name="LApplicantID" id="LApplicantIDWish" />
+                                <input type="hidden" name="USERID" id="USERID" />
+                                <button id="SubmitWish" type="button" class="btn  btn-primary">Save</button>
+                                <button id="Cancel" type="button" class="btn btn-danger cls">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

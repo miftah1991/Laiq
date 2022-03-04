@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Succcess";
+}
+<style>
+    .colorwhite {
+        color: white;
+    }
+
+    #build-profile {
+        background-color: #F09100;
+        border-bottom: 15px solid #F09100;
+        padding-bottom: 0px !important;
+        margin-bottom: -10px;
+        margin-top: -10px;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 38px;
+        /*border:1px solid #F09100;*/
+    }
+
+    .form-control {
+        /*border:1px solid #F09100;*/
+    }
+
+    .btn {
+        background-color: #F09100;
+        border: 1px solid #F09100;
+    }
+
+    .jqx-validator-error-label-classic, .jqx-validator-error-label {
+        width: auto !important;
+    }
+</style>
+<style>
+    .colorwhite {
+        color: white;
+    }
+</style>
+<div class="container-fluid" style="background-color:#F09100;padding-top:0px;margin-top:0px;">
+    <div class="row p-2">
+        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-10 colorwhite" style="text-align:@Request.Cookies["align"].Value">
+           @* <h5>@Laiq.Resource.Success</h5>*@
+            <br /><br />
+
+            @Laiq.Resource.HR1,<br />
+            @Laiq.Resource.SuccessNote
+            <br /><br />
+            @*@Html.Raw(Laiq.Resource.SuccessMessage)*@
+        </div>
+        
+        <div class="col-lg-1">&nbsp;</div>
+    </div>
+</div>
+

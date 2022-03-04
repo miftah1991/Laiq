@@ -1,0 +1,787 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddExp" xml:space="preserve">
+    <value>د کاري تجربې ور زیاتول</value>
+  </data>
+  <data name="AddReferences" xml:space="preserve">
+    <value>د ریفرینسونو ور زیاتول</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>لرې کول (لغوه)</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>د ژبې بدلول</value>
+  </data>
+  <data name="CloseForm" xml:space="preserve">
+    <value>د فورم پای</value>
+  </data>
+  <data name="ConfirmTitle" xml:space="preserve">
+    <value>د اطمینان لپاره خپل تذکره نمبر داخل کړی</value>
+  </data>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value>د اوسېدو اوسنی ځایګی</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>ورځ</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>جزیات</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>ولسوالی</value>
+  </data>
+  <data name="DOB" xml:space="preserve">
+    <value>د زېږېدو نیټه </value>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>زده کړې</value>
+  </data>
+  <data name="EducationField" xml:space="preserve">
+    <value>د زده کړې څانګه/رشته</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>برښنالیک پته</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>د پای نیټه لمریز/زېږديز</value>
+  </data>
+  <data name="Experience" xml:space="preserve">
+    <value>کاري تجربې/مخېنه</value>
+  </data>
+  <data name="FName" xml:space="preserve">
+    <value>د پلار نوم</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>جنسیت</value>
+  </data>
+  <data name="GFName" xml:space="preserve">
+    <value>د نیکه نوم</value>
+  </data>
+  <data name="GraduationYear" xml:space="preserve">
+    <value>د فراغت کال</value>
+  </data>
+  <data name="JobDetail" xml:space="preserve">
+    <value>د دندې شرحه</value>
+  </data>
+  <data name="Jobtitle" xml:space="preserve">
+    <value>د دندې سرلیک</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>له ژبو سره بلدتیا</value>
+  </data>
+  <data name="LName" xml:space="preserve">
+    <value>تخلص</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>د اړېکې شمېره</value>
+  </data>
+  <data name="Mobile1" xml:space="preserve">
+    <value>واټسپ شمېره</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>میاشت</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>نوم</value>
+  </data>
+  <data name="NIDFill" xml:space="preserve">
+    <value>د خپلې پیژند پاڼې(تذکرې) شمیره دننه کړئ</value>
+  </data>
+  <data name="NIDNotFoundMessage" xml:space="preserve">
+    <value>معلومات تر لاسه نه شول په مهربانۍ سره په دقیق ډول د خپلې پیژند پاڼې(تذکرې) ګڼه دننه کړئ او یا د (لرې کول) تڼئ کښیکاږئ</value>
+  </data>
+  <data name="NIDNumber" xml:space="preserve">
+    <value>د پېژند پاڼې (تذکرې) شمېره</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>یادښت</value>
+  </data>
+  <data name="Note1" xml:space="preserve">
+    <value>یادښت</value>
+  </data>
+  <data name="NoteBody" xml:space="preserve">
+    <value>که تاسو مخکې له دې د افغانستان برښنا شرکت د دندو بستونو ته په آنلاین ډول غوښتنلیک ډک کړی وي، په مهربانۍ سره د خپلې پيژند پاڼې(تذکرې) ګڼه دننه کړئ او د لټون تڼۍ کښیکاږئ، تر څو د معلوماتو فورم له سیستم څخه تر لاسه شي – ګنې د (لرې کول) تڼۍ کښیکاږئ او آنلاین غوښتنلیک په دقیق ډول ډک کړئ.</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>اداره</value>
+  </data>
+  <data name="PermanentAddress" xml:space="preserve">
+    <value>اصلي استوګنځای</value>
+  </data>
+  <data name="PhotoText" xml:space="preserve">
+    <value>انځور وټاکئ - چې له یوې ام بی ډیر نه وي</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>ولایت</value>
+  </data>
+  <data name="Qualification" xml:space="preserve">
+    <value>د زده کړو درجه</value>
+  </data>
+  <data name="Reading" xml:space="preserve">
+    <value>لوستل</value>
+  </data>
+  <data name="RegMessage" xml:space="preserve">
+    <value>لږ تر لږه دې درې کسان وي</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>لرې کول</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>معاش</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>ثبتول</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>لټول</value>
+  </data>
+  <data name="SelectLabel" xml:space="preserve">
+    <value>ویې ټاکئ</value>
+  </data>
+  <data name="Skills" xml:space="preserve">
+    <value>مهارتونه/وړتیاوې</value>
+  </data>
+  <data name="Speaking" xml:space="preserve">
+    <value>خبرې کول</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>د نیټې پیل لمریز/زېږدیز</value>
+  </data>
+  <data name="SubmitApplicationForm" xml:space="preserve">
+    <value>د غوښتنلیک لیږل</value>
+  </data>
+  <data name="SubmitConfirm" xml:space="preserve">
+    <value>زه تصدیق کوم چه پورته ذکر شوی معلومات دقیق او سم دی که چیری ناسم ثابت شی نو غوښتنلیک می رد کیړی او دشکایت حق نه لرم</value>
+  </data>
+  <data name="SubmitDate" xml:space="preserve">
+    <value>د غوښتنلیک لیږلو نېټه</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>ستاسو غوښتنلیک په بریالیتوب سره ومنل شو</value>
+  </data>
+  <data name="SuccessMessage" xml:space="preserve">
+    <value>
+له تاسو مننه چې د کارموندنې لپاره مو د آزادې سیالۍ په رڼه پروسه کې د خوښې وړ بست ته په آنلاین ډول غوښتنلیک بشپړ کړو، په دې توګه تاسو ته خبر درکول کیږي، چې په فورمه کې ځای پر ځای شوي معلومات لکه څنګه چې تاسو سیستم ته دننه کړي دي د افغانستان برښنا شرکت د ګمارنې(استخدام) مدیریت ته ولیږدول شول. د افغانستان برښنا شرکت اړوند څانګې کارکوونکي ستاسو د غوښتنلیک طی مراحل(پړاوونو پلي کولو) برخه کې په وخت سره لاس په کار کیږي. 
+</value>
+  </data>
+  <data name="University" xml:space="preserve">
+    <value>پوهنتون</value>
+  </data>
+  <data name="VacancyNumber" xml:space="preserve">
+    <value>د بست شمېره</value>
+  </data>
+  <data name="Writiting" xml:space="preserve">
+    <value>لیکل</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>کال</value>
+  </data>
+  <data name="AddEdu" xml:space="preserve">
+    <value>زده کړو ورزیاتول</value>
+  </data>
+  <data name="Applicant" xml:space="preserve">
+    <value>ګرانه غوښتونکیه!</value>
+  </data>
+  <data name="EduRefMessage" xml:space="preserve">
+    <value>د زده کړې ورزیاتول حتمی دی</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>ښځینه</value>
+  </data>
+  <data name="JOBOrgan" xml:space="preserve">
+    <value>د خپرو شویو دندو لیک لړ</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>نارینه</value>
+  </data>
+  <data name="Mobile11" xml:space="preserve">
+    <value>واټسپ شمېره</value>
+  </data>
+  <data name="Mobile2" xml:space="preserve">
+    <value>واټسپ شمېره</value>
+  </data>
+  <data name="Nofile" xml:space="preserve">
+    <value>انځور تر لاسه نه شو</value>
+  </data>
+  <data name="Note11" xml:space="preserve">
+    <value>یادښت</value>
+  </data>
+  <data name="Note2" xml:space="preserve">
+    <value>یادښت</value>
+  </data>
+  <data name="RefReqMessage" xml:space="preserve">
+    <value>لږ تر لږه دې درې کسان وي</value>
+  </data>
+  <data name="RefSuccessMessage" xml:space="preserve">
+    <value>معلومات اضافه شول</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="RequiredEmail" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="RequiredFName" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="RequiredGFName" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="RequiredLName" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="RequiredName" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="RequiredNID" xml:space="preserve">
+    <value>حتمی دی</value>
+  </data>
+  <data name="SelectLabel1" xml:space="preserve">
+    <value>ویې ټاکئ</value>
+  </data>
+  <data name="WrongFormat" xml:space="preserve">
+    <value>فارمت صحیح نه دی</value>
+  </data>
+  <data name="YearReqMessage" xml:space="preserve">
+    <value>اول کال ویې ټاکئ</value>
+  </data>
+  <data name="JobDetail1" xml:space="preserve">
+    <value>د وظیفی شرح</value>
+  </data>
+  <data name="JobList" xml:space="preserve">
+    <value>د خپرو شویو دندو لیک لړ</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>اصلاح</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>لمړی</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>له</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>آخر</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>شمیره</value>
+  </data>
+  <data name="Record" xml:space="preserve">
+    <value>ریکارد</value>
+  </data>
+  <data name="Specilization" xml:space="preserve">
+    <value>تخصص</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>تر</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>مجموعا</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>هیواد</value>
+  </data>
+  <data name="AddSkill" xml:space="preserve">
+    <value>د مهارتونو اضافه کول</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>سطح</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>له ژبو سره بلدتیا</value>
+  </data>
+  <data name="AboutLaiq" xml:space="preserve">
+    <value>د لایق په اړه</value>
+  </data>
+  <data name="AboutLaiqText" xml:space="preserve">
+    <value>&lt;br /&gt;
+            &lt;h2 class="font-weight-normal"&gt;لایق&lt;/h2&gt;
+            &lt;br /&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+ لایق "د ځېرکو استعدادونو لټون " مخفف یا لنډیز دی، چې ددې برنامې له لارې د افغانستان برښنا شرکت غواړي ګرانو هېوادوالو د لوړو مسلکي زده کړو درلودونکو ځوانانو ته کاري آسانتیاوې برابرې کړي او د افغانستان برښنا شرکت سره یو ځای شي. 
+            &lt;/p&gt;
+            &lt;br /&gt;
+            &lt;p&gt;ددې برنامې له لارې د افغانستان برښنا شرکت په پام کې لري، چې لوړ ځوان مسلکي استعدادونه وپیژني، څو برښنا شرکت سره د غړیتوب تر لاسه کولو له لارې د افغانستان برښنا شرکت په یوه مسلکي اداره بدل کړي.
+            &lt;/p&gt;</value>
+  </data>
+  <data name="AppliedJobs" xml:space="preserve">
+    <value>غوښتل شوي دندې</value>
+  </data>
+  <data name="Areyoudetermined" xml:space="preserve">
+    <value>ایا تاسو هوډ لرئ چې خپله وړتیا ښکاره کړئ؟</value>
+  </data>
+  <data name="bringenergy" xml:space="preserve">
+    <value>همدا اوس نوم لیکنه وکړئ او موږ سره یو ځای شئ</value>
+  </data>
+  <data name="BuildYourProfile" xml:space="preserve">
+    <value>د نوم ثبتونې فورمه</value>
+  </data>
+  <data name="CEOMSG" xml:space="preserve">
+    <value>د عمومي رئیس پيغام</value>
+  </data>
+  <data name="CEOText" xml:space="preserve">
+    <value>&lt;br /&gt;
+            &lt;h2 class="font-weight-normal"&gt;&lt;span style="text-decoration:underline" class="Underline"&gt;د عمومي رئیس  &lt;/span&gt;  پیغام &lt;/h2&gt;
+            &lt;br /&gt;
+            &lt;h5 class="font-italic font-weight-normal"&gt;'پرمختګ د بدلون په معنا دی، موږ هغه مهال بریالي یو، چې ډیری وخت د بدلون په حال کې واوسو'&lt;/h5&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                دې ارزښتناکې وینا ته په پام سره، زه هیله من یم، چې د  (لایق) خپرونې پلې کولو له لارې په افغانستان برښنا شرکت کې لوی بدلونونه رامنځته کړم.
+            &lt;/p&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                دا خپرونه زرګونه با استعداده د لوړو زده کړو لرونکو ځوانانو ته کاري فرصتونه او آسانتیاوې رامنځته کوي، چې په افغانستان برښنا شرکت کې د کار موندنې، د یوې پیاوړې او پر ځان بسیا کاري ډلې رامنځته کولو او ګرانو هېوادوالو ته د غوره خدمتونو پر وړاندې کولوکې مثبته اغیزه لري او د افغانستان برښنا شرکت به د برښنا رسونې برخه کې په یوه څرګنده بیلګه بدل کړي. 
+            &lt;/p&gt;</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>پيوستون</value>
+  </data>
+  <data name="Contactus" xml:space="preserve">
+    <value>زموږ سره په اړیکه کې شئ</value>
+  </data>
+  <data name="DABHR" xml:space="preserve">
+    <value>د بشري سرچنو ریاست</value>
+  </data>
+  <data name="DABS" xml:space="preserve">
+    <value>د افغانستان برښنا شرکت</value>
+  </data>
+  <data name="DABSFacebook" xml:space="preserve">
+    <value>فیسبوک پاڼه</value>
+  </data>
+  <data name="DABSTwitter" xml:space="preserve">
+    <value>ټویټرپاڼه</value>
+  </data>
+  <data name="doyouwant" xml:space="preserve">
+    <value>ایا غواړئ خپل هیواد ته خدمت وکړئ؟</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>اصلي پاڼه</value>
+  </data>
+  <data name="HR" xml:space="preserve">
+    <value>بشري سرچینې</value>
+  </data>
+  <data name="ifyes" xml:space="preserve">
+    <value> که هو نو په لایق کی نوملیکنه وکړی</value>
+  </data>
+  <data name="Itistimetobring" xml:space="preserve">
+    <value>دا هغه وخت دی چې افغانستان کې ټولو کورونو ته رڼا راوړو.</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>دندې</value>
+  </data>
+  <data name="JobSearch" xml:space="preserve">
+    <value>د دندې لټون</value>
+  </data>
+  <data name="LaiQ" xml:space="preserve">
+    <value>لایق</value>
+  </data>
+  <data name="lookingfor" xml:space="preserve">
+    <value>ایا تاسو متحرکه اداره کې د غوره فرصت په لټه کې یاست؟</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>محرمیت</value>
+  </data>
+  <data name="RightReserved" xml:space="preserve">
+    <value>د لایق ټول حقونه خوندي دي</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>شرایط او مقررات</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>توکي</value>
+  </data>
+  <data name="VOLUNTEERING" xml:space="preserve">
+    <value>رضاکار</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>ښار</value>
+  </data>
+  <data name="QualificationArea" xml:space="preserve">
+    <value>د زدکړی ساحه</value>
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value>هیواد وټاکئ</value>
+  </data>
+  <data name="SelectDay" xml:space="preserve">
+    <value>نېټه وټاکئ</value>
+  </data>
+  <data name="SelectMonth" xml:space="preserve">
+    <value>میاشت وټاکئ</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>کال وټاکئ</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>کوڅه</value>
+  </data>
+  <data name="addmore" xml:space="preserve">
+    <value>زیاتول</value>
+  </data>
+  <data name="Bachelor" xml:space="preserve">
+    <value>دلیسانس معلومات اضافه کړی</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>لومړنۍ</value>
+  </data>
+  <data name="BuildProfile" xml:space="preserve">
+    <value>فورم ډک کړئ او ثبت بټن کېکاږئ تر څو ستاسو معلومات په سیستم کې ثبت شي</value>
+  </data>
+  <data name="CompleteDoc" xml:space="preserve">
+    <value>هغه غوښتنلیک ته به ترجېح ورکړل شي چې بشپړ اسناد ولري</value>
+  </data>
+  <data name="computerapplication" xml:space="preserve">
+    <value>د کمپيوټر پروګرامونه</value>
+  </data>
+  <data name="computerskilmessage" xml:space="preserve">
+    <value>مهرباني وکړئ د کمپیوټري پروګرامونه مهارتونه مو وټاکئ</value>
+  </data>
+  <data name="doyouhaveworkexp" xml:space="preserve">
+    <value>آیا تاسې کاري تجربه لرئ؟</value>
+  </data>
+  <data name="doyouupload" xml:space="preserve">
+    <value>آیا تاسې غواړئ چې خپل اسناد پورته (Upload) کړئ؟</value>
+  </data>
+  <data name="EducationLevel" xml:space="preserve">
+    <value>څومره زده کړې مو کړې (تر ټولو لوړه درجه)؟</value>
+  </data>
+  <data name="empundersupervision" xml:space="preserve">
+    <value>ستاسې د نظارت (امریت) لاندې څومره کارکوونکي کار کوي یا یې کار کړی وو؟</value>
+  </data>
+  <data name="expectfromdabs" xml:space="preserve">
+    <value>تاسې په افغانیو د څومره معاش غوښتنه لری؟</value>
+  </data>
+  <data name="explevel" xml:space="preserve">
+    <value>ستاسې د تجربې کچه څرنګه ده؟ </value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>ښه</value>
+  </data>
+  <data name="howmanyexp" xml:space="preserve">
+    <value>تاسې څو کاله تجربه لرئ؟</value>
+  </data>
+  <data name="ifyoumorelang" xml:space="preserve">
+    <value>که تاسې په نورو ژبو پوهېږئ، نو په دغه بټن کلیک وکړئ</value>
+  </data>
+  <data name="langnote" xml:space="preserve">
+    <value>که چېرې تاسې د کورنیو یا بهرنیو ژبو په اړه ناسم معلومات دننه کړئ نو له پروسې څخه به بهر شئ؟</value>
+  </data>
+  <data name="langSkill" xml:space="preserve">
+    <value>د ژبو مهارتونه</value>
+  </data>
+  <data name="lastsalaryinAFN" xml:space="preserve">
+    <value>ستاسې معاش په افغانی سومره دی؟</value>
+  </data>
+  <data name="Master" xml:space="preserve">
+    <value>د ماستری درجی معلومات اضافه کړی</value>
+  </data>
+  <data name="moredegree" xml:space="preserve">
+    <value>که تاسې له یوې څخه زیاتې درجې لرئ، نورې ټاکنې غوره کړئ</value>
+  </data>
+  <data name="moreskill" xml:space="preserve">
+    <value>که تاسې نور مهارتونه لرئ، نورې ټاکنې غوره کړئ</value>
+  </data>
+  <data name="Noo" xml:space="preserve">
+    <value>نه</value>
+  </data>
+  <data name="PhD" xml:space="preserve">
+    <value>دوکتورا معلومات اضافه کړی</value>
+  </data>
+  <data name="PositiveResponse" xml:space="preserve">
+    <value>د هو ځواب لرونکي غوښتنلیک ته به ترجېح ورکړل شي</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>درجه بندي</value>
+  </data>
+  <data name="RegistraionNo" xml:space="preserve">
+    <value>ستاسې د ثبت شمېره:</value>
+  </data>
+  <data name="saveandcontinue" xml:space="preserve">
+    <value>ثبتول او نور</value>
+  </data>
+  <data name="softskillmessage" xml:space="preserve">
+    <value>مهرباني وکړئ خپل دوه تر ټولو غوره او یو کمزوری مهارت وټاکئ</value>
+  </data>
+  <data name="vgood" xml:space="preserve">
+    <value>ډېر ښه</value>
+  </data>
+  <data name="Wheredoyoulive" xml:space="preserve">
+    <value>تاسې چېرته اوسېږئ؟</value>
+  </data>
+  <data name="withVideoMessage" xml:space="preserve">
+    <value>د ویډیویي پيغام لرونکي غوښتنلیک ته به ترجیح ورکړل شي</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>هو</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>اجرآت</value>
+  </data>
+  <data name="AgreeSave" xml:space="preserve">
+    <value>زه موافقه لرم چه غوښتنلیک می د برښنا شرکت په سیستم کی وساتل شی</value>
+  </data>
+  <data name="BachelorDegree" xml:space="preserve">
+    <value>لیسانس</value>
+  </data>
+  <data name="CanDABSShare" xml:space="preserve">
+    <value>آیا برښنا شرکت کولای شی ستاسو غوښتنلیک نورو دولتی ادارو سره شریک کړي؟</value>
+  </data>
+  <data name="CanDABSSharePic" xml:space="preserve">
+    <value>آیا برښنا شرکت کولای شي ستاسو انځور په ټولنیزو رسنیو کی شریک کړي؟</value>
+  </data>
+  <data name="CanDABSShareVideo" xml:space="preserve">
+    <value>آیا برښنا شرکت کولای شي ستاسو ویدیو په ټولنیزو رسنیو کی شریک کړي؟</value>
+  </data>
+  <data name="cv" xml:space="preserve">
+    <value>خلص سوانح CV</value>
+  </data>
+  <data name="docType" xml:space="preserve">
+    <value>د سند ډول</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>سند</value>
+  </data>
+  <data name="FileUploaded" xml:space="preserve">
+    <value>فایل ضمیمه ګردید</value>
+  </data>
+  <data name="Forever" xml:space="preserve">
+    <value>همیشه</value>
+  </data>
+  <data name="MasterDegree" xml:space="preserve">
+    <value>ماستری</value>
+  </data>
+  <data name="Month1" xml:space="preserve">
+    <value>یو میاشت</value>
+  </data>
+  <data name="Month6" xml:space="preserve">
+    <value>۶ میاشتی</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>نور</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>انځور</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>پوښتنې</value>
+  </data>
+  <data name="uploadDoc" xml:space="preserve">
+    <value>سندونه پورته کړئ</value>
+  </data>
+  <data name="videomessage" xml:space="preserve">
+    <value>ویډیويې پيغام (یوه دقیقه)</value>
+  </data>
+  <data name="Yesrs5" xml:space="preserve">
+    <value>۵ کاله</value>
+  </data>
+  <data name="CEO1" xml:space="preserve">
+    <value>ګرانو هېوادوالو!</value>
+  </data>
+  <data name="CEO2" xml:space="preserve">
+    <value>زه په دې ډیر ویاړم چې د افغانستان برښنا شرکت په ټولیزه توګه د ادارې لیدلوري عملي تطبیق ته ژمن دی، او دا چې د افغانستان برښنا شرکت د اوسني حالت بدلون لپاره هڅې روانې دي تر څو دا شرکت لا ډیرې بریاوې تر لاسه کړي. موږ د افغانستان برښنا شرکت کې د یو نوښتګر کاري ډلې په توګه پرلپسې هڅې کوو، څو د لایق برنامې له لارې د لوړو زده کړو لرونکو پوهو، وړ او با استعداده افغان ځوانانو ته د کار زمېنې برابرې کړو، څو د افغانستان برښنا شرکت غړي په توګه ګران هېواد ته خدمت وکړي.</value>
+  </data>
+  <data name="CEO3" xml:space="preserve">
+    <value>تمه ده، چې د افغانستان برښنا شرکت د لایق برنامې له لارې له ۱۰ زرو زیات غوښتنلیکونه تر لاسه او وڅیړي، چې له دې څخه موخه افغانستان کې د بې روزګارۍ ستونزو ته رسېدنه، چې د ۲۱ مې پیړۍ یوه ستره غوښتنه ده، زرګونو ځوانانو ته، چې لوړې زده کړې یې کړي اغیزناک کاري فرصتونه برابر شي او له دې لارې به ګرانو هېوادوالو ته ډاډمنه او د باور وړ برښنا، په مناسبه بیه چې د هېواد ملي اقتصاد پر ودې اغیز ولري چمتو کړي او له دې لارې د برښنا خدمتونو وړاندې کولو تر ټولو غوره د سیمې په کچه په یوازېني وتلي شرکت بدل کړي</value>
+  </data>
+  <data name="CEO4" xml:space="preserve">
+    <value>پای کې دا غواړم ووایم؛ ډيره هیله لرم، چې د لایق برنامې له لارې د افغانستان برښنا شرکت کې د پام وړ بدلونونه راولم او دا لوی بنسټ افغانستان کې په تر ټولو ځوان بنسټ بدل کړم، چې ګرانو هېوادوالو ته د برښنا رسونې بشپړو خدمتونو رسونې جوګه وي.</value>
+  </data>
+  <data name="CEO5" xml:space="preserve">
+    <value>سرانجام، می خواهم تأکید کنم؛ نهایتاً امیدواریم که از طریق برنامه‌ی لایق (LAIQ) تغییرات قابل ملاحظه‌ی در برشنا شرکت بمیان آوریم، و این سازمان را به یکی از جوان‌ترین نهاد در افغانستان مبدل کنیم – که کاملاً متعهد به خدمت رسانی به مردم و کشور بوده باشد.</value>
+  </data>
+  <data name="CEO6" xml:space="preserve">
+    <value>درنښت</value>
+  </data>
+  <data name="CEO7" xml:space="preserve">
+    <value>احمد داوود نورزی</value>
+  </data>
+  <data name="CEO8" xml:space="preserve">
+    <value>د برښنا شرکت اجرایوي ریس</value>
+  </data>
+  <data name="HR1" xml:space="preserve">
+    <value>درنو غوښتونکو!</value>
+  </data>
+  <data name="HR2" xml:space="preserve">
+    <value>لایق؛ د لوړو مسلکي استعداد لرونکو ځوانانو تر منځ د سالمې سیالۍ او د غوره کدرونو د جذبولو میکانیزم دی. د افغانستان برښنا شرکت د بشري سرچېنو ریاست پوره هڅه کوي، چې  ددې برنامې له لارې په بشپړه روڼتیا سره د لوړو مسلکي استعدادونو جذبولو سره شته تشې ډکې او د افغانستان برښنا شرکت د کارکوونکو د استعداد کچې ته وده ورکړي.</value>
+  </data>
+  <data name="HR3" xml:space="preserve">
+    <value>موږ ددې برنامې له لارې ستاسو نوښتي لید لورو ته درنښت لرو.</value>
+  </data>
+  <data name="HR4" xml:space="preserve">
+    <value>ما سره د qudrat.k@dabs.af برښنالیک له لارې په اړیکه کې شئ.</value>
+  </data>
+  <data name="HR5" xml:space="preserve">
+    <value>په درناوي</value>
+  </data>
+  <data name="HR6" xml:space="preserve">
+    <value>قدرت الله کریمی </value>
+  </data>
+  <data name="HR7" xml:space="preserve">
+    <value>د بشری سرچینو رئیس</value>
+  </data>
+  <data name="Dari" xml:space="preserve">
+    <value>دری</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>انگلیسی</value>
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value>ډېر ښه</value>
+  </data>
+  <data name="Pashto" xml:space="preserve">
+    <value>پښتو</value>
+  </data>
+  <data name="SuccessNote" xml:space="preserve">
+    <value>ستاسو غوښتنلیک ترلاسه شو ، برښنا شرکت به تاسو سره د پروسې په اړه اړیکه کی شي. مهرباني وکړئ انتظار وباسی</value>
+  </data>
+  <data name="Weak" xml:space="preserve">
+    <value>کمزوری</value>
+  </data>
+  <data name="ApplyNow" xml:space="preserve">
+    <value>نوملیکنه</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>سرتفکیشن</value>
+  </data>
+  <data name="Achievement" xml:space="preserve">
+    <value>لاسته راوړنی</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>نظریات: (مهرباني وکړئ خپل وړاندیزونه او نظریات اضافه کړئ)</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>موده</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>راپور</value>
+  </data>
+  <data name="CompleteProfile" xml:space="preserve">
+    <value>فورم تکمیل</value>
+  </data>
+  <data name="compprof" xml:space="preserve">
+    <value>فورم تکمیل کړی</value>
+  </data>
+  <data name="enteryourid" xml:space="preserve">
+    <value>خپل راجستریشن نمبر داخل کړی</value>
+  </data>
+  <data name="notfound" xml:space="preserve">
+    <value>درخواستی فورمه ونه موندل شو</value>
+  </data>
+</root>

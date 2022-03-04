@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+
+<div class="row" style="background-color:white;padding-top:20px;">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="col-lg-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><i class="fa fa-envelope"></i></span></div>
+                <div><span><i class="fa fa-address-card-o"></i></span></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>Human Resources Directorate</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row" >
+    <div class="col-lg-2">&nbsp;</div>
+    <div class="col-lg-8" style="background-color:white;">
+        <table class="table">
+            <tr>
+                <td colspan="12">Please select column</td>
+            </tr>
+            <tr>
+                <td><div id="CH_Name"></div></td>
+                <td>Name</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Last Name</td>
+                <td><div id="CH_Name"></div></td>
+                <td>NID Number</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Gender</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Mobile Number</td>
+                <td><div id="CH_Name"></div></td>
+                <td>WhatsApp Number</td>
+            </tr>
+            <tr>
+                <td><div id="CH_Name"></div></td>
+                <td>Email</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Date of Birth</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Country</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Province</td>
+                <td><div id="CH_Name"></div></td>
+                <td>District</td>
+                <td><div id="CH_Name"></div></td>
+                <td>City</td>
+            </tr>
+            <tr>
+                <td><div id="CH_Name"></div></td>
+                <td>Qualification Area</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Field of Study</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Specialization</td>
+                <td><div id="CH_Name"></div></td>
+                <td>University</td>
+                <td><div id="CH_Name"></div></td>
+                <td>University Country</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Graduation Year</td>
+            </tr>
+            <tr>
+                <td><div id="CH_Name"></div></td>
+                <td>Years of Experience</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Experience level</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Under supervision employees</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Last Salary</td>
+                <td><div id="CH_Name"></div></td>
+                <td>Expect from DABS</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="12">Please select criteria (please leave blank for all)</td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <table class="table">
+                        <tr>
+                            <td>Qualification</td>
+                            <td><div id="Comb_QualificationID"></div></td>
+                            <td>Qualification Area</td>
+                            <td><div id="Comb_QAID"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Field of Study</td>
+                            <td><div id="Comb_EFID"></div></td>
+                            <td>University Country</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-lg-2">&nbsp;</div>
+</div>
+

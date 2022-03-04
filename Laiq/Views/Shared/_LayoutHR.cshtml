@@ -1,0 +1,222 @@
+﻿@{
+    string direction = Request.Cookies["dir"].Value;
+    string align = Request.Cookies["align"].Value;
+}  
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css">
+        .brdr-red {
+            border: 1px solid red;
+        }
+
+        .divlangbar {
+            background-color: #D9D9D9;
+        }
+
+        .menubar {
+            background-color: #D9D9D9;
+        }
+
+        .footer-adv {
+            background-color: #D9D9D9;
+        }
+
+        .nav-item {
+            padding-left: 25px;
+            color: rgba(0, 0, 0, 0.7) !important;
+        }
+
+        .active {
+            background-color: #F09100;
+            border-bottom: 15px solid #F09100;
+            padding-bottom: 0px !important;
+            margin-bottom: -10px;
+            margin-top: -10px;
+        }
+        body{
+            text-align:@align
+        }
+    </style>    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+</head>
+
+<body dir="@direction">
+    <div class="container-fluid">
+        <div class="row divlangbar p-2">
+
+            <div class="col-10 text-center">
+              @Laiq.Resource.Jobs &nbsp;&nbsp;|&nbsp;&nbsp; @Laiq.Resource.VOLUNTEERING &nbsp;&nbsp;| <a href="/Home/HRMessage" id="hr-msg" style="color:black;">@Laiq.Resource.HR</a>
+            </div>
+            <div class="col-2 ">
+                <a href="/Home/ChangeLanguage?lang=en">English |</a>
+                <a href="/Home/ChangeLanguage?lang=fa">دری |</a>
+                <a href="/Home/ChangeLanguage?lang=Ps">پښتو</a>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="col-3 text-center">
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive" width="100" height="50" />
+            </div>
+            <div class="col-6 text-center">
+                <h6>@Laiq.Resource.DABS</h6>
+                <h6>@Laiq.Resource.DABHR</h6>
+            </div>
+            <div class="col-3 text-center">
+                <img src="~/images/Laiq/dabslogo.png" class="img-responsive" width="100" height="60" />
+            </div>
+        </div>
+        <div class="row menubar  ">
+            <div class="col-lg-2">&nbsp;</div>
+            <div class="col-lg-8">
+                <nav class="navbar navbar-expand-lg navbar-light  menubar">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+
+                            <li class="nav-item" id="job-search">
+                                <a class="nav-link font-weight-bold" href="/Home/Index">@Laiq.Resource.Home</a>
+                            </li>
+                            <li class="nav-item" id="HR-Menu">
+                                <a class="nav-link font-weight-bold" href="/Home/HRMessage">HR Director's Message</a>
+                            </li>
+
+                            <li class="nav-item" id="ceo-msg">
+                                <a class="nav-link font-weight-bold" href="#">Complaints</a>
+                            </li>
+                            @*<li class="nav-item" id="hr-msg">
+                                    <a class="nav-link font-weight-bold" href="">HR Directors Message</a>
+                                </li>*@
+                            <li class="nav-item" id="about-laiq">
+                                <a class="nav-link font-weight-bold" href="#">Contact Us</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+            <div class="col-lg-2">&nbsp;</div>
+
+        </div>
+    </div>
+
+        @RenderBody()
+    <div class="container-fluid">
+        <div class="row footer-adv p-2">
+            <div class="col-lg-2">&nbsp;</div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-6 bg-white">
+                        <div class="row">
+                            <div class="col-lg-6 justify-content-center align-self-center" style="vertical-align:middle;">
+                                <img src="~/images/Laiq/laiqop3.png" class="img-responsive" width="200" height="200" />
+                            </div>
+                            <div class="col-lg-6 p-2" style="background-color:#F5F5F5;">
+                                <p>
+                                    @Html.Raw(Laiq.Resource.lookingfor)
+                                </p>
+                                <p>
+                                    @Html.Raw(Laiq.Resource.Areyoudetermined)
+                                </p>
+                                <p>
+                                    @Html.Raw(Laiq.Resource.doyouwant)
+                                </p>
+                                <p>
+                                    @Laiq.Resource.ifyes,
+                                </p>
+                                <div>
+                                    <input type="button" class="btn btn-primary" value="Find Out more" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <img src="~/images/Laiq/footer-rt.jpg" class="img-responsive" />
+                            </div>
+                            <div class="col-lg-6 p-2" style="background-color:#F6C40D;">
+                                <p>
+                                    @Html.Raw(Laiq.Resource.Itistimetobring)
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    @Html.Raw(Laiq.Resource.bringenergy)
+                                </p>
+                                <br />
+                                <br />
+
+                                <div>
+                                    <input type="button" class="btn btn-primary" value="Apply Now" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">&nbsp;</div>
+
+        </div>
+
+
+
+        <div class="row footer-menu" style="background-color:#BDBDBD;">
+            <div class="col-2"></div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4">
+                        <ul style="list-style: none;">
+                            <li><b>@Laiq.Resource.Tools</b></li>
+                            <li><a href="#">@Laiq.Resource.JobSearch </a></li>
+                            <li><a href="/Profile/Index">@Laiq.Resource.BuildYourProfile  </a></li>
+                            <li><a href="#">@Laiq.Resource.AppliedJobs  </a></li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <ul style="list-style: none;">
+                            <li><b>@Laiq.Resource.LaiQ</b></li>
+                            <li><a href="/Home/About"> @Laiq.Resource.AboutLaiq </a></li>
+                            <li><a href="/Home/CEOMessage"> @Laiq.Resource.CEOMSG </a></li>
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <ul style="list-style: none;">
+                            <li><b>@Laiq.Resource.Connect</b></li>
+                            <li><a href="#">@Laiq.Resource.Contactus</a></li>
+                            <li><a href="http://www.facebook.com/DABS.AFG" target="_blank"  >@Laiq.Resource.DABSFacebook</a></li>
+                            <li><a href="#">@Laiq.Resource.DABSTwitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row footer" style="background-color:#BDBDBD;">
+            <div class="col-2">&nbsp;</div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4 text-center"><a>@Laiq.Resource.Privacy</a></div>
+                    <div class="col-4"><a>@Laiq.Resource.Terms</a></div>
+                    <div class="col-4">&copy; @Laiq.Resource.RightReserved.</div>
+                </div>
+            </div>
+            <div class="col-4">&nbsp;</div>
+        </div>
+    </div>
+       
+
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

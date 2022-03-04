@@ -1,0 +1,293 @@
+﻿
+@{
+    ViewBag.Title = "GroupPanel";
+    Layout = "~/Views/Shared/_LayoutGroups.cshtml";
+
+}
+<script src="~/Scripts/JScript.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#LogOut").click(function () {
+            location.href = '/Home/Index'
+        });
+        $(".cls").click(function () {
+            $('#myModal').modal('hide');
+            $('#myModalAssignG').modal('hide');
+        })
+        $('#AddNew').click(function () {
+            AddBClick();
+        });
+        $('select').select2();
+        makeContextMenu('CMenu', 'GroupPanel', 250, 90);
+        $("#CMenu").on('itemclick', function (event) {
+            var args = event.args;
+            var varMenuItem = $.trim($(args).text());
+            var rowindex = $("#GroupPanel").jqxGrid('getselectedrowindex');
+            if (varMenuItem == "Delete Panel") {
+                var dataRecord = $("#GroupPanel").jqxGrid('getrowdata', rowindex);
+                var conf = confirm("Are you sure to Delete this Panel");
+                if (conf)
+                {
+                    DeletePane(dataRecord.GDPanID);
+
+                }
+            } 
+            
+        });
+        setGrid('GroupPanel');
+        GetGroups('Groups');
+        GetGroups('GDID');
+        $("#Groups").change(function () {
+            var ID = $("#Groups").val();
+            fillGridApplicants('/GroupDis/GetGroupPanelData/'+ID, 'GroupPanel')
+        })
+        GetUSERS('USERID');
+        $('#Addmore').click(function () {
+            i = rowCounts = $('#tbodyPanelDetail tr').length;
+            addRowPanel(i);
+        });
+        $('#tbodyPanelDetail').delegate('a.btnclosePanel', 'click', function () {
+            $(this).parent().parent().remove();
+        });
+        $("#Submit").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    SaveData();
+                }
+            }
+            $('#frmGroupPanel').jqxValidator('validate', validationResult)
+        });
+        $('#frmGroupPanel').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#GDID', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#GDID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#USERID', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#USERID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#NextStep', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#NextStep").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#ExpectedPosition").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+    });
+    function AddBClick() {
+        //$('#frmGroup').trigger("reset");
+        //clearInputs(["GDID", "GDName", "GDDate", "Remarks"]);
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+    function setGrid(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: true,
+            pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 15,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Group', dataField: 'GDName', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Group Discussion Date', dataField: 'GDDate', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Panel Name', dataField: 'PanelName', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Panel Position', dataField: 'Position', width: '25%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+        
+    }
+    function fillGridApplicants(varURL, varGrid) {
+        var datafields = [
+                 { name: 'GDPanID' },
+                 { name: 'GDID', type: 'string' },
+                 { name: 'USERID', type: 'string' },
+                 { name: 'CreatedBy', type: 'number' },
+                 { name: 'CreatedOn', type: 'date' },
+                 { name: 'Remarks', type: 'string' },
+                 { name: 'GDName', type: 'string' },
+                 { name: 'GDDate', type: 'date' },
+                 { name: 'PanelName', type: 'string' },
+                 { name: 'Position', type: 'string' },
+
+
+
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function DeletePane(varGDPanID)
+    {
+        $.ajax({
+            url: '/GroupDis/DeleteGroupPanel/'+varGDPanID,
+                type: "post",
+                success: function (result) {
+                    if (result == "true") {
+                        
+                        toastr["error"]('Saved Successfully');
+                        $('#GroupPanel').jqxGrid('updatebounddata', 'data');
+                        //location.reload();
+                    }
+                    else {
+                        toastr["error"](result);
+                    }
+                }
+         });
+    }
+</script>
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-3">Group Panel</div>
+                <div class="col-lg-6">
+                    <select class="form-control" id="Groups">
+                        <option value="0"> Please Select Group</option>
+                    </select> 
+                </div>
+                <div class="col-lg-3"><input type="button" class="btn btn-dark pull-right fonclass" id="AddNew" value="Assign Panel for Groups" /></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="GroupPanel"></div>
+        </div>
+    </div>
+    <div class="col-lg-2"></div>
+
+</div>
+<script type="text/javascript">
+    function GetGroups(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Groups))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.GDID,
+                text: data.GDName
+            }));
+        });
+    }
+    function GetUSERS(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.dataUSERS))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.USERID,
+                text: data.Name
+            }));
+        });
+    }
+    function addRowPanel(i) {
+        i = Number(i);
+        var tr = '<tr class="dataPanel">' +
+                   '               <td colspan="2"><select class="form-control ddselect2 USERID" id="USERID' + i + '" Name="USERID"><option>Please Select</option></select></td>' +
+                   '               <td><a class="btn btn-danger btnclosePanel"><span class="fa fa-close"></span></a></td>' +
+
+                   '           </tr>';
+        $('#tbodyPanelDetail').append(tr);
+        GetUSERS('USERID' + i);
+        //GetDuration('ZDID' + i);
+        $(".ddselect2").select2();
+    }
+    function SaveData() {
+        data = {
+            "GDID": $("#GDID").val(),
+            "GroupPanel": []
+        };
+        $('tr.dataPanel').each(function () {
+            var allPanel = {
+                "USERID": "",
+            }
+            allPanel.USERID = $(this).find('.USERID').val();
+            data.GroupPanel.push(allPanel);
+        });
+        var varURL = '/GroupDis/SaveGroupPanel'
+        $.ajax(
+           {
+               url: varURL,
+               contentType: 'application/json;',
+               dataType: 'json',
+               type: "post",
+               data: JSON.stringify(data),
+               success: function (result) {
+                   if (result == "true") {
+                       $('#myModal').modal('hide');
+                       toastr["success"]('Saved Successfully');
+                       location.reload();
+                       //$('#ApplicantsGrid').jqxGrid('updatebounddata', 'data');
+                   }
+                   else {
+                       toastr["error"](result);
+                   }
+               }
+           });
+    }
+</script>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:center;">Add Panel to Group</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmGroupPanel">
+                    <table class="table">
+                        <tr>
+                            <td width="25%">Group Name</td>
+                            <td>
+                                <select class="form-control GDID" id="GDID" name="GDID">
+                                    <option value="0">Please Select Panel</option>
+                                </select> 
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        
+                        <tbody id="tbodyPanelDetail" class="tbodyPanelDetail">
+                            <tr class="dataPanel">
+                                <td colspan="2" align="center">
+                                    <select class="form-control USERID" id="USERID" name="USERID">
+                                        <option value="0"> Please Select Panel</option>
+                                    </select>
+                                </td>
+                                <td><a class="btn btn-primary btnclose" id="Addmore"><span class="fa fa-plus"></span></a></td>
+                            </tr>
+                        </tbody>
+                        @*<tr>
+                            <td>Remarks</td>
+                            <td colspan="2"><input type="text" name="Remarks" id="Remarks" class="form-control" /></td>
+                        </tr>*@
+                        <tr>
+                            <td colspan="3" align="center">
+                                <br />
+                                <button id="Submit" type="button" class="btn  btn-primary">Save</button>
+                                <button id="Cancel" type="button" class="btn btn-danger cls">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CMenu">
+    <ul dir="rtl">
+        <li>
+            <img src="~/images/cancel.png" class="pull-right" />
+            <span class="fonclass">Delete Panel</span>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,497 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+<style type="text/css">
+    body {
+        background-color: white;
+    }
+    table tr td{
+        /*font-size:11px;*/
+        padding:0px;
+    }
+</style>
+<script src="~/Scripts/JScript.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#LogOut").click(function () {
+            location.href = '/Home/Index'
+        });
+        $(".close").click(function () {
+            $('#myModal').modal('hide');
+        })
+        setGrid('ApplicantsGrid');
+        makeContextMenu('CMenu', 'ApplicantsGrid', 250, 90);
+        $("#CMenu").on('itemclick', function (event) {
+            var args = event.args;
+            var varMenuItem = $.trim($(args).text());
+            var rowindex = $("#ApplicantsGrid").jqxGrid('getselectedrowindex');
+            if (varMenuItem == "View Detail") {
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                var URL = "/Report/ViewProfile/" + dataRecord.EncodeID;
+                window.open(URL, "_blank");
+                //location.href =
+            } else if (varMenuItem == "Phone Interview") {
+                //$(".CHK1").prop("checked", true);
+                $('#frmPhoneInterview').trigger("reset");
+                var dataRecord = $("#ApplicantsGrid").jqxGrid('getrowdata', rowindex);
+                $("#LApplicantID").val(dataRecord.LApplicantID)
+                $("#txtName").text(dataRecord.Name)
+                $("#txtQual").text(dataRecord.QualificationNameEn);
+                $("#txtApplicantID").text(dataRecord.LApplicantID);
+                $("#Remarks").val('');
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        });
+
+        $("#Submit").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    SaveData();
+                }
+            }
+            $('#frmPhoneInterview').jqxValidator('validate', validationResult)
+        });
+        $('#frmPhoneInterview').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#PersonalityType', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#PersonalityType").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#MgmtStyle', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#MgmtStyle").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#NextStep', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#NextStep").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#ExpectedPosition").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+    });
+    function LoadModal(varUrl)
+    {
+        fillGridApplicants(varUrl, 'ApplicantsGrid')
+        $("#myModal").modal('show');
+    }
+
+    function setGrid(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: true,
+            pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 15,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'ApplicantID', dataField: 'LApplicantID', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Name', dataField: 'Name', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'NIDNumber', dataField: 'NIDNumber', width: '8%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Gender', dataField: 'Gender', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Mobile', dataField: 'Mobile', width: '8%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'WhatsApp', dataField: 'Mobile2', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Email', dataField: 'Email', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Age', dataField: 'Age', width: '3%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Country Name', dataField: 'CountryName', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Province', dataField: 'PRNameEn', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Qualification', dataField: 'QualificationNameEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Area', dataField: 'QAreaEn', width: '8%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Field of Study', dataField: 'EFNameEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Specialization', dataField: 'EducationField', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'University Country', dataField: 'AddressCountry', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Year', dataField: 'GraduationYear', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'University', dataField: 'University', width: '5%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Exp Level', dataField: 'ExpLevelEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Staff', dataField: 'ExpStaffEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Exp Years', dataField: 'ExpYearEn', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Status', dataField: 'Status', width: '10%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+        fillGridApplicants('/PhoneInterview/GetMyApplicants', varGridName)
+    }
+    function fillGridApplicants(varURL, varGrid) {
+        var datafields = [
+                 { name: 'LApplicantID' },
+                 { name: 'Name', type: 'string' },
+                 { name: 'NIDNumber', type: 'string' },
+                 { name: 'Gender', type: 'string' },
+                 { name: 'Mobile', type: 'string' },
+                 { name: 'Mobile2', type: 'string' },
+                 { name: 'Email', type: 'string' },
+                 { name: 'Age', type: 'number' },
+                 { name: 'CountryName', type: 'string' },
+                 { name: 'PRNameEn', type: 'string' },
+                 { name: 'QualificationNameEn', type: 'string' },
+                 { name: 'QAreaEn', type: 'string' },
+                 { name: 'EFNameEn', type: 'string' },
+                 { name: 'EducationField', type: 'string' },
+                 { name: 'AddressCountry', type: 'string' },
+                 { name: 'GraduationYear', type: 'number' },
+                 { name: 'University', type: 'string' },
+                 { name: 'ExpLevelEn', type: 'string' },
+                 { name: 'ExpStaffEn',type:'string' },
+                 { name: 'ExpYearEn', type: 'string' },
+                 { name: 'Status', type: 'string' },
+                 { name: 'EncodeID' },
+
+
+
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+</script>
+
+<div class="row" style="background-color:#C9D3DF;padding-top:10px;">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="col-lg-2" style="margin-right:10px;">
+        <div class="row" style="background-color:#F9FFFF;border-radius:5px;">
+            <div class="col-lg-5">
+                <span>Not you?</span>
+                <input type="button" id="LogOut" value="Logout" class="btn btn-primary btn-sm" style="background-color:#FCE3A1;border:1px solid #FCE3A1;" />
+                <div><span><a href="/Dashboard"><i class="fa fa-home"></i></a></span></div>
+                <div><span><a href="/Manage/ChangePassword"><i class="fa fa-gear"></i></a></span></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-center">
+                    <img src="~/images/@Session["Photo"]" width="50" height="50" style="border-radius:50%;border:1px solid #FCE3A1;" />
+                </div>
+                <div>@Session["Name"]</div>
+                <div>@Session["Position"]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-9">
+                <h6>Da Afghanistan Breshna Sherkat</h6>
+                <h6>Human Resources Directorate</h6>
+                <h6>LaiQ</h6>
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <img src="~/images/Laiq/flaiq.png" class="img-responsive pull-left" width="100" height="50" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="card col-lg-10">
+        <div class="card-header">My Applicants</div>
+        <div class="card-body">
+                <div id="ApplicantsGrid"></div>
+        </div>
+
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+
+</div>
+<script type="text/javascript">
+    function fillGrid(df, varGridName, varURL) {
+        var source =
+    {
+        datatype: "json",
+        datafields: df,
+        cache: false,
+        url: varURL,
+        root: 'Rows'
+    };
+
+        var dataadapter = new $.jqx.dataAdapter(source, {
+            loadError: function (xhr, status, error) {
+                console.log(error);
+            }
+        }
+        );
+
+        $("#" + varGridName).jqxGrid(
+        {
+            source: dataadapter
+        });
+    }
+</script>
+<div id="CMenu">
+    <ul dir="rtl">
+        <li id="Insert">
+            <img src="/images/folder.png" class="pull-right" />
+            <span class="fonclass">View Detail</span>
+        </li>
+        <li id="Edit">
+            <img src="/images/pencil.png" class="pull-right" />
+            <span class="fonclass">Phone Interview</span>
+        </li>
+    </ul>
+</div>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:black;text-align:left;">Applicant Phone Interview (Applicant ID:<span id="txtApplicantID"></span>)</h4>
+                <button type="button" class="close" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmPhoneInterview">
+                    <table class="table" dir="ltr">
+                        <tr>
+                            <td width="10%">Name:</td>
+                            <td width="40"><div id="txtName"></div></td>
+                            <td width="10%">Qualification:</td>
+                            <td width="40%"><div id="txtQual"></div></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <table class="table">
+                                    <tr>
+                                        <td rowspan="2" align="center" valign="middle" style="vertical-align:middle;">Questions</td>
+                                        <td colspan="4">Ranking</td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            What is your native laguage? what other languages do you speak?
+                                            <input type="hidden" id="QuestionID1" name="QuestionID" class="QuestionID" value="1" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q1" name="Q1" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q1" name="Q1" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q1" name="Q1" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q1" name="Q1" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                           Please introduce yoursef.
+                                            <input type="hidden" id="QuestionID2" name="QuestionID" class="QuestionID" value="2" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q2" name="Q2" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q2" name="Q2" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q2" name="Q2" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q2" name="Q2" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Please tell me about your previous 5 years.
+                                            <input type="hidden" id="QuestionID3" name="QuestionID" class="QuestionID" value="3" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q3" name="Q3" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q3" name="Q3" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q3" name="Q3" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q3" name="Q3" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Please tell me little bit about your family. How many siblings / what do they do
+                                            <input type="hidden" id="QuestionID4" name="QuestionID" class="QuestionID" value="4" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q4" name="Q4" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q4" name="Q4" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q4" name="Q4" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q4" name="Q4" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            What level of education do you have and where did you study?
+                                            <input type="hidden" id="QuestionID5" name="QuestionID" class="QuestionID" value="5" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q5" name="Q5" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q5" name="Q5" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q5" name="Q5" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q5" name="Q5" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Whats is your professional plan for the upcoming 10 years?
+                                            <input type="hidden" id="QuestionID6" name="QuestionID" class="QuestionID" value="6" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q6" name="Q6" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q6" name="Q6" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q6" name="Q6" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q6" name="Q6" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Where do you see yourself personally in the upcoming 10 years?
+                                            <input type="hidden" id="QuestionID7" name="QuestionID" class="QuestionID" value="7" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q7" name="Q7" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q7" name="Q7" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q7" name="Q7" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q7" name="Q7" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                           If you were to be elected president tomorrow, what  would be the priorities for you to start work on and why? explan shortly?
+                                            <input type="hidden" id="QuestionID8" name="QuestionID" class="QuestionID" value="8" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q8" name="Q8" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q8" name="Q8" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q8" name="Q8" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q8" name="Q8" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                            Why do you think that you should be hired?
+                                            <input type="hidden" id="QuestionID9" name="QuestionID" class="QuestionID" value="9" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q9" name="Q9" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q9" name="Q9" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q9" name="Q9" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q9" name="Q9" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                           Do you currently have a job? if so, what period of notice do you need  to give to 
+                                            your employer before resigning?
+                                            <input type="hidden" id="QuestionID10" name="QuestionID" class="QuestionID" value="10" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q10" name="Q10" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q10" name="Q10" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q10" name="Q10" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q10" name="Q10" type="radio" value="4" /></td>
+                                    </tr>
+                                    <tr class="dataQuestions">
+                                        <td>
+                                           What do you think is your worth?
+                                            <input type="hidden" id="QuestionID11" name="QuestionID" class="QuestionID" value="11" />
+                                        </td>
+                                        <td><input class="checkbox Marks CHK1" id="Q11" name="Q11" type="radio" value="1" checked="checked" /></td>
+                                        <td><input class="checkbox Marks" id="Q11" name="Q11" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Marks" id="Q11" name="Q11" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Marks" id="Q11" name="Q11" type="radio" value="4" /></td>
+                                    </tr>
+                                    
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >Applicant Personality</td>
+                            <td >
+                                <select id="PersonalityType" name="PersonalityType" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="Warrior">Warrior</option>
+                                    <option value="Quiet">Quiet</option>
+                                    <option value="Shy">Shy</option>
+                                </select>
+                            </td>
+                            <td>Management Style</td>
+                            <td>
+                                <select id="MgmtStyle" name="MgmtStyle" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="Hunter">Hunter</option>
+                                    <option value="Farmer">Farmer</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Next Step</td>
+                            <td>
+                                <select id="NextStep" name="NextStep" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="GroupDiscussion">Group Discussion</option>
+                                    <option value="Fake">Fake Applicant</option>
+                                    <option value="Fail">Fail</option>
+                                    <option value="DirectCEO">Direct Interview with CEO</option>
+                                </select>
+                            </td>
+                            <td>
+                                Expected Position
+                            </td>
+                            <td>
+                                <select id="ExpectedPosition" name="ExpectedPosition">
+                                    <option value="0">Please Select</option>
+                                    <option value="Minister">Minister</option>
+                                    <option value="DeputyMinister">Deputy Minister</option>
+                                    <option value="Advisor">Advisor</option>
+                                    <option value="Director">Director</option>
+                                    <option value="GeneralManager">General Manager</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Officer">Officer</option>
+                                    <option value="Assistant">Assistant</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td colspan="3">
+                                <textarea id="Remarks" name="Remarks" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align:center;">
+                                <input type="hidden" name="USERID" id="USERID" value="@Session["USERID"]" />
+                                <input type="hidden" name="LApplicantID" id="LApplicantID" />
+                                <input type="button" id="Submit" name="Submit" value="Save" class="btn btn-primary" />
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function SaveData()
+    {
+        data = {
+            "PersonalityType": $("#PersonalityType").val(),
+            "MgmtStyle": $("#MgmtStyle").val(),
+            "NextStep": $("#NextStep").val(),
+            "ExpectedPosition": $("#ExpectedPosition").val(),
+            "Rmarks": $("#Remarks").val(),
+            "USERID": $("#USERID").val(),
+            "LApplicantID": $("#LApplicantID").val(),
+            "PhoneInterviewDetail": []
+        };
+        $('tr.dataQuestions').each(function () {
+            var allQuestion = {
+                "QuestionID": "",
+                "Marks": ""
+            }
+            allQuestion.QuestionID = $(this).find('.QuestionID').val();
+            allQuestion.Marks = $(this).find('input[type=radio]:checked').val();
+            data.PhoneInterviewDetail.push(allQuestion);
+        });
+        var varURL = '/PhoneInterview/SavePhoneInterview'
+        $.ajax(
+           {
+               url: varURL,
+               contentType: 'application/json;',
+               dataType: 'json',
+               type: "post",
+               data: JSON.stringify(data),
+               success: function (result) {
+                   if (result == "true") {
+                       $('#myModal').modal('hide');
+                       toastr["success"]('Saved Successfully');
+                       $('#ApplicantsGrid').jqxGrid('updatebounddata', 'data');
+                       //location.reload();
+                   }
+                   else {
+                       toastr["error"](result);
+                   }
+               }
+           });
+    }
+</script>

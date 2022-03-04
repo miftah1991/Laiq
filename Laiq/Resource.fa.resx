@@ -1,0 +1,768 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value>سکونت فعلی</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>روز</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>ولسوالی</value>
+  </data>
+  <data name="DOB" xml:space="preserve">
+    <value>تاریخ تولد </value>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>تحصیلات</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="FName" xml:space="preserve">
+    <value>ولد</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>جنسیت</value>
+  </data>
+  <data name="GFName" xml:space="preserve">
+    <value>ولدیت</value>
+  </data>
+  <data name="LName" xml:space="preserve">
+    <value>تخلص</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>شماره تماس</value>
+  </data>
+  <data name="Mobile1" xml:space="preserve">
+    <value>شماره وتس اپ</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>ماه</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>اسم</value>
+  </data>
+  <data name="NIDNumber" xml:space="preserve">
+    <value>نمبر تذکره</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>نوت</value>
+  </data>
+  <data name="NoteBody" xml:space="preserve">
+    <value>متقاضی محترم!
+اگر شما قبلاً در یکی از بست های برشنا شرکت درخواستی آنلاین را خانه پری کرده باشید لطفا نمبر تذکره خود را داخل نماید و جستجو را کلیک نماید تا فورم معلومات از سیستم اخذ گردد در غیرآن لغو راکلیک نماید و درخواستی آنلاین را دقیق خانه پری نمایید.</value>
+  </data>
+  <data name="PermanentAddress" xml:space="preserve">
+    <value>سکونت اصلی</value>
+  </data>
+  <data name="PhotoText" xml:space="preserve">
+    <value>عکس انتخاب نماید از یک ام بی زیاد نباشد</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>ولایت</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>لغو</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>جستجو</value>
+  </data>
+  <data name="SelectLabel" xml:space="preserve">
+    <value>انتخاب نمایید</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>سال</value>
+  </data>
+  <data name="AddExp" xml:space="preserve">
+    <value>اضافه نمودن تجارب کاری</value>
+  </data>
+  <data name="AddReferences" xml:space="preserve">
+    <value>اضافه نمون ریفرنس ها</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>لغو</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>تغیر زبان</value>
+  </data>
+  <data name="CloseForm" xml:space="preserve">
+    <value>ختم فورم</value>
+  </data>
+  <data name="ConfirmTitle" xml:space="preserve">
+    <value>برا حصول اطمنان نمبر تذکره خود را تایب نمایید</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>جزیات</value>
+  </data>
+  <data name="EducationField" xml:space="preserve">
+    <value>رشته تحصیلی</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>تاریخ ختم </value>
+  </data>
+  <data name="Experience" xml:space="preserve">
+    <value>تجارب کاری</value>
+  </data>
+  <data name="GraduationYear" xml:space="preserve">
+    <value>سال فراغت</value>
+  </data>
+  <data name="JobDetail" xml:space="preserve">
+    <value>شرح وظیفه</value>
+  </data>
+  <data name="JobList" xml:space="preserve">
+    <value>لیست وظایف اعلان شده</value>
+  </data>
+  <data name="Jobtitle" xml:space="preserve">
+    <value>عنوان وظیفه</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>بلدیت به زبان ها</value>
+  </data>
+  <data name="NIDFill" xml:space="preserve">
+    <value>شماره تذکره را داخل نماید</value>
+  </data>
+  <data name="NIDNotFoundMessage" xml:space="preserve">
+    <value>معلومات دریافت نشد لطفا شماره تذکره را دقیق بنوسید یا لغو را کلیک نمایید</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>اداره</value>
+  </data>
+  <data name="Qualification" xml:space="preserve">
+    <value>درجه تحصیل</value>
+  </data>
+  <data name="Reading" xml:space="preserve">
+    <value>خواندن</value>
+  </data>
+  <data name="RegMessage" xml:space="preserve">
+    <value>حد اقل 3 نفر حتمی میباشد</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>معاش</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>ثبت معلومات</value>
+  </data>
+  <data name="Skills" xml:space="preserve">
+    <value>مهارت ها</value>
+  </data>
+  <data name="Speaking" xml:space="preserve">
+    <value>تکلم</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>تاریخ آغاز شمسی/میلادی</value>
+  </data>
+  <data name="SubmitApplicationForm" xml:space="preserve">
+    <value>ارسال درخواستی</value>
+  </data>
+  <data name="SubmitConfirm" xml:space="preserve">
+    <value>اینجانب که شهرتم درفوق ذکرگردیده است با دقت آن چه درفورم خانه پری شده درست ومورد تائید است و نیز این را میدانم که درصورت ثابت شدن و یا اشتباه بودن درخواستی بنده ردشده وهیچ نوع شکایت مورد قبول اداره شما نخواهد بود .</value>
+  </data>
+  <data name="SubmitDate" xml:space="preserve">
+    <value>تاریخ درخواستی</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>درخواست شما موفقانه اجرا گردید</value>
+  </data>
+  <data name="SuccessMessage" xml:space="preserve">
+    <value>متقاضی محترم! 
+با ابراز سپاس از اینکه فورم انلاین کاریابی را جهت اشتراک در پروسه رقابتی برای پست مورد نظر تان تکمیل نمودید، بدین وسیله به آگاهی شما رسانیده می‌شود که معلومات مندرج فورم را همانطوریکه در سیستم اضافه نموده اید به مدیریت استخدام د افغانستان برشنا شرکت مواصلت نمود. همکاران برشنا شرکت در قسمت طی مراحل برای درخواستی شما به اسرع وقت اقدام می نمایند. 
+در صورت نیاز به معلومات و یا مواجه شدن با مشکلات به شماره تماس (02056565656565)‌ در ارتباط شوید .</value>
+  </data>
+  <data name="University" xml:space="preserve">
+    <value>پوهنتون</value>
+  </data>
+  <data name="VacancyNumber" xml:space="preserve">
+    <value>VacancyNumber</value>
+  </data>
+  <data name="Writiting" xml:space="preserve">
+    <value>نوشتن</value>
+  </data>
+  <data name="AddEdu" xml:space="preserve">
+    <value>اضافه نمودن تحصیلات</value>
+  </data>
+  <data name="Applicant" xml:space="preserve">
+    <value>متقاضی محترم</value>
+  </data>
+  <data name="EduRefMessage" xml:space="preserve">
+    <value>درجه تحصیل حتمی است</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>زن</value>
+  </data>
+  <data name="JOBOrgan" xml:space="preserve">
+    <value>وظیفه/اداره</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>مرد</value>
+  </data>
+  <data name="Nofile" xml:space="preserve">
+    <value>عکس را انتخاب نماید</value>
+  </data>
+  <data name="RefReqMessage" xml:space="preserve">
+    <value>حد اقل 3 نفر ریفرنس حتمی است</value>
+  </data>
+  <data name="RefSuccessMessage" xml:space="preserve">
+    <value>معلومات موفقانه درج گردید بعدی را درج نماید و یا لغو را کلیک نماید</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>حتمی است</value>
+  </data>
+  <data name="RequiredEmail" xml:space="preserve">
+    <value>ایمیل حتمی است</value>
+  </data>
+  <data name="RequiredFName" xml:space="preserve">
+    <value>اسم ولد حتمی است</value>
+  </data>
+  <data name="RequiredGFName" xml:space="preserve">
+    <value>اسم ولدیت حتمی است</value>
+  </data>
+  <data name="RequiredLName" xml:space="preserve">
+    <value>تخلص حتمی است</value>
+  </data>
+  <data name="RequiredName" xml:space="preserve">
+    <value>اسم حتمی است</value>
+  </data>
+  <data name="RequiredNID" xml:space="preserve">
+    <value>نمبر تذکره حتمی است</value>
+  </data>
+  <data name="WrongFormat" xml:space="preserve">
+    <value>فارمت درست نمیباشد </value>
+  </data>
+  <data name="YearReqMessage" xml:space="preserve">
+    <value>سال را انتخاب نمایید</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>اصلاح</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>اول</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>از</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>آخر</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>شماره</value>
+  </data>
+  <data name="Record" xml:space="preserve">
+    <value>ریکارد</value>
+  </data>
+  <data name="Specilization" xml:space="preserve">
+    <value>تخصص</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>تا</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>ریکارد مجموعی</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>کشور</value>
+  </data>
+  <data name="AddSkill" xml:space="preserve">
+    <value>اضافه نمودن مهارت ها</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>سطح</value>
+  </data>
+  <data name="AddLanguage" xml:space="preserve">
+    <value>اضافه نمودن زبان</value>
+  </data>
+  <data name="AboutLaiq" xml:space="preserve">
+    <value>درباره لایق</value>
+  </data>
+  <data name="AboutLaiqText" xml:space="preserve">
+    <value>&lt;br /&gt;
+            &lt;h2 class="font-weight-normal"&gt;لایق&lt;/h2&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                لایق، مخفف شناسائی استعدادهای "لایق" است ، این برنامه توسط د افغانستان برشنا شرکت آغاز و جهت تشویق و تسهیل فرصت‌های شغلی برای استعدادهای نخبه و اتباع تحصیل‌ کرده افغان برنامه ریزی گردیده است.
+            &lt;/p&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                از طریق این برنامه، د افغانستان برشنا شرکت استعدادهای مسلکی و مستعد را تشخیص و فرصت‌های شغلی را برای هزاران تن از جوانان تحصیل‌کرده و شایسته فراهم می نماید تا ایشان دررشد و ارتقا این اداره به یکی از نهادهای پویا و کار فهم در منطقه سهم بارزی داشته باشند.
+            &lt;/p&gt;</value>
+  </data>
+  <data name="AppliedJobs" xml:space="preserve">
+    <value>وظایف درخواست شده</value>
+  </data>
+  <data name="Areyoudetermined" xml:space="preserve">
+    <value>آیا مصمم هستید که در شایستگی های خود تأمل کنید؟</value>
+  </data>
+  <data name="bringenergy" xml:space="preserve">
+    <value>اکنون درخواست دهید و به تیم ما انرژی اضافه کنید</value>
+  </data>
+  <data name="BuildYourProfile" xml:space="preserve">
+    <value>پروفایل خود را ایجاد نماید</value>
+  </data>
+  <data name="CEOMSG" xml:space="preserve">
+    <value>پیام رئیس عمومی</value>
+  </data>
+  <data name="CEOText" xml:space="preserve">
+    <value>&lt;br /&gt;
+            &lt;h2 class="font-weight-normal"&gt;پیام &lt;span style="text-decoration:underline" class="Underline"&gt; رئیس عمومی&lt;/span&gt; &lt;/h2&gt;
+            &lt;br /&gt;
+            &lt;h5 class="font-italic font-weight-normal"&gt;'پیشرفت به معنای تغییر است، ما زمانی موفق هستیم که اغلب در حال تغییر باشیم'&lt;/h5&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                با توجه به نقل قول فوق، من امیدوارم که بتوانم از طریق اجرای برنامه لایق در د افغانستان برشنا شرکت، تغییرات بزرگی ایجاد کنم..
+            &lt;/p&gt;
+            &lt;br /&gt;
+            &lt;p&gt;
+                این برنامه فرصت‌های شغلی را برای هزاران جوان تحصیل کرده و با استعداد فراهم می‌کند که تأثیر مثبتی بر اشتغال، ایجاد یک تیم پویا و ارائۀ خدمات بهتر در د افغانستان برشنا شرکت دارد، این  شرکت در عرصۀ برق‌رسانی به یک شرکت الگو تبدیل خواهد کرد.
+            &lt;/p&gt;</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>اتصال</value>
+  </data>
+  <data name="Contactus" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="DABHR" xml:space="preserve">
+    <value>ریاست منابع بشری</value>
+  </data>
+  <data name="DABS" xml:space="preserve">
+    <value>د افغانستان برښنا شرکت</value>
+  </data>
+  <data name="DABSFacebook" xml:space="preserve">
+    <value>صفحه فیسبوک</value>
+  </data>
+  <data name="DABSTwitter" xml:space="preserve">
+    <value>صفحه تویتر</value>
+  </data>
+  <data name="doyouwant" xml:space="preserve">
+    <value>آیا می خواهید به کشور خود خدمت کنید؟</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>صفحه اصلی</value>
+  </data>
+  <data name="HR" xml:space="preserve">
+    <value>منابع بشری</value>
+  </data>
+  <data name="ifyes" xml:space="preserve">
+    <value>اگر بلی ،ثبت نام نمایید</value>
+  </data>
+  <data name="Itistimetobring" xml:space="preserve">
+    <value>وقت آن است که تمام خانه های افغانستان را روشن کنیم.</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>وظایف</value>
+  </data>
+  <data name="JobSearch" xml:space="preserve">
+    <value>جستجو وظیفه</value>
+  </data>
+  <data name="LaiQ" xml:space="preserve">
+    <value>لایق</value>
+  </data>
+  <data name="lookingfor" xml:space="preserve">
+    <value>آیا به دنبال فرصتی بهتر در یک سازمان دینامیک هستید؟</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>حریم خصوصی</value>
+  </data>
+  <data name="RightReserved" xml:space="preserve">
+    <value>کلیه حقوق لایق محفوظ است</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>شرایط و ضوابط</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>ابزار</value>
+  </data>
+  <data name="VOLUNTEERING" xml:space="preserve">
+    <value>رضاکار</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>شهر</value>
+  </data>
+  <data name="QualificationArea" xml:space="preserve">
+    <value>ساحه تحصیلی</value>
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value>کشور را انتخاب نماید</value>
+  </data>
+  <data name="SelectDay" xml:space="preserve">
+    <value>روز را انتخاب نمایید</value>
+  </data>
+  <data name="SelectMonth" xml:space="preserve">
+    <value>ماه را انتخاب نمایید</value>
+  </data>
+  <data name="SelectYear" xml:space="preserve">
+    <value>سال را انتخاب نمایید</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>شماره کوچه</value>
+  </data>
+  <data name="addmore" xml:space="preserve">
+    <value>اضافه نمودن</value>
+  </data>
+  <data name="Bachelor" xml:space="preserve">
+    <value>معلومات لیسانس خود را اضافه نماید</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>ابتدایی</value>
+  </data>
+  <data name="BuildProfile" xml:space="preserve">
+    <value>فورم ذیل را خانه‌پری نموده و بالای گزینۀ ارسال فشار دهید تا معلومات شما ثبت گردد</value>
+  </data>
+  <data name="CompleteDoc" xml:space="preserve">
+    <value>به کسانیکه اسناد مکمل خویش را ارایه نموده باشند ترجیح داده میشود</value>
+  </data>
+  <data name="computerapplication" xml:space="preserve">
+    <value>برنامه های کمپیوتری</value>
+  </data>
+  <data name="computerskilmessage" xml:space="preserve">
+    <value>لطفا مهارت های برنامه های کمپیوتری را انتخاب نمایید</value>
+  </data>
+  <data name="doyouhaveworkexp" xml:space="preserve">
+    <value>آیا شما تجربه کاری دارید؟</value>
+  </data>
+  <data name="doyouupload" xml:space="preserve">
+    <value>آیا می خواهید اسناد خود را ثبت سیستم نمایید؟</value>
+  </data>
+  <data name="EducationLevel" xml:space="preserve">
+    <value>بالاترین سطح تحصیلات خود را انتخاب نماید؟</value>
+  </data>
+  <data name="empundersupervision" xml:space="preserve">
+    <value>چه تعداد کارکنان به شما راپورده بودند </value>
+  </data>
+  <data name="expectfromdabs" xml:space="preserve">
+    <value>مقدار معاش به افغانی که  توقع دارید؟</value>
+  </data>
+  <data name="explevel" xml:space="preserve">
+    <value>سطح تجربه خویش را انتخاب نماید؟</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>خوب</value>
+  </data>
+  <data name="howmanyexp" xml:space="preserve">
+    <value>چند سال تجربه دارید؟</value>
+  </data>
+  <data name="ifyoumorelang" xml:space="preserve">
+    <value>اگر به زبان‌ها دیگر آشنایی دارید، گزینۀ اضافه نمودن را فشار دهید</value>
+  </data>
+  <data name="langnote" xml:space="preserve">
+    <value>اگر راجع به زبان داخلی و خارجی معلومات اشتباه ارایه نماید درخواست شما رد میگردد</value>
+  </data>
+  <data name="langSkill" xml:space="preserve">
+    <value>آشنایی به زبان ها</value>
+  </data>
+  <data name="lastsalaryinAFN" xml:space="preserve">
+    <value>آخرین معاش شما در افغانی چقدر بود؟</value>
+  </data>
+  <data name="Master" xml:space="preserve">
+    <value>معلومات ماستری را اضافه نماید</value>
+  </data>
+  <data name="moredegree" xml:space="preserve">
+    <value>اگر بیش از یک درجه دارید ، روی دکمه اضافه نمودن کلیک کنید</value>
+  </data>
+  <data name="moreskill" xml:space="preserve">
+    <value>اگر مهارت بیشتری دارید ، روی دکمه اضافه نمودن کلیک کنید</value>
+  </data>
+  <data name="Noo" xml:space="preserve">
+    <value>نخیر</value>
+  </data>
+  <data name="PhD" xml:space="preserve">
+    <value>معلومات دوکتورا را اضافه نماید</value>
+  </data>
+  <data name="PositiveResponse" xml:space="preserve">
+    <value>کسانیکه پاسخ مثبت ارایه نمایند ترجیح داده میشود</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>درجه</value>
+  </data>
+  <data name="RegistraionNo" xml:space="preserve">
+    <value>شماره ثبت شما:</value>
+  </data>
+  <data name="saveandcontinue" xml:space="preserve">
+    <value>ثبت معلومات و ادامه </value>
+  </data>
+  <data name="softskillmessage" xml:space="preserve">
+    <value>دو مهارت برتر و یک مهارت ضعیف را انتخاب کنید</value>
+  </data>
+  <data name="vgood" xml:space="preserve">
+    <value>بسیار خوب</value>
+  </data>
+  <data name="Wheredoyoulive" xml:space="preserve">
+    <value>کجا زندگی می‌کنید؟</value>
+  </data>
+  <data name="withVideoMessage" xml:space="preserve">
+    <value>به کسانیکه ویدیو یک دقیقه یی معرفی خویش را ارایه نموده باشند اولویت داده میشود</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>بلی</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>اجرا</value>
+  </data>
+  <data name="AgreeSave" xml:space="preserve">
+    <value>من موافق استم که معلومات من را در سیستم برشنا شرکت برای مدت حفظ شود</value>
+  </data>
+  <data name="BachelorDegree" xml:space="preserve">
+    <value>لیسانس</value>
+  </data>
+  <data name="CanDABSShare" xml:space="preserve">
+    <value>آیا برشنا شرکت می تواند درخواست شما را با سایر ادرات دولتی به اشتراک بگذارد؟</value>
+  </data>
+  <data name="CanDABSSharePic" xml:space="preserve">
+    <value>آیا برشنا شرکت می تواند تصویر شما را در شبکه های اجتماعی به اشتراک بگذارد؟</value>
+  </data>
+  <data name="CanDABSShareVideo" xml:space="preserve">
+    <value>آیا برشنا شرکت می تواند پیام ویدیویی شما را در شبکه های اجتماعی به اشتراک بگذارد؟</value>
+  </data>
+  <data name="cv" xml:space="preserve">
+    <value>خلص سوانح</value>
+  </data>
+  <data name="docType" xml:space="preserve">
+    <value>نوع اسناد</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>ضمیه</value>
+  </data>
+  <data name="FileUploaded" xml:space="preserve">
+    <value>فایل ضمیمه ګردید</value>
+  </data>
+  <data name="Forever" xml:space="preserve">
+    <value>دایمی</value>
+  </data>
+  <data name="MasterDegree" xml:space="preserve">
+    <value>ماستری</value>
+  </data>
+  <data name="Month1" xml:space="preserve">
+    <value>یک ماه</value>
+  </data>
+  <data name="Month6" xml:space="preserve">
+    <value>شش ماه</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>دیگر</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>عکس</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>سوالات</value>
+  </data>
+  <data name="uploadDoc" xml:space="preserve">
+    <value>ضمیه اسناد</value>
+  </data>
+  <data name="videomessage" xml:space="preserve">
+    <value>ویدیو حد اکثر یک دقیقه</value>
+  </data>
+  <data name="Yesrs5" xml:space="preserve">
+    <value>پنج سال</value>
+  </data>
+  <data name="CEO1" xml:space="preserve">
+    <value>هموطنان عزیز!</value>
+  </data>
+  <data name="CEO2" xml:space="preserve">
+    <value>نهایت افتخار می‌کنم که د افغانستان برشنا شرکت به طور چشم‌گیری به فراهم آوری دیدگاه کلی سازمان متعهد بوده و اینک تلاش‌ها برای تغییر وضعیت موجود برشنا شرکت جریان دارد تا این سازمان به موفقیت‌های مزیدی دست یابد. در برشنا شرکت، ما به عنوان تیم خلاق، پیوسته تلاش می‌کنیم تا از طریق برنامۀ لایق  زمینۀ کاری را بر حسب شایستگی برای جوانان تحصیل‌کرده و با استعداد افغان فراهم کنیم تا با عضویت در برشنا شرکت به کشور خود مصدر خدمت شوند.</value>
+  </data>
+  <data name="CEO3" xml:space="preserve">
+    <value>از طریق برنامۀ لایق‌، برشنا شرکت به صورت مطمئن قادر به استخدام استعدادهای جوان با افکار نوین، دانش و شایستگی‌های معاصر و پیشگامانۀ مورد نیاز قرن ۲۱ بوده تا این سازمان را، به منظور فراهم آوری برق مطمئین و قابل اعتماد توام با نرخ مناسب برای رشد اقتصاد ملی، به یکی از برجسته‌ترین و استثنایی‌ترین شرکت خدمات برق در منطقه تبدیل کند.</value>
+  </data>
+  <data name="CEO4" xml:space="preserve">
+    <value>از سوی دیگر، انتظار می‌رود که برشنا شرکت به تعداد بیشر از ۱۰ هزار درخواست یا اپلیکیشن را از طریق برنامۀ لایق  مورد بررسی قرار بدهد كه هدف آن رسیدگی به مشکلات بیكاری در افغانستان بوده تا فرصت‌های موثر اشتغال را برای هزاران جوان تحصیل‌كرده و با استعداد در افغانستان فراهم کند.</value>
+  </data>
+  <data name="CEO5" xml:space="preserve">
+    <value>سرانجام، می خواهم تأکید کنم؛ نهایتاً امیدواریم که از طریق برنامه‌ی لایق (LAIQ) تغییرات قابل ملاحظه‌ی در برشنا شرکت بمیان آوریم، و این سازمان را به یکی از جوان‌ترین نهاد در افغانستان مبدل کنیم – که کاملاً متعهد به خدمت رسانی به مردم و کشور بوده باشد.</value>
+  </data>
+  <data name="CEO6" xml:space="preserve">
+    <value>با عرض حرمت فراوان،</value>
+  </data>
+  <data name="CEO7" xml:space="preserve">
+    <value>احمد داوود نورزی</value>
+  </data>
+  <data name="CEO8" xml:space="preserve">
+    <value>رئیس اجرایوی د افغانستان برشنا شرکت</value>
+  </data>
+  <data name="HR1" xml:space="preserve">
+    <value>متقاضیان عزیز!</value>
+  </data>
+  <data name="HR2" xml:space="preserve">
+    <value>برنامه لایق یک ابتکار جدید در عرصه  انتخاب، جذب استعداد ها  و بلند بردن موثریت کاری اداره  می باشد.</value>
+  </data>
+  <data name="HR3" xml:space="preserve">
+    <value>ریاست منابع بشری برشنا شرکت متعهد است، تا با اطمینان کامل و پیروی از اصل شفافیت و برابری، استعداد های مورد نیاز را به هدف رشد و توسعه د افغانستان برشنا شرکت شناسائی وجذب نماید.</value>
+  </data>
+  <data name="HR4" xml:space="preserve">
+    <value>ما از نظریات و ابتکارات نوین و خارق العاده شما قدردانی می نمایم
+از طریق ایمیل آدرس ذیل با ما در تماس باشید.  qudrat.k@dabs.af</value>
+  </data>
+  <data name="HR5" xml:space="preserve">
+    <value>با احترام،</value>
+  </data>
+  <data name="HR6" xml:space="preserve">
+    <value>قدرت الله کریمی</value>
+  </data>
+  <data name="HR7" xml:space="preserve">
+    <value>ریس منابع بشری</value>
+  </data>
+  <data name="Dari" xml:space="preserve">
+    <value>دری</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>انگلیسی</value>
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value>عالی</value>
+  </data>
+  <data name="Pashto" xml:space="preserve">
+    <value>پشتو</value>
+  </data>
+  <data name="SuccessNote" xml:space="preserve">
+    <value>درخواست شما دریافت شده است ، برشنا شرکت در مورد مراحل بعدی به شما اطلاع می دهد.</value>
+  </data>
+  <data name="Weak" xml:space="preserve">
+    <value>ضعیف</value>
+  </data>
+  <data name="ApplyNow" xml:space="preserve">
+    <value>ثبت نام</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>سرتفکیشن</value>
+  </data>
+  <data name="Achievement" xml:space="preserve">
+    <value>دستاورد ها</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>پیشنهادات : (لطفا نظرات و پیشنهادات های خود را اضافه کنید)</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>مدت</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>راپور</value>
+  </data>
+  <data name="CompleteProfile" xml:space="preserve">
+    <value>تکمیل فورم</value>
+  </data>
+  <data name="compprof" xml:space="preserve">
+    <value>فورم را تکمیل نمایید</value>
+  </data>
+  <data name="enteryourid" xml:space="preserve">
+    <value>لطفا نمبر راجستریشن خود را داخل نمایید</value>
+  </data>
+  <data name="notfound" xml:space="preserve">
+    <value>فورم درخواستی برنامه یافت نشد</value>
+  </data>
+</root>

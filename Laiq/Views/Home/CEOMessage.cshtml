@@ -1,0 +1,65 @@
+﻿
+@{
+    string direction = "ltr";
+    try
+    {
+        direction = Request.Cookies["dir"].Value;
+    }
+    catch { }
+}
+<style>
+    .colorwhite {
+        color: white;
+    }
+
+    #ceo-msg {
+        background-color: #F09100;
+        border-bottom: 15px solid #F09100;
+        padding-bottom: 0px !important;
+        margin-bottom: -10px;
+        margin-top: -10px;
+    }
+</style>
+<div class="container-fluid" style="background-color:#F09100;padding-top:0px;margin-top:0px;">
+    <div class="row p-2">
+        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-8 colorwhite" style="text-align:@Request.Cookies["align"].Value">
+            @*@Html.Raw(Laiq.Resource.CEOText)*@
+            @*<h2 class="font-weight-normal"><span style="text-decoration:underline" class="Underline">CEO'</span>s Message</h2>*@
+            <h6>@Laiq.Resource.CEO1</h6>
+            <p style="text-align: justify;text-justify: inter-word;">
+                @Laiq.Resource.CEO2
+            </p>
+            <p style="text-align: justify;text-justify: inter-word;">
+                @Laiq.Resource.CEO3
+            </p>
+            <p style="text-align: justify;text-justify: inter-word;">
+                @Laiq.Resource.CEO4
+            </p>
+            <p>
+               @Laiq.Resource.CEO6
+            </p>
+        </div>
+        <div class="col-lg-2">
+            <div class="row">&nbsp;</div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <div class="ceo">
+                        <img src="~/images/Laiq/daud.png" class="img-responsive border-top" style="padding-top:5px;background-color:white;" />
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12  colorwhite">
+                    <h6 class="font-weight-normal">@Laiq.Resource.CEO7</h6>
+                    <h6 class="font-weight-normal">@Laiq.Resource.CEO8</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1">&nbsp;</div>
+    </div>
+</div>
+

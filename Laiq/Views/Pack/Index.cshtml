@@ -1,0 +1,211 @@
+﻿@{    ViewBag.Title = "Groups";
+    Layout = "~/Views/Shared/_LayoutGroups.cshtml";
+
+}
+<script src="~/Scripts/JScript.js"></script>
+<script src="~/Scripts/moment-2.2.1.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#LogOut").click(function () {
+            location.href = '/Home/Index'
+        });
+        $(".cls").click(function () {
+            $('#myModal').modal('hide');
+        })
+        $('#AddNew').click(function () {
+            AddBClick();
+        })
+        makeContextMenu('CMenu', 'Packages', 150, 90);
+        setGrid('Packages');
+        $("#CMenu").on('itemclick', function (event) {
+            var args = event.args;
+            var varMenuItem = $.trim($(args).text());
+            var rowindex = $("#Packages").jqxGrid('getselectedrowindex');
+            if (varMenuItem == "View Personal Detail") {
+                var dataRecord = $("#Packages").jqxGrid('getrowdata', rowindex);
+                var URL = "/Report/ViewProfile/" + dataRecord.EncodeID;
+                window.open(URL, "_blank");
+                //location.href =
+            }
+            else if (varMenuItem == "Edit") {
+                //$(".CHK1").prop("checked", true);
+                $('#frmGroup').trigger("reset");
+                var dataRecord = $("#Packages").jqxGrid('getrowdata', rowindex);
+                $("#PackID").val(dataRecord.PackID)
+                $("#PackName").val(dataRecord.PackName)
+                $("#GDDate").val(moment(dataRecord.GDDate).format("YYYY-MM-DD"));
+                $("#Remarks").val(dataRecord.Remarks);
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        });
+
+        $("#Submit").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    var varURL = ($("#PackID").val() == '' || $("#PackID").val() == null) ? '/Pack/Create' : '/Pack/Edit';
+                    if ($("#PackID").val() == '') {
+                        $("#PackID").remove();
+                    }
+                    $.ajax(
+                    {
+                        url: varURL,
+                        type: 'post',
+                        data: $('#frmGroup').serialize(),
+                        success: function (result) {
+                            if (result == "true") {
+                                $('#myModal').modal('hide');
+                                toastr["success"]('Saved');
+                                $('#Packages').jqxGrid('updatebounddata', 'data');
+                                $('#frmGroup').append("<input type='hidden' id='PackID' name='PackID' />");
+                            } else if (result == "false") {
+                                toastr["error"]("An error occured please check the form!");
+                            }
+                            else if (result == "Updated") {
+                                $('#myModal').modal('hide');
+                                $('#Packages').jqxGrid('updatebounddata', 'data');
+                                toastr["success"]('Updated');
+                            }
+                            else {
+                                toastr["error"](result);
+                            }
+                        }
+                    });
+               }
+                }
+            $('#frmGroup').jqxValidator('validate', validationResult)
+        });
+        $('#frmGroup').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#PackName', message: 'Required!  ', action: 'keyup, blur', rule: 'required' },
+            //{ input: '#GDDate', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#GDDate").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#LApplicantID', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+    });
+    function LoadModal(varUrl)
+    {
+        fillGridApplicants(varUrl, 'Packages')
+        $("#myModal").modal('show');
+    }
+
+    function setGrid(varGridName) {
+        var cellclassname = function (row, column, value, data) {
+            return "fonclass";
+        }
+        $("#" + varGridName).jqxGrid({
+            width: '99%',
+            theme: 'darkblue',
+            enabletooltips: true,
+            pageable: true,
+            pagermode: 'simple',
+            showfilterrow: false,
+            filterable: true,
+            editable: false,
+            autoheight: true,
+            columnsresize: false,
+            sortable: true,
+            altrows: true,
+            pagesize: 15,
+            rowsheight: 30,
+            //rtl: true,
+            columns: [
+                    { text: 'Name', dataField: 'PackName', width: '15%', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+                    { text: 'Remarks', dataField: 'Remarks', cellsalign: 'left', align: 'left', cellclassname: cellclassname },
+            ]
+        });
+        fillGridApplicants('/Pack/GetGroups', varGridName)
+    }
+    function fillGridApplicants(varURL, varGrid) {
+        var datafields = [
+                 { name: 'PackID' },
+                 { name: 'PackName', type: 'string' },
+                 { name: 'CreatedOn', type: 'date' },
+                 { name: 'Remarks', type: 'string' },
+
+
+
+        ];
+        fillGrid(datafields, varGrid, varURL);
+    }
+    function AddBClick() {
+        $('#frmGroup').trigger("reset");
+        clearInputs(["PackID", "PackName", "GDDate", "Remarks"]);
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6">Packages</div>
+                <div class="col-lg-6"><input type="button" class="btn btn-dark pull-right fonclass" id="AddNew" value="Add New" /></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="Packages"></div>
+        </div>
+    </div>
+    <div class="col-lg-2"></div>
+
+</div>
+<div id="CMenu">
+    <ul dir="rtl">
+        <li id="Insert">
+            <img src="~/images/pencil.png" class="pull-right" />
+            <span>Edit</span>
+        </li>
+        @*<li id="Insert">
+                <img src="/images/folder.png" class="pull-right" />
+                <span class="fonclass">View Phone Interview</span>
+            </li>*@
+        @*<li id="Edit">
+                <img src="/images/pencil.png" class="pull-right" />
+                <span class="fonclass">Phone Interview</span>
+            </li>*@
+    </ul>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:center;">Add New Group</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmGroup">
+                    <table class="table">
+                        <tr>
+                            <td width="25%">Group Name</td>
+                            <td><input type="text" name="PackName" id="PackName" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td><input type="text" name="Remarks" id="Remarks" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <br />
+                                <input type="hidden" name="PackID" id="PackID" />
+                                <button id="Submit" type="button" class="btn  btn-primary">Save</button>
+                                <button id="Cancel" type="button" class="btn btn-danger cls">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

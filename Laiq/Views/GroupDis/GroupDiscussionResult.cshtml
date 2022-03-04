@@ -1,0 +1,268 @@
+﻿
+@{
+    ViewBag.Title = "GroupDiscussionResult";
+    Layout = "~/Views/Shared/_LayoutGroups.cshtml";
+}
+<script src="~/Scripts/JScript.js"></script>
+<script src="~/Scripts/moment-2.2.1.js"></script>
+<link href="~/Scripts/datatables/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/datatables/jquery.dataTables.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetGroups('Groups');
+        var datatable = $("#tblApplicants").DataTable();
+        var datatable = $("#tblAllMarking").DataTable();
+        $(".cls").click(function () {
+            $('#myModal').modal('hide');
+            $('#myModalAssign').modal('hide');
+        })
+        
+        $("#Groups").change(function () {
+            $('#tblApplicants').DataTable().destroy();
+            var varID = $("#Groups").val();
+            fillData(varID)
+        });
+
+        $("#SubmitCategory").click(function () {
+            var validationResult = function (isValid) {
+                if (isValid) {
+                    $.ajax({
+                        url: '/GroupDis/CreateGroupDisCategory',
+                        type: 'post',
+                        data: $('#frmAssignApplicant').serialize(),
+                        success: function (result) {
+                            if (result == "true") {
+                                $('#myModalAssign').modal('hide');
+                                toastr["success"]('Saved Successfully');
+                            }
+                            else {
+                                toastr["error"](result);
+                            }
+                        }
+                    });
+                }
+            }
+            $('#frmAssignApplicant').jqxValidator('validate', validationResult)
+        });
+        $('#frmAssignApplicant').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            //{ input: '#LApplicantID', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#LApplicantID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#CategoryID', message: 'Required ! ', action: 'blur', rule: function (input) { var val = $("#CategoryID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            //{ input: '#ExpectedPosition', message: '  حتمی!  ', action: 'keyup, blur', rule: 'required' },
+            ], theme: 'classic'
+        });
+
+
+
+    });
+    function fillData(varID) {
+        $('#tblApplicants').dataTable({
+            responsive: true,
+            destroy: true,
+            "ajax": "/GroupDis/GetGroupDiscussionResultData/" + varID,
+            "columns": [
+                       
+                       { "data": "LApplicantID" },
+                       { "data": "Name" },
+                       { "data": "QualificationNameEn" },
+                       { "data": "EFNameEn" },
+                       { "data": "EducationField" },
+                       { "data": "Communication" },
+                       { "data": "Creativity" },
+                       { "data": "Leadership" },
+                       { "data": "English" },
+                       { "data": "Dari" },
+                       { "data": "Pashto" },
+                       {
+                            "mRender": function (data, type, row) {
+                                return '<a class="fa fa-folder"  href="#" onclick="AllPanelMarking(' + row.LApplicantID+')"></a>';
+                            }
+                       },
+                       {
+                           "mRender": function (data, type, row) {
+                               return '<a class="fa fa-pencil"  href="#" onclick="AssignResult(' + row.LApplicantID + ')"></a>';
+                           }
+                       },
+            ],
+            
+        });
+    }
+    function fillDataAllPanel(varID) {
+        $('#tblAllMarking').dataTable({
+            responsive: true,
+            destroy: true,
+            "ajax": "/GroupDis/GetApplicantAllPanelMarking/" + varID,
+            "columns": [
+
+                       { "data": "LApplicantID" },
+                       { "data": "Name" },
+                       { "data": "Communication" },
+                       { "data": "Creativity" },
+                       { "data": "Leadership" },
+                       { "data": "English" },
+                       { "data": "Dari" },
+                       { "data": "Pashto" },
+                       { "data": "Remarks" },
+            ],
+
+        });
+    }
+    function AllPanelMarking(varAppID)
+    {
+        $('#tblAllMarking').DataTable().destroy();
+        fillDataAllPanel(varAppID);
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+    function AssignResult(varAppID)
+    {
+        $("#AssignLApplicantID").val(varAppID);
+        $("#txtName").text(varAppID);
+        $('#myModalAssign').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+</script>
+<div class="row">
+    <div class="col-lg-1">&nbsp;</div>
+    <div class="card col-lg-10">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-3">Group Discussion Marking</div>
+                <div class="col-lg-9">
+                    <select class="form-control" id="Groups">
+                        <option value="0"> Please Select Group</option>
+                    </select>
+                </div>
+                
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered" id="tblApplicants">
+                        <thead>
+                            <tr>
+                                <td>LaiqID</td>
+                                <td>Name</td>
+                                <td>Qualification</td>
+                                <td>Field of Study</td>
+                                <td>Specialization</td>
+                                <td>Communication</td>
+                                <td>Creativity</td>
+                                <td>Leadership</td>
+                                <td>English</td>
+                                <td>Dari</td>
+                                <td>Pashto</td>
+                                <td>Detail</td>
+                                <td>Assign</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+    <div class="col-lg-1">&nbsp;</div>
+
+</div>
+<script type="text/javascript">
+    function GetGroups(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Groups))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.GDID,
+                text: data.GDName
+            }));
+        });
+    }
+</script>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:black;text-align:left;">Group Discussion Marking</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered" id="tblAllMarking">
+                            <thead>
+                                <tr>
+                                    <td>LaiqID</td>
+                                    <td>Panel Name</td>
+                                    <td>Communication</td>
+                                    <td>Creativity</td>
+                                    <td>Leadership</td>
+                                    <td>English</td>
+                                    <td>Dari</td>
+                                    <td>Pashto</td>
+                                    <td>Remarks</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModalAssign" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:black;text-align:left;">Assign Applicant</h4>
+                <button type="button" class="close cls" style="color:black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAssignApplicant">
+                    <table class="table" dir="ltr">
+                        <tr>
+                            <td width="10%">ApplicantID:</td>
+                            <td width="40"><div id="txtName"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Category:</td>
+                            <td>
+                                <select name="CategoryID" id="CategoryID" class="form-control">
+                                    <option value="0">Please Select</option>
+                                    <option value="Top">Top</option>
+                                    <option value="Smart">Smart</option>
+                                    <option value="Ok">Ok</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks</td>
+                            <td>
+                                <textarea id="Remarks" name="Remarks" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center;">
+                                <input type="hidden" name="LApplicantID" id="AssignLApplicantID" />
+                                <input type="button" id="SubmitCategory" name="Submit" value="Save" class="btn btn-primary" />
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

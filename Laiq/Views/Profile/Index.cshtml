@@ -1,0 +1,1347 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutPofile.cshtml";
+    string direction = Request.Cookies["dir"].Value;
+    string align = Request.Cookies["align"].Value;
+}
+
+<style>
+    .colorwhite {
+        color: white;
+    }
+
+    #build-profile {
+        background-color: #F09100;
+        border-bottom: 15px solid #F09100;
+        padding-bottom: 0px !important;
+        margin-bottom: -10px;
+        margin-top: -10px;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 38px;
+        /*border:1px solid #F09100;*/
+    }
+    #Gender {
+  /* can be any value */
+  text-align: right;
+  direction: rtl;
+  position: relative;
+}
+#Gender .select2-container--open + .select2-container--open {
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+
+    .form-control {
+        /*border:1px solid #F09100;*/
+    }
+
+    .btn {
+        background-color: #F09100;
+        border: 1px solid #F09100;
+    }
+
+    .jqx-validator-error-label-classic, .jqx-validator-error-label {
+        width: auto !important;
+    }
+    .table tr td{
+        text-align:center;
+    }
+        .select2-selection__arrow{
+        background-color:#F09100;
+        height: 36px !important;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#CertificationsSelect').select2({
+            placeholder: 'Enter property name',
+            minimumInputLength: 0,
+            multiple: true,
+        });
+        GetCertifications('CertificationsSelect')
+        var select2Options = { width: 'resolve' };
+        // Loading raw JSON files
+        var apiUrl = '/Profile/GetDistrict/';
+
+        $('select').select2(select2Options);
+        var cascadLoading = new Select2Cascade($('#PPRID'), $('#PDISID'), apiUrl, select2Options);
+        cascadLoading.then(function (parent, child, items) {
+            // Dump response data
+            //console.log(items);
+        });
+        var cascadLoading1 = new Select2Cascade($('#NPRID'), $('#NDISID'), apiUrl, select2Options);
+        cascadLoading1.then(function (parent, child, items) {
+            // Dump response data
+            //console.log(items);
+        });
+        GetYear('DOBYear');
+        GetProvinces();
+        GetCountry("AddressCountryID");
+        GetCountry("NAddressCountryID");
+        GetDuration("ZDID");
+        $("#Provincerow").hide();
+        $("#NProvincerow").hide();
+        $("#AddressCountryID").change(function () {
+            if ($("#AddressCountryID").val() == 1) {
+                $("#Provincerow").show();
+            } else {
+                $("#Provincerow").hide();
+            }
+        })
+        $("#NAddressCountryID").change(function () {
+            if ($("#NAddressCountryID").val() == 1) {
+                $("#NProvincerow").show();
+            } else {
+                $("#NProvincerow").hide();
+            }
+        })
+        $('.AddEdu').click(function () {
+            i = rowCounts = $('#tbody tr').length;
+            addRow(i);
+        });
+
+        $("#QualificationID").change(function () {
+
+            i = rowCounts = $('#tbody tr').length;
+            $('#tbody tr').remove();
+            var QualID = $("#QualificationID").val();
+            if (QualID == 1) {
+                addRowEdu(i, 1, '@Laiq.Resource.PhD','PhD');
+                addRowEdu(Number(i) + 1, 2, '@Laiq.Resource.Master','Master');
+                addRowEdu(Number(i) + 2, 3, '@Laiq.Resource.Bachelor', 'Bachelor');
+            } else if (QualID == 2) {
+                addRowEdu(Number(i) + 1, 2, '@Laiq.Resource.Master', 'Master');
+                addRowEdu(Number(i) + 2, 3, '@Laiq.Resource.Bachelor', 'Bachelor');
+            } else {
+                addRowEdu(Number(i) + 2, 3, '@Laiq.Resource.Bachelor', 'Bachelor');
+            }
+
+        });
+        $("#WorkExp").change(function () {
+            var WorkExp = $("#WorkExp").val();
+            if (WorkExp == 'Yes') {
+                $("#ExpBody").show();
+            } else {
+                $("#ExpBody").hide();
+
+            }
+        });
+
+
+        $("#ExpBody").hide();
+        $('#AddLang').click(function () {
+            i = rowCounts = $('#tbodyLang tr').length;
+            addRowLang(i);
+        });
+        $('#AddExp').click(function () {
+            i = rowCounts = $('#tbodyJobDetail tr').length;
+            addRowExp(i);
+        });
+
+        $('#AddSkill').click(function () {
+            i = rowCounts = $('#tbodyCompSkills tr').length;
+            addRowSkill(i);
+        });
+        $(".ddselect2").select2();
+        for (i = 1; i <= 12; i++) {
+            $('.monthselect').append('<option value="' + i + '">' + i + '</option>');
+        }
+        for (i = 1; i <= 31; i++) {
+            $('.dayselect').append('<option value="' + i + '">' + i + '</option>');
+        }
+
+        $("#SaveData").click(function () {
+
+            var validationResult = function (isValid) {
+                if (isValid) {
+
+                    $('#myModalLoader').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    data = {
+                        "Name": $("#Name").val(),
+                        "LName": $("#LName").val(),
+                        "NIDNumber": $("#NIDNumber").val(),
+                        "Gender": $("#Gender").val(),
+                        "Mobile": $("#Mobile").val(),
+                        "Mobile2": $("#Mobile2").val(),
+                        "Email": $("#Email").val(),
+                        "DOBYear": $("#DOBYear").val(),
+                        "DOBMonth": $("#DOBMonth").val(),
+                        "DOBDay": $("#DOBDay").val(),
+                        "AddressCountryID": $("#AddressCountryID").val(),
+                        "NAddressCountryID": $("#NAddressCountryID").val(),
+                        "PPRID": $("#PPRID").val(),
+                        "NPRID": $("#NPRID").val(),
+                        "PDISID": $("#PDISID").val(),
+                        "NDISID": $("#NDISID").val(),
+                        "City": $("#City").val(),
+                        "NCity": $("#NCity").val(),
+                        "Street": $("#Street").val(),
+                        "WorkExp": $("#WorkExp").val(),
+                        "ExpYearID": $("#ExpYearID").val(),
+                        "ExpLevlID": $("#ExpLevlID").val(),
+                        "ExpStaffID": $("#ExpStaffID").val(),
+                        "HighSalary": $("#HighSalary").val(),
+                        "ExpectedSalary": $("#ExpectedSalary").val(),
+                        "LaiqApplicantCertification": [],
+                        "LaiqApplicantLang": [],
+                        "LaiqApplicantSoftSkils": [],
+                        "LaiqApplicantCompSkills": [],
+                        "LaiqApplicantEdu": [],
+                        "ApplicantJobDetail": []
+                    };
+                    //shoudl there
+                    var cert = $("#CertificationsSelect").select2("val") + '';
+                    //alert($("#CertificationsSelect").select2("val"));
+                    if ($("#CertificationsSelect").select2("val") != null) {
+                        //alert('ifcalled')
+
+                        var myarray = new Array();
+                        myarray = cert.split(',');
+                        console.log(myarray);
+                        for (i = 0; i < myarray.length; i++) {
+                            var allCerData = {
+                                "CerID": "",
+                            }
+                            allCerData.CerID = myarray[i];
+                            data.LaiqApplicantCertification.push(allCerData);
+                        }
+                    }
+                    if ($("#WorkExp").val() != null) {
+                        $('tr.dataExp').each(function () {
+                            var allExpdata = {
+                                "JobTitle": "",
+                                "Organization": "",
+                                "ZDID": "",
+                            }
+                            allExpdata.JobTitle = $(this).find('.JobTitle').val();
+                            allExpdata.Organization = $(this).find('.Organization').val();
+                            allExpdata.ZDID = $(this).find('.ZDID').val();
+                            data.ApplicantJobDetail.push(allExpdata);
+                        });
+                        //alert('ifcalled')
+
+                    }
+                    $('tr.dataLang').each(function () {
+                        var allLangdata = {
+                            "LangID": "",
+                            "SpeakingID": "",
+                            "ReadingID": "",
+                            "WritingID": "",
+                        }
+                        allLangdata.LangID = $(this).find('.LangID').val();
+                        allLangdata.SpeakingID = $(this).find('.Speaking').val();
+                        allLangdata.ReadingID = $(this).find('.Reading').val();
+                        allLangdata.WritingID = $(this).find('.Writing').val();
+                        data.LaiqApplicantLang.push(allLangdata);
+
+                    });
+                    $('div.dataSoftSkill').each(function () {
+                        var allSoftSkilldata = {
+                            "SkillsID": "",
+                            "RatingID": "",
+                        }
+                        allSoftSkilldata.SkillsID = $(this).find('.SkillsID').val();
+                        allSoftSkilldata.RatingID = $(this).find('.RatingID').val();
+                        data.LaiqApplicantSoftSkils.push(allSoftSkilldata);
+                    });
+                    $('tr.dataCash').each(function () {
+                        var alldata = {
+                            "QualificationID": "",
+                            "QAID": "",
+                            "EFID": "",
+                            "EducationField": "",
+                            "University": "",
+                            "CountryID": "",
+                            "GraduationYear": "",
+                        }
+                        alldata.QualificationID = $(this).find('.QualificationID').val();
+                        alldata.QAID = $(this).find('.QAID').val();
+                        alldata.EFID = $(this).find('.EFID').val();
+                        alldata.EducationField = $(this).find('.EducationField').val();
+                        alldata.University = $(this).find('.University').val();
+                        alldata.CountryID = $(this).find('.CountryID').val();
+                        alldata.GraduationYear = $(this).find('.GraduationYear').val();
+                        data.LaiqApplicantEdu.push(alldata);
+
+                    });
+                    $('tr.dataCompSkills').each(function () {
+                        var allCompSkilldata = {
+                            "CSID": "",
+                            "CSValue": "",
+                        }
+                        allCompSkilldata.CSID = $(this).find('.CSID').val();
+                        allCompSkilldata.CSValue = $(this).find('input[type=radio]:checked').val();
+                        data.LaiqApplicantCompSkills.push(allCompSkilldata);
+
+                    });
+
+                    //alert(JSON.stringify(data))
+                    //return;
+                    $.ajax({
+                        url: '/Profile/LaiqPostData',
+                        type: "POST",
+                        data: { __RequestVerificationToken: token, LA: data, }, //JSON.stringify(data),
+                        dataType: 'JSON',
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        success: function (response) {
+                            if (response.Type == "Success") {
+                                var EncodedID = response.EncodedID;
+                                toastr["success"](response.Message);
+                                location.href = '/Profile/LaiqApplicantUploadDocuments/' + EncodedID;
+                                $('#myModalLoader').modal('hide');
+                            } else {
+                                toastr["error"](response);
+                                $('#myModalLoader').modal('hide');
+                                //location.reload();
+                            }
+                        },
+                        error: function (data) {
+                            toastr["error"](data.responseText);
+                            $('#myModalLoader').modal('hide');
+                        }
+                    });
+                }
+            }
+            $('#frmLaiqApplicant').jqxValidator('validate', validationResult);
+        });
+
+        $('#frmLaiqApplicant').jqxValidator({
+            hintType: 'label',
+            animationDuration: 0,
+            rtl: true,
+            rules: [
+            { input: '#Name', message: '@Laiq.Resource.RequiredName!  ', action: 'keyup, blur', rule: 'required' },
+            { input: '#LName', message: '@Laiq.Resource.RequiredLName!  ', action: 'keyup, blur', rule: 'required' },
+            { input: '#Gender', message: '@Laiq.Resource.Required', action: 'blur select keyup', rule: function (input) { var val = $("#Gender").val(); if (val == "" || val == 0 || val == null) { return false; } return true; } },
+            { input: '#Mobile', message: '@Laiq.Resource.Required ! ', action: 'keyup,blur', rule: function (input) { var val = $("#Mobile").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#Mobile2', message: '@Laiq.Resource.Required ! ', action: 'keyup,blur', rule: function (input) { var val = $("#Mobile2").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#DOBYear', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DOBYear").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#DOBMonth', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DOBMonth").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#DOBDay', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DOBDay").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#Email', message: '@Laiq.Resource.RequiredEmail!  ', action: 'keyup, blur', rule: 'required' },
+            { input: '#Email', message: '@Laiq.Resource.RequiredEmail!  ', action: 'keyup, blur', rule: 'email' },
+            { input: '#AddressCountryID', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#AddressCountryID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#NAddressCountryID', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#NAddressCountryID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#QualificationID', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#QualificationID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#QualificationID', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#QualificationID").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#WorkExp', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#WorkExp").val(); if (val == "" || val == 0) { return false; } return true; } },
+            {
+                input: '#PPRID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) {
+                    var PPRID = $("#PPRID").val();
+                    var AddressCountryID = $("#AddressCountryID").val();
+                    if (AddressCountryID == 1 && (PPRID == '' || PPRID == null || PPRID == 0)) {
+                        return false;
+                    } else { return true; }
+
+                }
+            },
+            {
+                input: '#PDISID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) {
+                    var PDISID = $("#PDISID").val();
+                    var AddressCountryID = $("#AddressCountryID").val();
+                    if (AddressCountryID == 1 && (PDISID == '' || PDISID == null || PDISID == 0)) {
+                        return false;
+                    } else { return true; }
+
+                }
+            },
+            {
+                input: '#NPRID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) {
+                    var PPRID = $("#NPRID").val();
+                    var AddressCountryID = $("#NAddressCountryID").val();
+                    if (AddressCountryID == 1 && (PPRID == '' || PPRID == null || PPRID == 0)) {
+                        return false;
+                    } else { return true; }
+
+                }
+            },
+            {
+                input: '#NDISID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) {
+                    var PDISID = $("#NDISID").val();
+                    var AddressCountryID = $("#NAddressCountryID").val();
+                    if (AddressCountryID == 1 && (PDISID == '' || PDISID == null || PDISID == 0)) {
+                        return false;
+                    } else { return true; }
+
+                }
+            },
+            { input: '#ExpYearID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#ExpYearID").val() == '' || $("#ExpYearID").val() == null || $("#ExpYearID").val() == 0)) { return false; } else { return true; } } },
+            { input: '#JobTitle', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#JobTitle").val() == '' || $("#JobTitle").val() == null || $("#JobTitle").val() == 0)) { return false; } else { return true; } } },
+            { input: '#Organization', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#Organization").val() == '' || $("#Organization").val() == null || $("#Organization").val() == 0)) { return false; } else { return true; } } },
+            { input: '#ZDID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#ZDID").val() == '' || $("#ZDID").val() == null || $("#ZDID").val() == 0)) { return false; } else { return true; } } },
+            { input: '#ExpLevlID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#ExpLevlID").val() == '' || $("#ExpLevlID").val() == null || $("#ExpLevlID").val() == 0)) { return false; } else { return true; } } },
+            { input: '#ExpStaffID', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#ExpStaffID").val() == '' || $("#ExpStaffID").val() == null || $("#ExpStaffID").val() == 0)) { return false; } else { return true; } } },
+            { input: '#HighSalary', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#HighSalary").val() == '' || $("#HighSalary").val() == null || $("#HighSalary").val() == 0)) { return false; } else { return true; } } },
+            { input: '#ExpectedSalary', message: '@Laiq.Resource.Required', action: 'blur', rule: function (input) { if ($("#WorkExp").val() == "Yes" && ($("#ExpectedSalary").val() == '' || $("#ExpectedSalary").val() == null || $("#ExpectedSalary").val() == 0)) { return false; } else { return true; } } },
+            { input: '#DSpeaking', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DSpeaking").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#DReading', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DReading").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#DWriting', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#DWriting").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#PSpeaking', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#PSpeaking").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#PReading', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#PReading").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#PWriting', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#PWriting").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#ESpeaking', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#ESpeaking").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#EReading', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#EReading").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#EWriting', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#EWriting").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#SkillsID1', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#SkillsID1").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#RatingID1', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#RatingID1").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#SkillsID2', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#SkillsID2").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#RatingID2', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#RatingID2").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#SkillsID3', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#SkillsID3").val(); if (val == "" || val == 0) { return false; } return true; } },
+            { input: '#RatingID3', message: '@Laiq.Resource.Required ! ', action: 'blur', rule: function (input) { var val = $("#RatingID3").val(); if (val == "" || val == 0) { return false; } return true; } },
+
+            ], theme: 'classic'
+        });
+        $('#tbodyLang').delegate('a.btnclose', 'click', function () {
+            $(this).parent().parent().remove();
+        });
+        $('#tbodyJobDetail').delegate('a.btncloseExp', 'click', function () {
+            $(this).parent().parent().remove();
+        });
+
+
+        $('#tbodyCompSkills').delegate('a.btnclose', 'click', function () {
+            $(this).parent().parent().remove();
+        });
+        HideLabel("Gender")
+        HideLabel("DOBYear")
+        HideLabel("DOBMonth")
+        HideLabel("DOBDay")
+        HideLabel("AddressCountryID")
+        HideLabel("NAddressCountryID")
+        HideLabel("ExpYearID")
+        HideLabel("QualificationID")
+        HideLabel("WorkExp")
+        HideLabel("PPRID")
+        HideLabel("NPRID")
+        HideLabel("PDISID")
+        HideLabel("NDISID")
+        HideLabel("ExpYearID")
+        HideLabel("ExpLevlID")
+        HideLabel("ExpStaffID")
+        HideLabel("ExpYearID")
+        HideLabel("DSpeaking");
+        HideLabel("DReading");
+        HideLabel("DWriting");
+        HideLabel("PSpeaking");
+        HideLabel("PReading");
+        HideLabel("PWriting");
+        HideLabel("ESpeaking");
+        HideLabel("EReading");
+        HideLabel("EWriting");
+        HideLabel("SkillsID1");
+        HideLabel("RatingID1");
+        HideLabel("SkillsID2");
+        HideLabel("RatingID2");
+        HideLabel("SkillsID3");
+        HideLabel("RatingID3");
+
+    });
+    function HideLabel(varSelect)
+    {
+        $("#" + varSelect).change(function () {
+            $('#frmLaiqApplicant').jqxValidator('hideHint', '#' + varSelect);
+        });
+    }
+    function addbtnclick(varQualID,varQual,varQuablLabel) {
+        i = rowCounts = $('#tbody tr').length;
+        if (varQualID == 1) {
+            addRowEdu(i, 1, '@Laiq.Resource.PhD','PhD');
+        } else if (varQualID == 2) {
+            addRowEdu(Number(i) + 1, 2, '@Laiq.Resource.Master','Master');
+        } else {
+            addRowEdu(Number(i) + 2, 3, '@Laiq.Resource.Bachelor','Bachelor');
+        }
+    };
+    function addBtn(varQualID, varQual) {
+        alert(varQualID);
+    }
+
+</script>
+<div class="container-fluid" style="background-color: #F09100;padding-top: 0px;margin-top: 0px;">
+    <div class="row p-2">
+        <div class="col-lg-1">&nbsp;</div>
+        <div class="col-lg-10 colorwhite">
+            <div class="row">
+                <h3  class="pull-@align">@Laiq.Resource.BuildYourProfile</h3><br />
+            </div>
+            <div class="row">
+                <h5 class="pull-@align">
+                    @Laiq.Resource.BuildProfile
+                </h5>
+            </div>
+            
+        </div>
+
+        <div class="col-lg-1">&nbsp;</div>
+    </div>
+</div>
+<div class="container">
+    <form id="frmLaiqApplicant">
+        @Html.AntiForgeryToken()
+        <div class="row">
+
+            <div class="col-lg-12">
+                <br />
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Name</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="Name" name="Name" placeholder="@Laiq.Resource.Name" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.LName</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="LName" name="LName" placeholder="@Laiq.Resource.LName" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.NIDNumber</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="NIDNumber" name="NIDNumber" placeholder="@Laiq.Resource.NIDNumber" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Gender</label>
+                    <div class="col-lg-10">
+                        <select name="Gender" id="Gender" class="ddselect2 form-control ">
+                            <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                            <option value="M">@Laiq.Resource.Male</option>
+                            <option value="F">@Laiq.Resource.Female</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Mobile</label>
+                    <div class="col-lg-10">
+                        <input type="number" name="Mobile" id="Mobile" class="form-control fonclass" placeholder="0093786112233" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Mobile1</label>
+                    <div class="col-lg-10">
+                        <input type="number" name="Mobile2" id="Mobile2" class="form-control fonclass" placeholder="0093786112233" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Email</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="Email" id="Email" class="form-control fonclass" placeholder="test@gmail.com" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.DOB</label>
+                    <div class="col-lg-10">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <select name="DOBYear" id="DOBYear" class="ddselect2 form-control ">
+                                    <option value="0">--@Laiq.Resource.SelectYear--</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <select name="DOBMonth" id="DOBMonth" class="form-control monthselect ddselect2"><option value="0">@Laiq.Resource.SelectMonth</option></select>
+                            </div>
+                            <div class="col-lg-4">
+                                <select name="DOBDay" id="DOBDay" class="form-control dayselect ddselect2"><option value="0">@Laiq.Resource.SelectDay</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h5 class="pull-@align">@Laiq.Resource.Wheredoyoulive</h5>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control" id="AddressCountryID" name="AddressCountryID">
+                                    <option value="0">@Laiq.Resource.SelectCountry</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="Provincerow">
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.Province</label>
+                            <div class="col-lg-4">
+                                <select name="PPRID" id="PPRID" class="form-control">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+
+                                </select>
+                            </div>
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.District</label>
+                            <div class="col-lg-4">
+                                <select name="PDISID" id="PDISID" class="form-control">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.City</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="@Laiq.Resource.City" id="City" name="City" />
+                            </div>
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.Street</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="@Laiq.Resource.Street" name="Street" id="Street" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h5 class="pull-@align">@Laiq.Resource.PermanentAddress</h5>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control" id="NAddressCountryID" name="NAddressCountryID">
+                                    <option value="0">@Laiq.Resource.SelectCountry</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="NProvincerow">
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.Province</label>
+                            <div class="col-lg-4">
+                                <select name="NPRID" id="NPRID" class="form-control">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+
+                                </select>
+                            </div>
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.District</label>
+                            <div class="col-lg-4">
+                                <select name="NDISID" id="NDISID" class="form-control">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <label class="col-lg-2 col-form-label">@Laiq.Resource.City</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="@Laiq.Resource.City" id="NCity" name="NCity" />
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h5 class="pull-@align">@Laiq.Resource.EducationLevel</h5>
+                            </div>
+                            <div class="col-lg-6">
+                                @Html.DropDownList("QualificationID", (IEnumerable<SelectListItem>)ViewBag.Qualification, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row" style="border-bottom:1px solid #F09100;">
+                        <h5 class="col-lg-6" >Education Level</h5>
+                        <div class="col-lg-6">
+                            <button class="btn btn-primary pull-right AddEdu" id="AddEdu" onclick="addbtnclick()">Add Another</button>
+                        </div>
+                    </div>*@
+                <table class="table">
+                    <tbody id="tbody" class="tbody"></tbody>
+                </table>
+
+            </div>
+            <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">@Laiq.Resource.Certifications</div>
+                        <div class="card-body">
+                            <select id="CertificationsSelect" class="form-control"></select>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h5 class="pull-@align">@Laiq.Resource.doyouhaveworkexp</h5>
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-control" id="WorkExp" name="WorkExp">
+                                    <option value="0">@Laiq.Resource.SelectLabel</option>
+                                    <option value="Yes">@Laiq.Resource.Yes</option>
+                                    <option value="No">@Laiq.Resource.Noo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="ExpBody">
+                        <div class="row">
+                            <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.howmanyexp</label>
+                            <div class="col-lg-6">
+                                @Html.DropDownList("ExpYearID", (IEnumerable<SelectListItem>)ViewBag.ExpYear, Laiq.Resource.SelectLabel, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.explevel</label>
+                            <div class="col-lg-6">
+                                @Html.DropDownList("ExpLevlID", (IEnumerable<SelectListItem>)ViewBag.ExpLevel, Laiq.Resource.SelectLabel, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.empundersupervision</label>
+                            <div class="col-lg-6">
+                                @Html.DropDownList("ExpStaffID", (IEnumerable<SelectListItem>)ViewBag.ExpStaff, Laiq.Resource.SelectLabel, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.lastsalaryinAFN</label>
+                            <div class="col-lg-6">
+                                <input type="number" name="HighSalary" id="HighSalary" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <label class="col-lg-6 col-form-label" style="text-align:@align">@Laiq.Resource.expectfromdabs</label>
+                            <div class="col-lg-6">
+                                <input type="number" name="ExpectedSalary" id="ExpectedSalary" class="form-control" />
+                            </div>
+                        </div>
+
+                        <table class="table ">
+                            <tr style="border-bottom:1px solid black;">
+                                <td width="25%">@Laiq.Resource.Jobtitle</td>
+                                <td width="25%">@Laiq.Resource.Organization</td>
+                                <td width="25%">@Laiq.Resource.Duration</td>
+                                <td width="25%">&nbsp;</td>
+                            </tr>
+                            <tr class="dataExp">
+                                <td><input type="text" class="form-control JobTitle" name="JobTitle" id="JobTitle" /></td>
+                                <td><input type="text" class="form-control Organization" name="Organization" id="Organization" /></td>
+                                <td>
+                                    <select name="ZDID" id="ZDID" class="form-control ZDID">
+                                        <option>@Laiq.Resource.SelectLabel</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btnclose" id="AddExp"><span class="fa fa-plus"></span></a>
+                                @*<input type="button" id="AddExp" class="btn btn-primary" value="@Laiq.Resource.addmore">*@
+                                </td>
+                            </tr>
+                            <tbody id="tbodyJobDetail" class="tbodyJobDetail"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h5 class="pull-@align">@Laiq.Resource.langSkill</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="pull-@align"><b>@Laiq.Resource.Note:  </b>@Laiq.Resource.langnote</p>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <tbody id="tbodyLang">
+                                    <tr>
+                                        <td width="20%">@Laiq.Resource.Language</td>
+                                        <td width="25%">@Laiq.Resource.Speaking </td>
+                                        <td width="25%">@Laiq.Resource.Reading </td>
+                                        <td>@Laiq.Resource.Writiting</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr class="dataLang">
+                                        <td>
+                                            <input type="text" readonly="readonly" name="LanguageLabel" value="@Laiq.Resource.Pashto" class="form-control" />
+                                            <input type="hidden" readonly="readonly" name="LangID" value="1" class="form-control LangID" />
+                                        </td>
+                                        <td>@Html.DropDownList("PSpeaking", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control Speaking" }) </td>
+                                        <td>@Html.DropDownList("PReading", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control Reading" }) </td>
+                                        <td>@Html.DropDownList("PWriting", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control Writing" }) </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr class="dataLang">
+                                        <td>
+                                            <input type="text" readonly="readonly" name="LanguageLabel" value="@Laiq.Resource.Dari" class="form-control" />
+                                            <input type="hidden" readonly="readonly" name="LangID" value="2" class="form-control LangID" />
+                                        </td>
+                                        <td>@Html.DropDownList("DSpeaking", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 Speaking form-control" }) </td>
+                                        <td>@Html.DropDownList("DReading", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 Reading form-control" }) </td>
+                                        <td>@Html.DropDownList("DWriting", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 Writing form-control" }) </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    
+                                    <tr class="dataLang">
+                                        <td>
+                                            <input type="text" readonly="readonly" name="LanguageLabel" value="@Laiq.Resource.English" class="form-control" />
+                                            <input type="hidden" readonly="readonly" name="LangID" value="3" class="form-control LangID" />
+                                        </td>
+                                        <td>@Html.DropDownList("ESpeaking", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control Speaking" }) </td>
+                                        <td>@Html.DropDownList("EReading", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control Reading" }) </td>
+                                        <td>@Html.DropDownList("EWriting", (IEnumerable<SelectListItem>)ViewBag.zLangLevel, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control Writing" }) </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @Laiq.Resource.ifyoumorelang &nbsp;&nbsp;
+                            <input type="button" id="AddLang" class="btn btn-primary" value="@Laiq.Resource.addmore">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                       <h5 class="pull-@align" >@Laiq.Resource.softskillmessage</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h6 class="pull-@align">@Laiq.Resource.Skills</h6>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 class="pull-@align">@Laiq.Resource.Rating</h6>
+                            </div>
+                        </div>
+                        <div class="row dataSoftSkill">
+                            <div class="col-lg-6">
+                                @Html.DropDownList("SkillsID1", (IEnumerable<SelectListItem>)ViewBag.Skills, Resource.SelectLabel, new { @class = "ddselect2 form-control SkillsID" })
+                            </div>
+                            <div class="col-lg-6">
+                                <select name="RatingID" id="RatingID1" class="ddselect2 form-control RatingID">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                                    <option value="Excellent">@Laiq.Resource.Excellent</option>
+                                    <option value="Good">@Laiq.Resource.Good</option>
+                                    <option value="Weak">@Laiq.Resource.Weak</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row dataSoftSkill">
+                            <div class="col-lg-6">
+                                @Html.DropDownList("SkillsID2", (IEnumerable<SelectListItem>)ViewBag.Skills, Resource.SelectLabel, new { @class = "ddselect2 form-control SkillsID" })
+                            </div>
+                            <div class="col-lg-6">
+                                <select name="RatingID" id="RatingID2" class="ddselect2 form-control RatingID">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                                    <option value="Excellent">Excellent</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Weak">Weak</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row dataSoftSkill">
+                            <div class="col-lg-6">
+                                @Html.DropDownList("SkillsID3", (IEnumerable<SelectListItem>)ViewBag.Skills, Laiq.Resource.SelectLabel, new { @class = "ddselect2 form-control SkillsID" })
+                            </div>
+                            <div class="col-lg-6">
+                                <select name="RatingID" id="RatingID3" class="ddselect2 form-control RatingID">
+                                    <option value="0">--@Laiq.Resource.SelectLabel--</option>
+                                    <option value="Excellent">@Laiq.Resource.Excellent</option>
+                                    <option value="Good">@Laiq.Resource.Good</option>
+                                    <option value="Weak">@Laiq.Resource.Weak</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="pull-@align">@Laiq.Resource.computerskilmessage</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <table class="table table-bordered" >
+                                <thead>
+                                    <tr>
+                                        <td width="25%" align="center">@Laiq.Resource.computerapplication</td>
+                                        <td>@Laiq.Resource.vgood</td>
+                                        <td>@Laiq.Resource.Good</td>
+                                        <td>@Laiq.Resource.Basic</td>
+                                        <td>@Laiq.Resource.Noo</td>
+                                        <td width="5%">&nbsp;</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyCompSkills">
+                                    <tr class="dataCompSkills">
+                                        <td>
+                                            Excel
+                                            <input type="hidden" id="CSID1" name="CSID" class="CSID" value="1" />
+                                        </td>
+                                        <td><input class="checkbox Skill" id="Skill1" name="Skill1" type="radio" value="1" /></td>
+                                        <td><input class="checkbox Skill" id="Skill1" name="Skill1" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Skill" id="Skill1" name="Skill1" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Skill" id="Skill1" name="Skill1" type="radio" value="4" checked="checked" /></td>
+                                        <td width="5%">&nbsp;</td>
+                                    </tr>
+                                    <tr class="dataCompSkills">
+                                        <td>
+                                            Word
+                                            <input type="hidden" id="CSID2" name="CSID" class="CSID" value="2" />
+                                        </td>
+                                        <td><input class="checkbox Skill" id="Skill2" name="Skill2" type="radio" value="1" /></td>
+                                        <td><input class="checkbox Skill" id="Skill2" name="Skill2" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Skill" id="Skill2" name="Skill2" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Skill" id="Skill2" name="Skill2" type="radio" value="4" checked="checked" /></td>
+                                        <td width="5%">&nbsp;</td>
+                                    </tr>
+                                    <tr class="dataCompSkills">
+                                        <td>
+                                            PowerPoint
+                                            <input type="hidden" id="CSID3" name="CSID" class="CSID" value="3" />
+                                        </td>
+                                        <td><input class="checkbox Skill" id="Skill3" name="Skill3" type="radio" value="1" /></td>
+                                        <td><input class="checkbox Skill" id="Skill3" name="Skill3" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Skill" id="Skill3" name="Skill3" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Skill" id="Skill3" name="Skill3" type="radio" value="4" checked="checked" /></td>
+                                        <td width="5%">&nbsp;</td>
+                                    </tr>
+                                    <tr class="dataCompSkills">
+                                        <td>
+                                            Access
+                                            <input type="hidden" id="CSID4" name="CSID" class="CSID" value="4" />
+                                        </td>
+                                        <td><input class="checkbox Skill" id="Skill4" name="Skill4" type="radio" value="1" /></td>
+                                        <td><input class="checkbox Skill" id="Skill4" name="Skill4" type="radio" value="2" /></td>
+                                        <td><input class="checkbox Skill" id="Skill4" name="Skill4" type="radio" value="3" /></td>
+                                        <td><input class="checkbox Skill" id="Skill4" name="Skill4" type="radio" value="4" checked="checked" /></td>
+                                        <td width="5%">&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @Laiq.Resource.moreskill&nbsp;&nbsp;
+                            <input type="button" id="AddSkill" class="btn btn-primary" value="@Laiq.Resource.addmore">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-12">&nbsp;</div>
+            <div class="col-lg-12 text-center">
+                <input type="button" class="btn btn-primary btn-lg" id="SaveData" value="@Laiq.Resource.saveandcontinue">
+            </div>
+            <div class="col-lg-12">&nbsp;</div>
+
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+    function addRowSkill(i) {
+        i = Number(i) + 1;
+        var tr = '<tr class="dataCompSkills">' +
+                   '               <td><SELECT class="form-control ddselect2" id="CSID' + i + '"><option>@Laiq.Resource.SelectLabel</option></SELECT></td>' +
+                   '               <td><input class="checkbox" id="Skill' + i + '" name="Skill' + i + '" type="radio" value="1" /></td>' +
+                   '               <td><input class="checkbox" id="Skill' + i + '" name="Skill' + i + '" type="radio" value="2" /></td>' +
+                   '               <td><input class="checkbox" id="Skill' + i + '" name="Skill' + i + '" type="radio" value="3" /></td>' +
+                   '               <td><input class="checkbox" id="Skill' + i + '" name="Skill' + i + '" type="radio" value="4" checked="checked" /></td>' +
+                   '               <td><a class="btn btn-danger btnclose"><span class="fa fa-close"></span></a></td>' +
+
+                   '           </tr>';
+        $('#tbodyCompSkills').append(tr);
+        GetCompSkill('CSID' + i);
+        $(".ddselect2").select2();
+    }
+    function addRowLang(i) {
+        var tr = ' <tr class="dataLang">'+
+                 '          <td><select class="form-control ddselect2 LangID" id="LangID' + i + '" Name="LangID"><option>@Laiq.Resource.SelectLabel</option></select></td>' +
+                 '           <td><select class="form-control ddselect2 Speaking" id="Speaking' + i + '" Name="Speaking"><option>@Laiq.Resource.SelectLabel</option></select></td>' +
+                 '           <td><select class="form-control ddselect2 Reading" id="Reading' + i + '" Name="Reading"><option>@Laiq.Resource.SelectLabel</option></select></td>' +
+                 '           <td><select class="form-control ddselect2 Writing" id="Writing' + i + '" Name="Writing"><option>@Laiq.Resource.SelectLabel</option></select></td>' +
+                 '           <td><a class="btn btn-danger btnclose"><span class="fa fa-close"></span></a></td>' +
+                 ' </tr>'
+        $('#tbodyLang').append(tr);
+        GetLang('LangID'+i);
+        GetLangLevel("Speaking" + i)
+        GetLangLevel("Reading" + i)
+        GetLangLevel("Writing" + i)
+        $(".ddselect2").select2();
+    };
+    function addRowExp(i)
+    {
+        i = Number(i);
+        var tr = '<tr class="dataExp">' +
+                   '               <td><input type="text" class="form-control JobTitle" name="JobTitle" id="JobTitle' + i + '" /></td>' +
+                   '               <td><input type="text" class="form-control Organization" name="Organization" id="Organization' + i + '" /></td>' +
+                   '               <td><select class="form-control ddselect2 ZDID" id="ZDID' + i + '" Name="ZDID"><option>@Laiq.Resource.SelectLabel</option></select></td>' +
+                   '               <td><a class="btn btn-danger btncloseExp"><span class="fa fa-close"></span></a></td>' +
+
+                   '           </tr>';
+        $('#tbodyJobDetail').append(tr);
+        GetDuration('ZDID' + i);
+        $(".ddselect2").select2();
+    }
+    function addRow(i) {
+        var tr = '<tr class="dataCash">' +
+                    '<td>' +
+                    '<div class="card">' +
+                               ' <div class="card-body">' +
+                                '     <div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.Qualification</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2" name="QualificationID" id="QualificationID' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.EducationField</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2" name="EFID" id="EFID' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+                               '     <div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.Specilization</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '                     <input type="text" name="EducationField" id="EducationField" class="form-control fonclass" placeholder="Specialization" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.University</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '                     <input type="text" name="University" id="University" class="form-control fonclass" placeholder="University" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                                '</div>' +
+
+                               '<div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.GraduationYear</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2" name="GraduationYear" id="GraduationYear' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.Country</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2" name="CountryID" id="CountryID' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+                               'if you have more than one degree click on add more button' +
+                               ' </div>' +
+                            '</div>'
+        '</td></tr>';
+        $('#tbody').append(tr);
+        GetQualification("QualificationID" + i);
+        GetEF("EFID" + i);
+        GetCountry("CountryID" + i);
+        GetYear("GraduationYear" + i)
+        $(".ddselect2").select2();
+    };
+    function addRowEdu(i, varQualID, varQual,varQualLabel) {
+
+        var tr = '<tr class="dataCash">' +
+                    '<td>' +
+                    '<div class="card">' +
+                               ' <div class="card-body"><h6>' + varQual + '</h6>' +
+                                '     <div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.QualificationArea</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass QualificationID" name="QualificationID" id="QualificationID' + i + '" style="display:none;" ><Option value="' + varQualID + '">' + varQual + '</option></select>' +
+                               '<select class="form-control fonclass QAID" name="QAID" id="QAID' + i + '"><Option value="">@Laiq.Resource.SelectLabel</option></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.EducationField</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2 EFID" name="EFID" id="EFID' + i + '"  ><option value="">@Laiq.Resource.SelectLabel</option></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+                               '     <div class="form-group row">' +
+                               '         <div class="col-lg-12">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-2 col-form-label">@Laiq.Resource.Specilization</label>' +
+                               '                 <div class="col-lg-10">' +
+                               '                     <input type="text" name="EducationField" id="EducationField" class="form-control fonclass EducationField" placeholder="Specilization" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               @*'         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.University</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '                     <input type="text" name="University" id="University" class="form-control fonclass" placeholder="University" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +*@
+
+                                '</div>' +
+
+                               '<div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.University</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '                     <input type="text" name="University" id="University" class="form-control fonclass University" placeholder="University" autocomplete="off" />' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.Country</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2 CountryID" name="CountryID" id="CountryID' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+
+                               '<div class="form-group row">' +
+                               '         <div class="col-lg-6">' +
+                               '             <div class="row">' +
+                               '                 <label for="inputPassword" class="col-lg-4 col-form-label">@Laiq.Resource.GraduationYear</label>' +
+                               '                 <div class="col-lg-8">' +
+                               '<select class="form-control fonclass ddselect2 GraduationYear" name="GraduationYear" id="GraduationYear' + i + '"  ></select>' +
+                               '                 </div>' +
+                               '             </div>' +
+                               '         </div>' +
+
+                               '     </div>' +
+
+                               '@Laiq.Resource.moredegree<br />' +
+                               '<input type="button" class="btn btn-primary pull-right Addmore" onclick=addbtnclick("' + varQualID + '","' + varQualLabel + '") value="@Laiq.Resource.addmore" />' +
+                               ' </div>' +
+                            '</div>'
+        '</td></tr>';
+        $('#tbody').append(tr);
+        //GetQualification("QualificationID" + i);
+        GetEF("EFID" + i);
+        GetCountry("CountryID" + i);
+        GetYear("GraduationYear" + i)
+        GetQualificationArea("QAID" + i)
+        $(".ddselect2").select2();
+    };
+    var Select2Cascade = (function (window, $) {
+
+        function Select2Cascade(parent, child, url, select2Options) {
+            var afterActions = [];
+            var options = select2Options || {};
+
+            // Register functions to be called after cascading data loading done
+            this.then = function (callback) {
+                afterActions.push(callback);
+                return this;
+            };
+
+            parent.select2(select2Options).on("change", function (e) {
+                child.prop("disabled", true);
+
+                var _this = this;
+                //$.ajaxSetup({
+                //    async: false
+                //});
+                $.getJSON(url + $(this).val(), function (items) {
+                    var newOptions = '<option value="">-- Select --</option>';
+                    $.each(items, function (key, value) {
+                        newOptions += '<option value="' + value.DISID + '">' + value.DISName + '</option>';
+                    });
+
+                    child.select2('destroy').html(newOptions).prop("disabled", false)
+                        .select2(options);
+
+                    afterActions.forEach(function (callback) {
+                        callback(parent, child, items);
+                    });
+                });
+            });
+        }
+
+        return Select2Cascade;
+
+    })(window, $);
+
+    function GetProvinces() {
+        $.ajax({
+            url: '/Profile/GetProvince',
+            type: 'get',
+            async: false,
+            success: function (resultt) {
+                //alert(resultt[0].PRID)
+                for (i = 0; i < resultt.length; i++) {
+                    $('#PPRID').append('<option value="' + resultt[i].PRID + '">' + resultt[i].PRName + '</option>');
+                    $('#NPRID').append('<option value="' + resultt[i].PRID + '">' + resultt[i].PRName + '</option>');
+                }
+            }
+        });
+    }
+    function GetQualificationArea(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.QAreaList))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.QAID,
+                text: data.QArea
+            }));
+        });
+
+    }
+    function GetEF(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EduFieldlist))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.EFID,
+                text: data.EFName
+            }));
+        });
+    }
+
+    function GetCertifications(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Certifications))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.CerID,
+                text: data.CerName
+            }));
+        });
+    }
+    function GetCountry(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.CountryList))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.CountryID,
+                text: data.CountryName
+            }));
+        });
+    }
+    function GetYear(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.YearList))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.Year,
+                text: data.Year
+            }));
+        });
+    }
+    function GetLang(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.zLang))';
+        //alert(inc)
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.LangID,
+                text: data.LangName
+            }));
+        });
+    }
+    function GetLangLevel(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.LangLevel))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.LLID,
+                text: data.LangLevel
+            }));
+        });
+    }
+    function GetCompSkill(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.CompSkills))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.CSID,
+                text: data.CompSkill
+            }));
+        });
+    }
+    function GetDuration(varDDL) {
+        var inc = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.DurationList))';
+        inc = JSON.parse(inc);
+        var mydata = inc["Data"];
+        $.each(mydata, function (index, data) {
+            $('#' + varDDL).append($('<option />', {
+                value: data.ZDID,
+                text: data.DurName
+            }));
+        });
+    }
+</script>
+
+
+<div id="myModalLoader" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:white;text-align:center">Loading.........</h4>
+            </div>
+            <div class="modal-body" dir="@Request.Cookies["dir"].Value">
+                <div class="loader">
+                    <div class="loader_ajax_small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
